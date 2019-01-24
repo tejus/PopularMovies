@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Popular Movies</string>
+    <string name="action_api">API Key</string>
+    <string name="api_activity_title">Set your API Key for themoviedb.org here</string>
+    <string name="api_activity_save">Save</string>
+    <string name="api_activity_clear">Clear</string>
+    <string name="api_saved">API Key has been saved for this session!</string>
+    <string name="api_not_provided">Please provide an API Key!</string>
+    <string name="api_cleared">API Key has been cleared!</string>
+    <string name="api_not_set">API Key isn\'t set!</string>
+    <string name="api_key_not_set">API Key has not been set yet</string>
 </resources>
