@@ -13,6 +13,7 @@ public class NetworkUtils {
 
     private static final String BASE_POPULAR_URL = "https://api.themoviedb.org/3/movie/popular";
     private static final String BASE_TOP_RATED_URL = "https://api.themoviedb.org/3/movie/top_rated";
+    private static final String BASE_POSTER_URL = "https://image.tmdb.org/t/p/w185";
     private static final String API_PARAM = "api_key";
     private static final String LANGUAGE_PARAM = "language";
     private static final String LANGUAGE_KEY = "en-US";
@@ -49,5 +50,10 @@ public class NetworkUtils {
         } finally {
             urlConnection.disconnect();
         }
+    }
+
+    public static Uri fetchPosterPath(String posterPath) {
+        Uri posterUri = Uri.parse(BASE_POSTER_URL + posterPath);
+        return posterUri;
     }
 }

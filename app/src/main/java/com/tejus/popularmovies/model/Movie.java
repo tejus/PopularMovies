@@ -1,5 +1,9 @@
 package com.tejus.popularmovies.model;
 
+import android.net.Uri;
+
+import com.tejus.popularmovies.utilities.NetworkUtils;
+
 public class Movie {
 
     //Member variables
@@ -55,8 +59,8 @@ public class Movie {
         return title;
     }
 
-    public String getPosterPath() {
-        return posterPath;
+    public Uri getPosterPath() {
+        return NetworkUtils.fetchPosterPath(posterPath);
     }
 
     public String getOverview() {

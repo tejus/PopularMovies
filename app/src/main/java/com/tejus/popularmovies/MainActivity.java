@@ -1,17 +1,21 @@
 package com.tejus.popularmovies;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
 import com.tejus.popularmovies.model.Movie;
 import com.tejus.popularmovies.utilities.ApiKey;
 import com.tejus.popularmovies.utilities.JsonUtils;
@@ -25,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String LOG_TAG = "MainActivity";
     private TextView mDefaultTV;
     private ProgressBar mProgressBar;
+    private ImageView mDefaultIV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,41 +38,49 @@ public class MainActivity extends AppCompatActivity {
 
         mDefaultTV = findViewById(R.id.tv_movies);
         mProgressBar = findViewById(R.id.progress_loading);
+        mDefaultIV = findViewById(R.id.iv_movies);
 
         mDefaultTV.setText("Sample Text");
     }
 
-    private void showText() {
+    private void hideProgressBar() {
         mProgressBar.setVisibility(View.INVISIBLE);
-        mDefaultTV.setVisibility(View.VISIBLE);
     }
 
-    private void showProgress() {
-        mDefaultTV.setVisibility(View.INVISIBLE);
+    private void showProgressBar() {
         mProgressBar.setVisibility(View.VISIBLE);
     }
 
     private void loadJson() {
-        showText();
+        hideProgressBar();
         new FetchMovies().execute("Test");
     }
 
-    public class FetchMovies extends AsyncTask<String, Void, String> {
+    private void showMovie(Movie movie) {
+        Uri posterPath = movie.getPosterPath();
+        mDefaultTV.setText(movie.getPosterPath().toString());
+        Log.v(LOG_TAG, posterPath.toString());
+        Picasso.get()
+                .load(movie.getPosterPath())
+                .into(mDefaultIV);
+    }
+
+    public class FetchMovies extends AsyncTask<String, Void, Movie> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            showProgress();
+            showProgressBar();
         }
 
         @Override
-        protected String doInBackground(String... strings) {
+        protected Movie doInBackground(String... strings) {
 
             URL url = NetworkUtils.fetchURL();
 
             try {
                 String jsonMovies = NetworkUtils.fetchMovies(url);
                 List<Movie> movies = JsonUtils.getJsonMovieList(jsonMovies);
-                return Integer.toString(movies.get(0).getId());
+                return movies.get(0);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -75,11 +88,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(String s) {
-            showText();
-            if (!s.equals("")) {
-                mDefaultTV.setText(s);
-            }
+        protected void onPostExecute(Movie movie) {
+            hideProgressBar();
+            showMovie(movie);
         }
     }
 
@@ -104,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             case R.id.action_load:
                 if (ApiKey.isApiSet()) {
-                    showText();
+                    hideProgressBar();
                     loadJson();
                 } else {
                     Toast.makeText(getApplicationContext(), R.string.api_not_provided, Toast.LENGTH_SHORT).show();
