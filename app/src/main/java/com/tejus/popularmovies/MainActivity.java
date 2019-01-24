@@ -12,14 +12,17 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tejus.popularmovies.model.Movie;
 import com.tejus.popularmovies.utilities.ApiKey;
+import com.tejus.popularmovies.utilities.JsonUtils;
 import com.tejus.popularmovies.utilities.NetworkUtils;
 
-import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String LOG_TAG = "MainActivity";
     private TextView mDefaultTV;
     private ProgressBar mProgressBar;
 
@@ -63,8 +66,9 @@ public class MainActivity extends AppCompatActivity {
 
             try {
                 String jsonMovies = NetworkUtils.fetchMovies(url);
-                return jsonMovies;
-            } catch (IOException e) {
+                List<Movie> movies = JsonUtils.getJsonMovieList(jsonMovies);
+                return Integer.toString(movies.get(0).getId());
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return null;
@@ -73,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             showText();
-            if(!s.equals("") && s != null) {
+            if (!s.equals("")) {
                 mDefaultTV.setText(s);
             }
         }
@@ -102,8 +106,7 @@ public class MainActivity extends AppCompatActivity {
                 if (ApiKey.isApiSet()) {
                     showText();
                     loadJson();
-                }
-                else {
+                } else {
                     Toast.makeText(getApplicationContext(), R.string.api_not_provided, Toast.LENGTH_SHORT).show();
                     launchApiActivity();
                 }
