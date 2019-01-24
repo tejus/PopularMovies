@@ -1,13 +1,22 @@
 package com.tejus.popularmovies;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.tejus.popularmovies.utilities.ApiKey;
+import com.tejus.popularmovies.utilities.NetworkUtils;
+
+import java.io.IOException;
+import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,6 +34,56 @@ public class MainActivity extends AppCompatActivity {
         mDefaultTV.setText("Sample Text");
     }
 
+    private void showText() {
+        mProgressBar.setVisibility(View.INVISIBLE);
+        mDefaultTV.setVisibility(View.VISIBLE);
+    }
+
+    private void showProgress() {
+        mDefaultTV.setVisibility(View.INVISIBLE);
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void loadJson() {
+        showText();
+        new FetchMovies().execute("Test");
+    }
+
+    public class FetchMovies extends AsyncTask<String, Void, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showProgress();
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+
+            URL url = NetworkUtils.fetchURL();
+
+            try {
+                String jsonMovies = NetworkUtils.fetchMovies(url);
+                return jsonMovies;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            showText();
+            if(!s.equals("") && s != null) {
+                mDefaultTV.setText(s);
+            }
+        }
+    }
+
+    public void launchApiActivity() {
+        Intent intent = new Intent(this, ApiActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -37,9 +96,17 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         switch (id) {
             case R.id.action_api:
-                Intent intent = new Intent(this, ApiActivity.class);
-                startActivity(intent);
+                launchApiActivity();
                 return false;
+            case R.id.action_load:
+                if (ApiKey.isApiSet()) {
+                    showText();
+                    loadJson();
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), R.string.api_not_provided, Toast.LENGTH_SHORT).show();
+                    launchApiActivity();
+                }
         }
         return super.onOptionsItemSelected(item);
     }

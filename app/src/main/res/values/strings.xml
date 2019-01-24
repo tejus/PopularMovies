@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Popular Movies</string>
     <string name="action_api">API Key</string>
+    <string name="action_load">Load</string>
     <string name="api_activity_title">Set your API Key for themoviedb.org here</string>
     <string name="api_activity_save">Save</string>
     <string name="api_activity_clear">Clear</string>
