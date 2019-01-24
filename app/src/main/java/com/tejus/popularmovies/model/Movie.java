@@ -11,10 +11,11 @@ public class Movie {
     private double rating;
     private int[] genreId;
     private boolean adult;
+    private String releaseDate;
 
     //Constructor
     public Movie(int id, String title, String posterPath, String overview,
-                 double popularity, double rating, boolean adult, int[] genreId) {
+                 double popularity, double rating, boolean adult, int[] genreId, String releaseDate) {
         this.id = id;
         this.title = title;
         this.posterPath = posterPath;
@@ -23,6 +24,7 @@ public class Movie {
         this.rating = rating;
         this.adult = adult;
         this.genreId = genreId;
+        this.releaseDate = releaseDate;
     }
 
     //Getter methods
@@ -58,6 +60,10 @@ public class Movie {
         return genreId;
     }
 
+    public String getReleaseDate() {
+        return releaseDate;
+    }
+
     //Setter methods
     public void setId(int id) {
         this.id = id;
@@ -91,4 +97,7 @@ public class Movie {
         this.adult = adult;
     }
 
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
+    }
 }
