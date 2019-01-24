@@ -14,7 +14,26 @@ public class Movie {
     private String releaseDate;
 
     //Constructor
-    public Movie(int id, String title, String posterPath, String overview,
+    public Movie (int id, String posterPath, boolean adult) {
+        this.id = id;
+        this.posterPath = posterPath;
+        this.adult = adult;
+    }
+
+    public Movie (Movie movie, String title, String overview, double popularity,
+                  double rating, int[] genreId, String releaseDate) {
+        this.id = movie.id;
+        this.title = title;
+        this.posterPath = movie.posterPath;
+        this.overview = overview;
+        this.popularity = popularity;
+        this.rating = rating;
+        this.genreId = genreId;
+        this.adult = movie.adult;
+        this.releaseDate = releaseDate;
+    }
+
+    public Movie (int id, String title, String posterPath, String overview,
                  double popularity, double rating, boolean adult, int[] genreId, String releaseDate) {
         this.id = id;
         this.title = title;
