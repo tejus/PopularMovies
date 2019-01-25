@@ -40,6 +40,14 @@ public class MainActivity extends AppCompatActivity {
         mProgressBar = findViewById(R.id.progress_loading);
         mDefaultIV = findViewById(R.id.iv_movies);
 
+        mDefaultIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), DetailActivity.class);
+                startActivity(intent);
+            }
+        });
+
         mDefaultTV.setText("Sample Text");
     }
 

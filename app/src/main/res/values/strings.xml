@@ -10,4 +10,9 @@
     <string name="api_cleared">API Key has been cleared!</string>
     <string name="api_not_set">API Key isn\'t set!</string>
     <string name="api_key_not_set">API Key has not been set yet</string>
+    <string name="details_poster_description">Movie poster</string>
+    <string name="details_rating_heading">Rating</string>
+    <string name="details_release_date_heading">Release Date</string>
+    <string name="details_overview_heading">Overview</string>
+    <string name="title_activity_scrolling">ScrollingActivity</string>
 </resources>
