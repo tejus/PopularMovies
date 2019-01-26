@@ -1,54 +1,54 @@
 package com.tejus.popularmovies;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
-import com.tejus.popularmovies.model.Movie;
+import com.tejus.popularmovies.model.MovieList;
 import com.tejus.popularmovies.utilities.ApiKey;
 import com.tejus.popularmovies.utilities.JsonUtils;
 import com.tejus.popularmovies.utilities.NetworkUtils;
 
 import java.net.URL;
-import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMovieClickListener {
 
     private static final String LOG_TAG = "MainActivity";
-    private TextView mDefaultTV;
+    private static final int NUM_COLUMNS = 2;
+
+    private RecyclerView mRecyclerView;
+    private MovieAdapter mMovieAdapter;
     private ProgressBar mProgressBar;
-    private ImageView mDefaultIV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mDefaultTV = findViewById(R.id.tv_movies);
         mProgressBar = findViewById(R.id.progress_loading);
-        mDefaultIV = findViewById(R.id.iv_movies);
+        mRecyclerView = findViewById(R.id.rv_main);
 
-        mDefaultIV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), DetailActivity.class);
-                startActivity(intent);
-            }
-        });
+        GridLayoutManager layoutManager = new GridLayoutManager(this, NUM_COLUMNS);
+        GridLayoutItemDecoration itemDecoration = new GridLayoutItemDecoration(24, NUM_COLUMNS);
 
-        mDefaultTV.setText("Sample Text");
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.addItemDecoration(itemDecoration);
+        mRecyclerView.setHasFixedSize(true);
+
+        if (ApiKey.isApiSet())
+            loadJson();
+        else {
+            launchApiActivity();
+        }
     }
 
     private void hideProgressBar() {
@@ -60,20 +60,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadJson() {
-        hideProgressBar();
-        new FetchMovies().execute("Test");
+        new FetchMovies().execute();
     }
 
-    private void showMovie(Movie movie) {
-        Uri posterPath = movie.getPosterPath();
-        mDefaultTV.setText(movie.getPosterPath().toString());
-        Log.v(LOG_TAG, posterPath.toString());
-        Picasso.get()
-                .load(movie.getPosterPath())
-                .into(mDefaultIV);
+    private void loadRecyclerView() {
+        mMovieAdapter = new MovieAdapter(this);
+        mRecyclerView.setAdapter(mMovieAdapter);
     }
 
-    public class FetchMovies extends AsyncTask<String, Void, Movie> {
+    public class FetchMovies extends AsyncTask<Void, Void, Void> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -81,14 +76,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected Movie doInBackground(String... strings) {
+        protected Void doInBackground(Void... v) {
 
             URL url = NetworkUtils.fetchURL();
 
             try {
-                String jsonMovies = NetworkUtils.fetchMovies(url);
-                List<Movie> movies = JsonUtils.getJsonMovieList(jsonMovies);
-                return movies.get(0);
+                MovieList.movieList = JsonUtils.getJsonMovieList(NetworkUtils.fetchMovies(url));
+                return null;
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -96,15 +90,21 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(Movie movie) {
+        protected void onPostExecute(Void v) {
             hideProgressBar();
-            showMovie(movie);
+            loadRecyclerView();
         }
     }
 
     public void launchApiActivity() {
+        Toast.makeText(getApplicationContext(), R.string.api_not_provided, Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, ApiActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Toast.makeText(getApplicationContext(), "Coming soon! Item " + position, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -121,12 +121,14 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_api:
                 launchApiActivity();
                 return false;
-            case R.id.action_load:
+            case R.id.action_refresh:
                 if (ApiKey.isApiSet()) {
-                    hideProgressBar();
                     loadJson();
+                    if (mMovieAdapter != null)
+                        mMovieAdapter.notifyDataSetChanged();
+                    else
+                        loadRecyclerView();
                 } else {
-                    Toast.makeText(getApplicationContext(), R.string.api_not_provided, Toast.LENGTH_SHORT).show();
                     launchApiActivity();
                 }
         }
