@@ -44,11 +44,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
         mRecyclerView.addItemDecoration(itemDecoration);
         mRecyclerView.setHasFixedSize(true);
 
-        if (ApiKey.isApiSet())
-            loadJson();
-        else {
-            launchApiActivity();
-        }
+        loadJson();
     }
 
     private void hideProgressBar() {
@@ -60,7 +56,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
     }
 
     private void loadJson() {
-        new FetchMovies().execute();
+        if (ApiKey.isApiSet()) {
+            new FetchMovies().execute();
+        } else {
+            launchApiActivity();
+        }
     }
 
     private void loadRecyclerView() {
@@ -122,17 +122,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
         switch (id) {
             case R.id.action_api:
                 launchApiActivity();
-                return false;
+                return true;
             case R.id.action_refresh:
-                if (ApiKey.isApiSet()) {
-                    loadJson();
-                    if (mMovieAdapter != null)
-                        mMovieAdapter.notifyDataSetChanged();
-                    else
-                        loadRecyclerView();
-                } else {
-                    launchApiActivity();
-                }
+                loadJson();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
