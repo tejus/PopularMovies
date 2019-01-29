@@ -105,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
         protected void onPostExecute(Void v) {
             hideProgressBar();
             mMovieAdapter.notifyDataSetChanged();
+            mRecyclerView.smoothScrollToPosition(0);
         }
     }
 
