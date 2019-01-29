@@ -2,8 +2,8 @@ package com.tejus.popularmovies;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -104,7 +104,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
 
     @Override
     public void onItemClick(int position) {
-        Toast.makeText(getApplicationContext(), "Coming soon! Item " + position, Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, DetailActivity.class);
+        intent.putExtra("position", Integer.toString(position));
+        startActivity(intent);
     }
 
     @Override

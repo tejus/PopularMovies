@@ -28,20 +28,30 @@ public class JsonUtils {
     public static List<Movie> getJsonMovieList(String jsonString) throws JSONException {
 
         JSONObject jsonResponse = new JSONObject(jsonString);
-        JSONArray movieResults = jsonResponse.getJSONArray(MOVIE_RESULTS);
+        JSONArray movieResults = jsonResponse.optJSONArray(MOVIE_RESULTS);
         List<Movie> movieList = new ArrayList<>();
         for (int i = 0; i < movieResults.length(); i++) {
             JSONObject movie = (JSONObject) movieResults.get(i);
-            movieList.add(getJsonBasicMovie(movie));
+            movieList.add(getJsonMovie(movie));
         }
         return movieList;
     }
 
-    private static Movie getJsonBasicMovie(JSONObject movieObject) throws JSONException {
-        int id = movieObject.getInt(ID);
-        String posterPath = movieObject.getString(POSTER_PATH);
-        boolean adult = movieObject.getBoolean(ADULT);
+    private static Movie getJsonMovie(JSONObject movieObject) {
+        int id = movieObject.optInt(ID);
+        String title = movieObject.optString(TITLE);
+        String posterPath = movieObject.optString(POSTER_PATH);
+        String overview = movieObject.optString(OVERVIEW);
+        double popularity = movieObject.optDouble(POPULARITY);
+        double rating = movieObject.optDouble(RATING);
+        JSONArray genreArray = movieObject.optJSONArray(GENRE_ID);
+        int[] genreId = new int[genreArray.length()];
+        for (int i = 0; i < genreArray.length(); i++) {
+            genreId[i] = genreArray.optInt(i);
+        }
+        boolean adult = movieObject.optBoolean(ADULT);
+        String releaseDate = movieObject.optString(RELEASE_DATE);
         Log.v(LOG_TAG, Integer.toString(id) + " " + posterPath + " " + adult);
-        return new Movie(id, posterPath, adult);
+        return new Movie(id, title, posterPath, overview, popularity, rating, adult, genreId, releaseDate);
     }
 }

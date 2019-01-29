@@ -29,7 +29,6 @@
             style="@style/details_content_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2018-12-15"
             app:layout_constraintStart_toStartOf="@+id/tv_release_date_heading"
             app:layout_constraintTop_toBottomOf="@id/tv_release_date_heading" />
 
@@ -41,7 +40,6 @@
             android:layout_marginTop="24dp"
             android:layout_marginEnd="4dp"
             android:layout_marginRight="4dp"
-            android:text="6.5"
             android:textSize="34sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@id/tv_rating_denom"
@@ -54,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
-            android:text="/ 10"
+            android:text="@string/details_rating_max"
             app:layout_constraintBaseline_toBaselineOf="@+id/tv_rating"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -79,7 +77,6 @@
             android:layout_marginLeft="24dp"
             android:layout_marginEnd="24dp"
             android:layout_marginRight="24dp"
-            android:text="On the run in the year 1987, Bumblebee finds refuge in a junkyard in a small Californian beach town. Charlie, on the cusp of turning 18 and trying to find her place in the world, discovers Bumblebee, battle-scarred and broken. When Charlie revives him, she quickly learns this is no ordinary yellow VW bug."
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_overview_heading" />
 
