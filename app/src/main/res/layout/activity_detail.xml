@@ -15,6 +15,7 @@
             android:layout_marginStart="@dimen/large_margin"
             android:layout_marginLeft="@dimen/large_margin"
             android:layout_marginTop="@dimen/large_margin"
+            android:contentDescription="@string/details_poster_description"
             android:scaleType="fitStart"
             app:layout_constraintDimensionRatio="h,1:1.5"
             app:layout_constraintStart_toStartOf="parent"
