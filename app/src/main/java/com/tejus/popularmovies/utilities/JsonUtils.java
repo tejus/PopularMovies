@@ -1,7 +1,5 @@
 package com.tejus.popularmovies.utilities;
 
-import android.util.Log;
-
 import com.tejus.popularmovies.model.Movie;
 
 import org.json.JSONArray;
@@ -51,7 +49,6 @@ public class JsonUtils {
         }
         boolean adult = movieObject.optBoolean(ADULT);
         String releaseDate = movieObject.optString(RELEASE_DATE);
-        Log.v(LOG_TAG, Integer.toString(id) + " " + posterPath + " " + adult);
         return new Movie(id, title, posterPath, overview, popularity, rating, adult, genreId, releaseDate);
     }
 }
