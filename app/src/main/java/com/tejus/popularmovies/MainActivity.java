@@ -24,10 +24,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
 
     private static final String LOG_TAG = "MainActivity";
     private static final int NUM_COLUMNS = 2;
+    private static final String SORT_POPULAR = "popular";
+    private static final String SORT_RATING = "rating";
 
     private RecyclerView mRecyclerView;
     private MovieAdapter mMovieAdapter;
     private ProgressBar mProgressBar;
+    private String sortMode = SORT_POPULAR;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +46,17 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.addItemDecoration(itemDecoration);
         mRecyclerView.setHasFixedSize(true);
+        mMovieAdapter = new MovieAdapter(this);
+        mRecyclerView.setAdapter(mMovieAdapter);
 
         loadJson();
+    }
+
+    public void launchApiActivity() {
+        Toast.makeText(getApplicationContext(), R.string.api_not_provided, Toast.LENGTH_SHORT)
+                .show();
+        Intent intent = new Intent(this, ApiActivity.class);
+        startActivity(intent);
     }
 
     private void hideProgressBar() {
@@ -63,9 +75,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
         }
     }
 
-    private void loadRecyclerView() {
-        mMovieAdapter = new MovieAdapter(this);
-        mRecyclerView.setAdapter(mMovieAdapter);
+    private void switchSortMode(String mode) {
+        sortMode = mode;
     }
 
     public class FetchMovies extends AsyncTask<Void, Void, Void> {
@@ -78,7 +89,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
         @Override
         protected Void doInBackground(Void... v) {
 
-            URL url = NetworkUtils.fetchURL();
+            URL url = sortMode.equals(SORT_POPULAR) ?
+                    NetworkUtils.fetchPopularURL() : NetworkUtils.fetchRatingURL();
 
             try {
                 MovieList.movieList = JsonUtils.getJsonMovieList(NetworkUtils.fetchMovies(url));
@@ -92,14 +104,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
         @Override
         protected void onPostExecute(Void v) {
             hideProgressBar();
-            loadRecyclerView();
+            mMovieAdapter.notifyDataSetChanged();
         }
-    }
-
-    public void launchApiActivity() {
-        Toast.makeText(getApplicationContext(), R.string.api_not_provided, Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(this, ApiActivity.class);
-        startActivity(intent);
     }
 
     @Override
@@ -118,12 +124,21 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch (id) {
+        switch (item.getItemId()) {
             case R.id.action_api:
                 launchApiActivity();
                 return true;
             case R.id.action_refresh:
+                loadJson();
+                return true;
+            case R.id.action_sort_popular:
+                switchSortMode(SORT_POPULAR);
+                item.setChecked(true);
+                loadJson();
+                return true;
+            case R.id.action_sort_rating:
+                switchSortMode(SORT_RATING);
+                item.setChecked(true);
                 loadJson();
                 return true;
         }

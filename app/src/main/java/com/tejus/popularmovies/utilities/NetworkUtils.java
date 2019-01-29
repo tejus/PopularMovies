@@ -19,8 +19,19 @@ public class NetworkUtils {
     private static final String LANGUAGE_KEY = "en-US";
     private static final String PAGE_PARAM = "page";
 
-    public static URL fetchURL() {
-        Uri uri = Uri.parse(BASE_POPULAR_URL).buildUpon()
+    private static final String SORT_POPULAR = "popular";
+    private static final String SORT_RATING = "rating";
+
+    public static URL fetchPopularURL() {
+        return fetchURL(SORT_POPULAR);
+    }
+
+    public static URL fetchRatingURL() {
+        return fetchURL(SORT_RATING);
+    }
+
+    private static URL fetchURL(String sortMode) {
+        Uri uri = Uri.parse(sortMode.equals(SORT_POPULAR) ? BASE_POPULAR_URL : BASE_TOP_RATED_URL).buildUpon()
                 .appendQueryParameter(API_PARAM, ApiKey.getApiKey())
                 .appendQueryParameter(LANGUAGE_KEY, LANGUAGE_PARAM)
                 .appendQueryParameter(PAGE_PARAM, Integer.toString(1))
@@ -53,7 +64,6 @@ public class NetworkUtils {
     }
 
     public static Uri fetchPosterPath(String posterPath) {
-        Uri posterUri = Uri.parse(BASE_POSTER_URL + posterPath);
-        return posterUri;
+        return Uri.parse(BASE_POSTER_URL + posterPath);
     }
 }
