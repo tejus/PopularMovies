@@ -30,6 +30,7 @@
             android:layout_marginTop="@dimen/large_margin"
             android:layout_marginEnd="@dimen/mid_margin"
             android:layout_marginRight="@dimen/mid_margin"
+            android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_poster"
             app:layout_constraintTop_toTopOf="parent" />
@@ -44,6 +45,18 @@
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toEndOf="@+id/iv_poster"
             app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+
+        <TextView
+            android:id="@+id/tv_rating_heading"
+            style="@style/details_header_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:text="@string/details_rating_heading"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/tv_rating"
+            app:layout_constraintStart_toEndOf="@+id/iv_poster" />
 
         <TextView
             android:id="@+id/tv_rating"
