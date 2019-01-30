@@ -1,63 +1,60 @@
 package com.tejus.popularmovies;
 
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.tejus.popularmovies.utilities.ApiKey;
 
 public class ApiActivity extends AppCompatActivity {
 
-    private EditText apiKeyEditText;
-    private Button saveApiButton;
-    private Button clearApiButton;
-    private TextView apiKeyTextView;
+    private EditText mEditText;
+    private Button mButton;
+    private TextView mTextView;
+    private ScrollView mScrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_api);
+        mScrollView = findViewById(R.id.api_layout);
+        mEditText = findViewById(R.id.et_api_key);
+        mButton = findViewById(R.id.btn_save_api_key);
+        mTextView = findViewById(R.id.tv_api_key);
 
-        apiKeyTextView = findViewById(R.id.tv_api_key);
         if (ApiKey.isApiSet()) {
-            apiKeyTextView.setText(ApiKey.getApiKey());
+            mTextView.setText(ApiKey.getApiKey());
+            mButton.setText(R.string.api_activity_clear);
         } else {
-            apiKeyTextView.setText(R.string.api_key_not_set);
+            mTextView.setText(R.string.api_key_not_set);
+            mButton.setText(R.string.api_activity_save);
         }
 
-        apiKeyEditText = findViewById(R.id.et_api_key);
-        saveApiButton = findViewById(R.id.btn_save_api_key);
-        saveApiButton.setOnClickListener(new View.OnClickListener() {
+        mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String apiKey = apiKeyEditText.getText().toString();
-                if (!apiKey.equals(null) && !apiKey.equals("")) {
-                    ApiKey.setApiKey(apiKey);
-                    apiKeyTextView.setText(apiKey);
-                    Toast.makeText(getApplicationContext(), R.string.api_saved, Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getApplicationContext(), R.string.api_not_provided, Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        clearApiButton = findViewById(R.id.btn_clear_api_key);
-        clearApiButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                String apiKey = mEditText.getText().toString();
                 if (ApiKey.isApiSet()) {
                     ApiKey.clearApiKey();
-                    apiKeyEditText.setText("");
-                    apiKeyTextView.setText(R.string.api_key_not_set);
-                    Toast.makeText(getApplicationContext(), R.string.api_cleared, Toast.LENGTH_SHORT).show();
+                    mEditText.setText("");
+                    mTextView.setText(R.string.api_key_not_set);
+                    mButton.setText(R.string.api_activity_save);
+                    Snackbar.make(mScrollView, R.string.api_cleared, Snackbar.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getApplicationContext(), R.string.api_not_set, Toast.LENGTH_SHORT).show();
+                    if (!apiKey.equals("")) {
+                        ApiKey.setApiKey(apiKey);
+                        mTextView.setText(apiKey);
+                        mButton.setText(R.string.api_activity_clear);
+                        Snackbar.make(mScrollView, R.string.api_saved, Snackbar.LENGTH_SHORT).show();
+                    } else {
+                        Snackbar.make(mScrollView, R.string.api_not_provided, Snackbar.LENGTH_SHORT).show();
+                    }
                 }
-
             }
         });
     }
