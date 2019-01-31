@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
         loadJson();
     }
 
-    public void launchApiActivity() {
+    private void launchApiActivity() {
         Toast.makeText(getApplicationContext(), R.string.api_not_provided, Toast.LENGTH_SHORT)
                 .show();
         Intent intent = new Intent(this, ApiActivity.class);
@@ -67,6 +67,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
         mProgressBar.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * Executes the AsyncTask to retrieve the list of movies from
+     * themoviedb.org and populate the list in MovieList class
+     */
     private void loadJson() {
         if (ApiKey.isApiSet()) {
             new FetchMovies().execute();
@@ -75,10 +79,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
         }
     }
 
-    private void switchSortMode(String mode) {
-        sortMode = mode;
-    }
-
+    /**
+     * AsyncTask to fetch movies from themoviedb.org, using the sort mode
+     * set in sortMode, and store them in a list in the MovieList class
+     */
     public class FetchMovies extends AsyncTask<Void, Void, Void> {
         @Override
         protected void onPreExecute() {
@@ -126,19 +130,23 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            //Launch the API Key activity
             case R.id.action_api:
                 launchApiActivity();
                 return true;
+            //Manualy reload the movies
             case R.id.action_refresh:
                 loadJson();
                 return true;
+            //Changes sort mode to popular and reloads the movies
             case R.id.action_sort_popular:
-                switchSortMode(SORT_POPULAR);
+                sortMode = SORT_POPULAR;
                 item.setChecked(true);
                 loadJson();
                 return true;
+            //Changes sort mode to rating and reloads the movies
             case R.id.action_sort_rating:
-                switchSortMode(SORT_RATING);
+                sortMode = SORT_RATING;
                 item.setChecked(true);
                 loadJson();
                 return true;

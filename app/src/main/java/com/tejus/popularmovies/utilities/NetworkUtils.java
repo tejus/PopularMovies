@@ -11,6 +11,7 @@ import java.util.Scanner;
 
 public class NetworkUtils {
 
+    //URL parameters for themoviedb.org API
     private static final String BASE_POPULAR_URL = "https://api.themoviedb.org/3/movie/popular";
     private static final String BASE_TOP_RATED_URL = "https://api.themoviedb.org/3/movie/top_rated";
     private static final String BASE_POSTER_URL = "https://image.tmdb.org/t/p/w500";
@@ -30,6 +31,12 @@ public class NetworkUtils {
         return fetchURL(SORT_RATING);
     }
 
+    /**
+     * Creates the requested URL
+     *
+     * @param sortMode Key to retrieve movies by popularity or rating
+     * @return URL for the query
+     */
     private static URL fetchURL(String sortMode) {
         Uri uri = Uri.parse(sortMode.equals(SORT_POPULAR) ? BASE_POPULAR_URL : BASE_TOP_RATED_URL).buildUpon()
                 .appendQueryParameter(API_PARAM, ApiKey.getApiKey())
@@ -45,6 +52,12 @@ public class NetworkUtils {
         return url;
     }
 
+    /**
+     * Fetches the JSON response from the themoviedb.org API
+     *
+     * @param url URL as built by fetchURL()
+     * @return String representing the JSON response from themoviedb.org
+     */
     public static String fetchMovies(URL url) throws IOException {
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
@@ -63,6 +76,12 @@ public class NetworkUtils {
         }
     }
 
+    /**
+     * Fetch the poster URL for a movie
+     *
+     * @param posterPath path for the movie poster
+     * @return URL for the full poster path
+     */
     public static Uri fetchPosterPath(String posterPath) {
         return Uri.parse(BASE_POSTER_URL + posterPath);
     }

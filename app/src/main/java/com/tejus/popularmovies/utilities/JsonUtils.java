@@ -23,6 +23,12 @@ public class JsonUtils {
     private static final String ADULT = "adult";
     private static final String RELEASE_DATE = "release_date";
 
+    /**
+     * Populates a list of movies from a JSON response string
+     *
+     * @param jsonString JSON response from themoviedb.org
+     * @return List of movies parsed from the JSON response
+     */
     public static List<Movie> getJsonMovieList(String jsonString) throws JSONException {
 
         JSONObject jsonResponse = new JSONObject(jsonString);
@@ -35,6 +41,12 @@ public class JsonUtils {
         return movieList;
     }
 
+    /**
+     * Creates a Movie object from JSON
+     *
+     * @param movieObject the JSON object for a movie
+     * @return Movie object populated with data from the JSON object
+     */
     private static Movie getJsonMovie(JSONObject movieObject) {
         int id = movieObject.optInt(ID);
         String title = movieObject.optString(TITLE);

@@ -34,16 +34,19 @@ public class DetailActivity extends AppCompatActivity {
         mRating = findViewById(R.id.tv_rating);
         mOverview = findViewById(R.id.tv_overview);
 
+        //Retrieve the movie that was tapped
         Intent intent = getIntent();
         String position = intent.getStringExtra("position");
         mMovie = MovieList.movieList.get(Integer.valueOf(position));
 
+        //Populate the views with the selected movie
         mTitle.setText(mMovie.getTitle());
         mReleaseDate.setText(mMovie.getReleaseDate());
         String rating = String.format(Locale.getDefault(), "%.1f", mMovie.getRating());
         mRating.setText(rating);
         mOverview.setText(mMovie.getOverview());
 
+        //Load the movie poster
         Picasso.get()
                 .load(mMovie.getPosterPath())
                 .into(mPosterImageView);

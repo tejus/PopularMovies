@@ -22,11 +22,13 @@ public class ApiActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_api);
+
         mScrollView = findViewById(R.id.api_layout);
         mEditText = findViewById(R.id.et_api_key);
         mButton = findViewById(R.id.btn_save_api_key);
         mTextView = findViewById(R.id.tv_api_key);
 
+        //Check if the API Key has been set or not, and set the corresponding text to the views
         if (ApiKey.isApiSet()) {
             mTextView.setText(ApiKey.getApiKey());
             mButton.setText(R.string.api_activity_clear);
@@ -35,6 +37,7 @@ public class ApiActivity extends AppCompatActivity {
             mButton.setText(R.string.api_activity_save);
         }
 
+        //Define the click actions for the button based on whether the API Key has been set or entered
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
