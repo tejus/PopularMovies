@@ -53,8 +53,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
     }
 
     private void launchApiActivity() {
-        Toast.makeText(getApplicationContext(), R.string.api_not_provided, Toast.LENGTH_SHORT)
-                .show();
         Intent intent = new Intent(this, ApiActivity.class);
         startActivity(intent);
     }
@@ -75,6 +73,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
         if (ApiKey.isApiSet()) {
             new FetchMovies().execute();
         } else {
+            Toast.makeText(getApplicationContext(), R.string.api_not_provided, Toast.LENGTH_SHORT)
+                    .show();
             launchApiActivity();
         }
     }
