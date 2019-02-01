@@ -52,6 +52,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
         loadJson();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadJson();
+    }
+
     private void launchApiActivity() {
         Intent intent = new Intent(this, ApiActivity.class);
         startActivity(intent);
