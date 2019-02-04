@@ -1,6 +1,9 @@
 package com.tejus.popularmovies.utilities;
 
+import android.content.Context;
 import android.net.Uri;
+
+import com.tejus.popularmovies.data.MoviePreferences;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,12 +26,12 @@ public class NetworkUtils {
     private static final String SORT_POPULAR = "popular";
     private static final String SORT_RATING = "rating";
 
-    public static URL fetchPopularURL() {
-        return fetchURL(SORT_POPULAR);
+    public static URL fetchPopularURL(Context context) {
+        return fetchURL(SORT_POPULAR, context);
     }
 
-    public static URL fetchRatingURL() {
-        return fetchURL(SORT_RATING);
+    public static URL fetchRatingURL(Context context) {
+        return fetchURL(SORT_RATING, context);
     }
 
     /**
@@ -37,9 +40,9 @@ public class NetworkUtils {
      * @param sortMode Key to retrieve movies by popularity or rating
      * @return URL for the query
      */
-    private static URL fetchURL(String sortMode) {
+    private static URL fetchURL(String sortMode, Context context) {
         Uri uri = Uri.parse(sortMode.equals(SORT_POPULAR) ? BASE_POPULAR_URL : BASE_TOP_RATED_URL).buildUpon()
-                .appendQueryParameter(API_PARAM, ApiKey.getApiKey())
+                .appendQueryParameter(API_PARAM, MoviePreferences.getApiKey(context))
                 .appendQueryParameter(LANGUAGE_KEY, LANGUAGE_PARAM)
                 .appendQueryParameter(PAGE_PARAM, Integer.toString(1))
                 .build();

@@ -11,10 +11,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tejus.popularmovies.data.MoviePreferences;
 import com.tejus.popularmovies.model.MovieList;
-import com.tejus.popularmovies.utilities.ApiKey;
 import com.tejus.popularmovies.utilities.JsonUtils;
 import com.tejus.popularmovies.utilities.NetworkUtils;
 
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
     private RecyclerView mRecyclerView;
     private MovieAdapter mMovieAdapter;
     private ProgressBar mProgressBar;
+    private TextView mRefreshPrompt;
     private String sortMode = SORT_POPULAR;
 
     @Override
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
 
         mProgressBar = findViewById(R.id.progress_loading);
         mRecyclerView = findViewById(R.id.rv_main);
+        mRefreshPrompt = findViewById(R.id.tv_refresh_prompt);
 
         GridLayoutManager layoutManager = new GridLayoutManager(this, NUM_COLUMNS);
         GridLayoutItemDecoration itemDecoration = new GridLayoutItemDecoration(24, NUM_COLUMNS);
@@ -49,17 +52,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
         mMovieAdapter = new MovieAdapter(this);
         mRecyclerView.setAdapter(mMovieAdapter);
 
+        showRefreshPrompt();
         loadJson();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        loadJson();
-    }
-
-    private void launchApiActivity() {
-        Intent intent = new Intent(this, ApiActivity.class);
+    private void launchSettingsActivity() {
+        Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
     }
 
@@ -71,17 +69,27 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
         mProgressBar.setVisibility(View.VISIBLE);
     }
 
+    private void hideRefreshPrompt() {
+        mRefreshPrompt.setVisibility(View.GONE);
+    }
+
+    private void showRefreshPrompt() {
+        if (MovieList.movieList.size() == 0) {
+            mRefreshPrompt.setVisibility(View.VISIBLE);
+        }
+    }
+
     /**
      * Executes the AsyncTask to retrieve the list of movies from
      * themoviedb.org and populate the list in MovieList class
      */
     private void loadJson() {
-        if (ApiKey.isApiSet()) {
+        if (!MoviePreferences.getApiKey(this).equals("")) {
             new FetchMovies().execute();
         } else {
             Toast.makeText(getApplicationContext(), R.string.api_not_provided, Toast.LENGTH_SHORT)
                     .show();
-            launchApiActivity();
+            launchSettingsActivity();
         }
     }
 
@@ -94,13 +102,14 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
         protected void onPreExecute() {
             super.onPreExecute();
             showProgressBar();
+            hideRefreshPrompt();
         }
 
         @Override
         protected Void doInBackground(Void... v) {
 
             URL url = sortMode.equals(SORT_POPULAR) ?
-                    NetworkUtils.fetchPopularURL() : NetworkUtils.fetchRatingURL();
+                    NetworkUtils.fetchPopularURL(getApplicationContext()) : NetworkUtils.fetchRatingURL(getApplicationContext());
 
             try {
                 MovieList.movieList = JsonUtils.getJsonMovieList(NetworkUtils.fetchMovies(url));
@@ -114,6 +123,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
         @Override
         protected void onPostExecute(Void v) {
             hideProgressBar();
+            showRefreshPrompt();
             mMovieAdapter.notifyDataSetChanged();
             mRecyclerView.smoothScrollToPosition(0);
         }
@@ -137,8 +147,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             //Launch the API Key activity
-            case R.id.action_api:
-                launchApiActivity();
+            case R.id.action_settings:
+                launchSettingsActivity();
                 return true;
             //Manualy reload the movies
             case R.id.action_refresh:
