@@ -12,14 +12,28 @@ import com.tejus.popularmovies.model.MovieList;
 
 import java.util.Locale;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class DetailActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = "DetailActivity";
-    private ImageView mPosterImageView;
-    private TextView mTitle;
-    private TextView mReleaseDate;
-    private TextView mRating;
-    private TextView mOverview;
+
+    @BindView(R.id.iv_poster)
+    ImageView mPosterImageView;
+
+    @BindView(R.id.tv_title)
+    TextView mTitle;
+
+    @BindView(R.id.tv_release_date)
+    TextView mReleaseDate;
+
+    @BindView(R.id.tv_rating)
+    TextView mRating;
+
+    @BindView(R.id.tv_overview)
+    TextView mOverview;
+
     private Movie mMovie;
 
 
@@ -28,11 +42,7 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        mTitle = findViewById(R.id.tv_title);
-        mPosterImageView = findViewById(R.id.iv_poster);
-        mReleaseDate = findViewById(R.id.tv_release_date);
-        mRating = findViewById(R.id.tv_rating);
-        mOverview = findViewById(R.id.tv_overview);
+        ButterKnife.bind(this);
 
         //Retrieve the movie that was tapped
         Intent intent = getIntent();

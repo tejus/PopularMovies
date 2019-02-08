@@ -23,29 +23,36 @@ import com.tejus.popularmovies.utilities.NetworkUtils;
 
 import java.net.URL;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMovieClickListener {
 
     private static final String LOG_TAG = "MainActivity";
     private static final int NUM_COLUMNS = 2;
     private static final String SCROLL_POSITION_KEY = "scroll_state";
 
-    private RecyclerView mRecyclerView;
-    private MovieAdapter mMovieAdapter;
-    private ProgressBar mProgressBar;
-    private TextView mRefreshPrompt;
-    private String mSortMode;
-    private GridLayoutManager layoutManager;
-    private int mScrollPosition = 0;
+    @BindView(R.id.rv_main)
+    RecyclerView mRecyclerView;
 
+    @BindView(R.id.progress_loading)
+    ProgressBar mProgressBar;
+
+    @BindView(R.id.tv_refresh_prompt)
+    TextView mRefreshPrompt;
+
+    private MovieAdapter mMovieAdapter;
+    private GridLayoutManager layoutManager;
+
+    private String mSortMode;
+    private int mScrollPosition = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mProgressBar = findViewById(R.id.progress_loading);
-        mRecyclerView = findViewById(R.id.rv_main);
-        mRefreshPrompt = findViewById(R.id.tv_refresh_prompt);
+        ButterKnife.bind(this);
 
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey(SCROLL_POSITION_KEY)) {
