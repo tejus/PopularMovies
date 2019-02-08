@@ -162,7 +162,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
             hideProgressBar();
             showRefreshPrompt();
             mMovieAdapter.notifyDataSetChanged();
-            mRecyclerView.smoothScrollToPosition(mScrollPosition);
+
+            /*
+             * LayoutManager.findFirstVisibleItemPosition() returns '-1' when the screen is off
+             * so make sure to set scroll position to zero in that case, to prevent a crash:
+             * (IllegalArgumentException: Invalid target position)
+             */
+            mRecyclerView.smoothScrollToPosition(mScrollPosition >= 0 ? mScrollPosition : 0);
         }
     }
 
