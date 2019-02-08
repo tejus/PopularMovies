@@ -11,11 +11,11 @@ import com.tejus.popularmovies.data.MoviePreferences;
 import com.tejus.popularmovies.model.MovieList;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Scanner;
+
+import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class NetworkUtils {
 
@@ -34,19 +34,14 @@ public class NetworkUtils {
      * @param sortMode Key to retrieve movies by popularity or rating
      * @return URL for the query
      */
-    private static URL fetchURL(String sortMode, Context context) {
-        Uri uri = Uri.parse(sortMode.equals(context.getString(R.string.sort_popular)) ?
-                BASE_POPULAR_URL : BASE_TOP_RATED_URL).buildUpon()
-                .appendQueryParameter(API_PARAM, MoviePreferences.getApiKey(context))
-                .appendQueryParameter(LANGUAGE_KEY, LANGUAGE_PARAM)
-                .appendQueryParameter(PAGE_PARAM, Integer.toString(1))
-                .build();
-        URL url = null;
-        try {
-            url = new URL(uri.toString());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+    private static String fetchURL(String sortMode, Context context) {
+
+        String url = HttpUrl.parse(sortMode.equals(context.getString(R.string.sort_popular)) ?
+                BASE_POPULAR_URL : BASE_TOP_RATED_URL).newBuilder()
+                .addQueryParameter(API_PARAM, MoviePreferences.getApiKey(context))
+                .addQueryParameter(LANGUAGE_KEY, LANGUAGE_PARAM)
+                .addQueryParameter(PAGE_PARAM, Integer.toString(1))
+                .build().toString();
         return url;
     }
 
@@ -57,26 +52,19 @@ public class NetworkUtils {
      * @return String representing the JSON response from themoviedb.org
      */
     public static MovieList fetchMovies(String sortMode, Context context) {
+        OkHttpClient client = new OkHttpClient();
 
-        URL url = fetchURL(sortMode, context);
-        HttpURLConnection urlConnection = null;
+        Request request = new Request.Builder()
+                .url(fetchURL(sortMode, context))
+                .build();
 
         try {
-            urlConnection = (HttpURLConnection) url.openConnection();
-            InputStream in = urlConnection.getInputStream();
-
-            Scanner scanner = new Scanner(in);
-            scanner.useDelimiter("\\A");
-
-            boolean hasInput = scanner.hasNext();
-            if (hasInput) {
-                return getGsonMovieList(scanner.next());
-            } else return null;
+            Response response = client.newCall(request).execute();
+            if (response.isSuccessful()) {
+                return getGsonMovieList(response);
+            }
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            if (urlConnection != null)
-                urlConnection.disconnect();
         }
         return null;
     }
@@ -91,11 +79,11 @@ public class NetworkUtils {
         return Uri.parse(BASE_POSTER_URL + posterPath);
     }
 
-    private static MovieList getGsonMovieList(String jsonString) {
+    private static MovieList getGsonMovieList(Response response) {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
         Gson gson = gsonBuilder.create();
-        MovieList movieList = gson.fromJson(jsonString, MovieList.class);
+        MovieList movieList = gson.fromJson(response.body().charStream(), MovieList.class);
         return movieList;
     }
 }
