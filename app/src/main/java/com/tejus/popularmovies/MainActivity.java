@@ -102,9 +102,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
     }
 
     private void showRefreshPrompt() {
-        if (MovieDatabase.movieList.movieList.size() == 0) {
-            mRefreshPrompt.setVisibility(View.VISIBLE);
-        }
+        mRefreshPrompt.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -148,8 +146,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
         @Override
         protected void onPostExecute(Void v) {
             hideProgressBar();
-            showRefreshPrompt();
-            mMovieAdapter.notifyDataSetChanged();
+            if (MovieDatabase.movieList == null || MovieDatabase.movieList.movieList.size() == 0) {
+                showRefreshPrompt();
+            } else {
+                mMovieAdapter.notifyDataSetChanged();
+            }
 
             /*
              * LayoutManager.findFirstVisibleItemPosition() returns '-1' when the screen is off
@@ -199,7 +200,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
             case R.id.action_settings:
                 launchSettingsActivity();
                 return true;
-            //Manualy reload the movies
+            //Manually reload the movies
             case R.id.action_refresh:
                 loadJson();
                 return true;
