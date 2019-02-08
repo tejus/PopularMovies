@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
-import com.tejus.popularmovies.model.MovieList;
+import com.tejus.popularmovies.model.MovieDatabase;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,7 +32,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder movieViewHolder, int i) {
         Picasso.get()
-                .load(MovieList.movieList.movieResponse.get(i).getPosterPath())
+                .load(MovieDatabase.movieList.movieList.get(i).getPosterPath())
                 .placeholder(R.color.colorPrimaryDark)
                 .error(R.color.colorPrimaryDark)
                 .into(movieViewHolder.mImageView);
@@ -40,7 +40,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     @Override
     public int getItemCount() {
-        return MovieList.movieList.movieResponse.size();
+        return MovieDatabase.movieList.movieList.size();
     }
 
     public interface OnMovieClickListener {

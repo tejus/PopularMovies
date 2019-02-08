@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.tejus.popularmovies.model.Movie;
-import com.tejus.popularmovies.model.MovieList;
+import com.tejus.popularmovies.model.MovieDatabase;
 
 import java.util.Locale;
 
@@ -36,7 +36,6 @@ public class DetailActivity extends AppCompatActivity {
 
     private Movie mMovie;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +46,7 @@ public class DetailActivity extends AppCompatActivity {
         //Retrieve the movie that was tapped
         Intent intent = getIntent();
         String position = intent.getStringExtra("position");
-        mMovie = MovieList.movieList.movieResponse.get(Integer.valueOf(position));
+        mMovie = MovieDatabase.movieList.movieList.get(Integer.valueOf(position));
 
         //Populate the views with the selected movie
         mTitle.setText(mMovie.getTitle());

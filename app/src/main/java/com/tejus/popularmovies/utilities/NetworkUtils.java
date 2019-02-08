@@ -3,8 +3,12 @@ package com.tejus.popularmovies.utilities;
 import android.content.Context;
 import android.net.Uri;
 
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.tejus.popularmovies.R;
 import com.tejus.popularmovies.data.MoviePreferences;
+import com.tejus.popularmovies.model.MovieList;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,14 +28,6 @@ public class NetworkUtils {
     private static final String LANGUAGE_KEY = "en-US";
     private static final String PAGE_PARAM = "page";
 
-    public static URL fetchPopularURL(Context context) {
-        return fetchURL(context.getString(R.string.sort_popular), context);
-    }
-
-    public static URL fetchRatingURL(Context context) {
-        return fetchURL(context.getString(R.string.sort_rating), context);
-    }
-
     /**
      * Creates the requested URL
      *
@@ -39,7 +35,8 @@ public class NetworkUtils {
      * @return URL for the query
      */
     private static URL fetchURL(String sortMode, Context context) {
-        Uri uri = Uri.parse(sortMode.equals(context.getString(R.string.sort_popular)) ? BASE_POPULAR_URL : BASE_TOP_RATED_URL).buildUpon()
+        Uri uri = Uri.parse(sortMode.equals(context.getString(R.string.sort_popular)) ?
+                BASE_POPULAR_URL : BASE_TOP_RATED_URL).buildUpon()
                 .appendQueryParameter(API_PARAM, MoviePreferences.getApiKey(context))
                 .appendQueryParameter(LANGUAGE_KEY, LANGUAGE_PARAM)
                 .appendQueryParameter(PAGE_PARAM, Integer.toString(1))
@@ -56,13 +53,16 @@ public class NetworkUtils {
     /**
      * Fetches the JSON response from the themoviedb.org API
      *
-     * @param url URL as built by fetchURL()
+     * @param sortMode Sort mode, as popular or rating
      * @return String representing the JSON response from themoviedb.org
      */
-    public static String fetchMovies(URL url) throws IOException {
-        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+    public static MovieList fetchMovies(String sortMode, Context context) {
+
+        URL url = fetchURL(sortMode, context);
+        HttpURLConnection urlConnection = null;
 
         try {
+            urlConnection = (HttpURLConnection) url.openConnection();
             InputStream in = urlConnection.getInputStream();
 
             Scanner scanner = new Scanner(in);
@@ -70,11 +70,15 @@ public class NetworkUtils {
 
             boolean hasInput = scanner.hasNext();
             if (hasInput) {
-                return scanner.next();
+                return getGsonMovieList(scanner.next());
             } else return null;
+        } catch (IOException e) {
+            e.printStackTrace();
         } finally {
-            urlConnection.disconnect();
+            if (urlConnection != null)
+                urlConnection.disconnect();
         }
+        return null;
     }
 
     /**
@@ -85,5 +89,13 @@ public class NetworkUtils {
      */
     public static Uri fetchPosterPath(String posterPath) {
         return Uri.parse(BASE_POSTER_URL + posterPath);
+    }
+
+    private static MovieList getGsonMovieList(String jsonString) {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
+        Gson gson = gsonBuilder.create();
+        MovieList movieList = gson.fromJson(jsonString, MovieList.class);
+        return movieList;
     }
 }

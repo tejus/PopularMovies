@@ -1,11 +1,16 @@
 package com.tejus.popularmovies.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class MovieList {
 
-    //List of movies stored statically for other classes to access
-    public static MovieResponse movieList = new MovieResponse();
+    @SerializedName("results")
+    public List<Movie> movieList;
 
+    public MovieList() {
+        movieList = new ArrayList<>();
+    }
 }

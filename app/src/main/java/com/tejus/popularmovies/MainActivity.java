@@ -17,11 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tejus.popularmovies.data.MoviePreferences;
-import com.tejus.popularmovies.model.MovieList;
-import com.tejus.popularmovies.model.MovieResponse;
+import com.tejus.popularmovies.model.MovieDatabase;
 import com.tejus.popularmovies.utilities.NetworkUtils;
-
-import java.net.URL;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -105,14 +102,14 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
     }
 
     private void showRefreshPrompt() {
-        if (MovieList.movieList.movieResponse.size() == 0) {
+        if (MovieDatabase.movieList.movieList.size() == 0) {
             mRefreshPrompt.setVisibility(View.VISIBLE);
         }
     }
 
     /**
      * Executes the AsyncTask to retrieve the list of movies from
-     * themoviedb.org and populate the list in MovieList class
+     * themoviedb.org and populate the list in MovieDatabase class
      */
     private void loadJson() {
         if (!MoviePreferences.getApiKey(this).equals("")) {
@@ -132,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
 
     /**
      * AsyncTask to fetch movies from themoviedb.org, using the sort mode
-     * set in mSortMode, and store them in a list in the MovieList class
+     * set in mSortMode, and store them in a list in the MovieDatabase class
      */
     public class FetchMovies extends AsyncTask<Void, Void, Void> {
         @Override
@@ -144,16 +141,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
 
         @Override
         protected Void doInBackground(Void... v) {
-
-            URL url = mSortMode.equals(getString(R.string.sort_popular)) ?
-                    NetworkUtils.fetchPopularURL(getApplicationContext()) : NetworkUtils.fetchRatingURL(getApplicationContext());
-
-            try {
-                MovieList.movieList = MovieResponse.getGsonMovieList(NetworkUtils.fetchMovies(url));
-                return null;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            MovieDatabase.movieList = NetworkUtils.fetchMovies(mSortMode, getApplicationContext());
             return null;
         }
 
