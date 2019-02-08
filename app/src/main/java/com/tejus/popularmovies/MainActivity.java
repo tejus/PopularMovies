@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 import com.tejus.popularmovies.data.MoviePreferences;
 import com.tejus.popularmovies.model.MovieList;
-import com.tejus.popularmovies.utilities.JsonUtils;
+import com.tejus.popularmovies.model.MovieResponse;
 import com.tejus.popularmovies.utilities.NetworkUtils;
 
 import java.net.URL;
@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
     }
 
     private void showRefreshPrompt() {
-        if (MovieList.movieList.size() == 0) {
+        if (MovieList.movieList.movieResponse.size() == 0) {
             mRefreshPrompt.setVisibility(View.VISIBLE);
         }
     }
@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
                     NetworkUtils.fetchPopularURL(getApplicationContext()) : NetworkUtils.fetchRatingURL(getApplicationContext());
 
             try {
-                MovieList.movieList = JsonUtils.getJsonMovieList(NetworkUtils.fetchMovies(url));
+                MovieList.movieList = MovieResponse.getGsonMovieList(NetworkUtils.fetchMovies(url));
                 return null;
             } catch (Exception e) {
                 e.printStackTrace();

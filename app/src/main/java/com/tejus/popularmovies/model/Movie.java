@@ -2,6 +2,7 @@ package com.tejus.popularmovies.model;
 
 import android.net.Uri;
 
+import com.google.gson.annotations.SerializedName;
 import com.tejus.popularmovies.utilities.NetworkUtils;
 
 public class Movie {
@@ -12,14 +13,15 @@ public class Movie {
     private String posterPath;
     private String overview;
     private double popularity;
+    @SerializedName("vote_average")
     private double rating;
-    private int[] genreId;
+    private int[] genreIds;
     private boolean adult;
     private String releaseDate;
 
     //Constructor
     public Movie(int id, String title, String posterPath, String overview,
-                 double popularity, double rating, boolean adult, int[] genreId, String releaseDate) {
+                 double popularity, double rating, boolean adult, int[] genreIds, String releaseDate) {
         this.id = id;
         this.title = title;
         this.posterPath = posterPath;
@@ -27,7 +29,7 @@ public class Movie {
         this.popularity = popularity;
         this.rating = rating;
         this.adult = adult;
-        this.genreId = genreId;
+        this.genreIds = genreIds;
         this.releaseDate = releaseDate;
     }
 
@@ -60,8 +62,8 @@ public class Movie {
         return adult;
     }
 
-    public int[] getGenreId() {
-        return genreId;
+    public int[] getGenreIds() {
+        return genreIds;
     }
 
     public String getReleaseDate() {
@@ -93,8 +95,8 @@ public class Movie {
         this.rating = rating;
     }
 
-    public void setGenreId(int[] genreId) {
-        this.genreId = genreId;
+    public void setGenreIds(int[] genreIds) {
+        this.genreIds = genreIds;
     }
 
     public void setAdult(boolean adult) {

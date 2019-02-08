@@ -32,7 +32,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder movieViewHolder, int i) {
         Picasso.get()
-                .load(MovieList.movieList.get(i).getPosterPath())
+                .load(MovieList.movieList.movieResponse.get(i).getPosterPath())
                 .placeholder(R.color.colorPrimaryDark)
                 .error(R.color.colorPrimaryDark)
                 .into(movieViewHolder.mImageView);
@@ -40,7 +40,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     @Override
     public int getItemCount() {
-        return MovieList.movieList.size();
+        return MovieList.movieList.movieResponse.size();
     }
 
     public interface OnMovieClickListener {
