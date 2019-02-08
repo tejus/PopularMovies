@@ -1,8 +1,10 @@
 package com.tejus.popularmovies;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,14 +27,16 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
 
     private static final String LOG_TAG = "MainActivity";
     private static final int NUM_COLUMNS = 2;
-    private static final String SORT_POPULAR = "popular";
-    private static final String SORT_RATING = "rating";
+    private static final String SCROLL_POSITION_KEY = "scroll_state";
 
     private RecyclerView mRecyclerView;
     private MovieAdapter mMovieAdapter;
     private ProgressBar mProgressBar;
     private TextView mRefreshPrompt;
-    private String sortMode = SORT_POPULAR;
+    private String mSortMode;
+    private GridLayoutManager layoutManager;
+    private int mScrollPosition = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +47,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
         mRecyclerView = findViewById(R.id.rv_main);
         mRefreshPrompt = findViewById(R.id.tv_refresh_prompt);
 
-        GridLayoutManager layoutManager = new GridLayoutManager(this, NUM_COLUMNS);
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey(SCROLL_POSITION_KEY)) {
+                mScrollPosition = savedInstanceState.getInt(SCROLL_POSITION_KEY);
+            }
+        }
+
+        layoutManager = new GridLayoutManager(this, NUM_COLUMNS);
         GridLayoutItemDecoration itemDecoration = new GridLayoutItemDecoration(24, NUM_COLUMNS);
 
         mRecyclerView.setLayoutManager(layoutManager);
@@ -52,8 +62,22 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
         mMovieAdapter = new MovieAdapter(this);
         mRecyclerView.setAdapter(mMovieAdapter);
 
+        setupPreferences();
+
         showRefreshPrompt();
         loadJson();
+    }
+
+    private void setupPreferences() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mSortMode = sharedPreferences.getString(getString(R.string.pref_sort_mode_key), getString(R.string.sort_popular));
+    }
+
+    private void savePreferences() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(getString(R.string.pref_sort_mode_key), mSortMode);
+        editor.apply();
     }
 
     private void launchSettingsActivity() {
@@ -93,9 +117,15 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
         }
     }
 
+    private void changeSortMode(String mode) {
+        mSortMode = mode;
+        mScrollPosition = 0;
+        loadJson();
+    }
+
     /**
      * AsyncTask to fetch movies from themoviedb.org, using the sort mode
-     * set in sortMode, and store them in a list in the MovieList class
+     * set in mSortMode, and store them in a list in the MovieList class
      */
     public class FetchMovies extends AsyncTask<Void, Void, Void> {
         @Override
@@ -108,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
         @Override
         protected Void doInBackground(Void... v) {
 
-            URL url = sortMode.equals(SORT_POPULAR) ?
+            URL url = mSortMode.equals(getString(R.string.sort_popular)) ?
                     NetworkUtils.fetchPopularURL(getApplicationContext()) : NetworkUtils.fetchRatingURL(getApplicationContext());
 
             try {
@@ -125,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
             hideProgressBar();
             showRefreshPrompt();
             mMovieAdapter.notifyDataSetChanged();
-            mRecyclerView.smoothScrollToPosition(0);
+            mRecyclerView.smoothScrollToPosition(mScrollPosition);
         }
     }
 
@@ -137,9 +167,27 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        savePreferences();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mScrollPosition = layoutManager.findFirstVisibleItemPosition();
+        outState.putInt(SCROLL_POSITION_KEY, mScrollPosition);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
+        if (mSortMode.equals(getString(R.string.sort_popular))) {
+            menu.findItem(R.id.action_sort_popular).setChecked(true);
+        } else {
+            menu.findItem(R.id.action_sort_rating).setChecked(true);
+        }
         return true;
     }
 
@@ -156,15 +204,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
                 return true;
             //Changes sort mode to popular and reloads the movies
             case R.id.action_sort_popular:
-                sortMode = SORT_POPULAR;
                 item.setChecked(true);
-                loadJson();
+                changeSortMode(getString(R.string.sort_popular));
                 return true;
             //Changes sort mode to rating and reloads the movies
             case R.id.action_sort_rating:
-                sortMode = SORT_RATING;
                 item.setChecked(true);
-                loadJson();
+                changeSortMode(getString(R.string.sort_rating));
                 return true;
         }
         return super.onOptionsItemSelected(item);

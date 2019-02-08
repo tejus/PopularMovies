@@ -3,6 +3,7 @@ package com.tejus.popularmovies.utilities;
 import android.content.Context;
 import android.net.Uri;
 
+import com.tejus.popularmovies.R;
 import com.tejus.popularmovies.data.MoviePreferences;
 
 import java.io.IOException;
@@ -23,15 +24,12 @@ public class NetworkUtils {
     private static final String LANGUAGE_KEY = "en-US";
     private static final String PAGE_PARAM = "page";
 
-    private static final String SORT_POPULAR = "popular";
-    private static final String SORT_RATING = "rating";
-
     public static URL fetchPopularURL(Context context) {
-        return fetchURL(SORT_POPULAR, context);
+        return fetchURL(context.getString(R.string.sort_popular), context);
     }
 
     public static URL fetchRatingURL(Context context) {
-        return fetchURL(SORT_RATING, context);
+        return fetchURL(context.getString(R.string.sort_rating), context);
     }
 
     /**
@@ -41,7 +39,7 @@ public class NetworkUtils {
      * @return URL for the query
      */
     private static URL fetchURL(String sortMode, Context context) {
-        Uri uri = Uri.parse(sortMode.equals(SORT_POPULAR) ? BASE_POPULAR_URL : BASE_TOP_RATED_URL).buildUpon()
+        Uri uri = Uri.parse(sortMode.equals(context.getString(R.string.sort_popular)) ? BASE_POPULAR_URL : BASE_TOP_RATED_URL).buildUpon()
                 .appendQueryParameter(API_PARAM, MoviePreferences.getApiKey(context))
                 .appendQueryParameter(LANGUAGE_KEY, LANGUAGE_PARAM)
                 .appendQueryParameter(PAGE_PARAM, Integer.toString(1))

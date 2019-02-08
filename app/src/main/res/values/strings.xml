@@ -17,4 +17,7 @@
     <string name="pref_apikey_title">API Key</string>
     <string name="pref_apikey_summary">Required to access TheMovieDB.org database</string>
     <string name="title_activity_scrolling">ScrollingActivity</string>
+    <string name="pref_sort_mode_key">sort_mode</string>
+    <string name="sort_popular">popular</string>
+    <string name="sort_rating">rating</string>
 </resources>
