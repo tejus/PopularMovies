@@ -19,5 +19,5 @@
     <string name="title_activity_scrolling">ScrollingActivity</string>
     <string name="pref_sort_mode_key">sort_mode</string>
     <string name="sort_popular">popular</string>
-    <string name="sort_rating">rating</string>
+    <string name="sort_rating">top_rated</string>
 </resources>
