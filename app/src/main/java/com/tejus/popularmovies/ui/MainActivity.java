@@ -19,7 +19,7 @@ import android.widget.Toast;
 import com.tejus.popularmovies.R;
 import com.tejus.popularmovies.data.MoviePreferences;
 import com.tejus.popularmovies.model.MovieDatabase;
-import com.tejus.popularmovies.utilities.NetworkUtils;
+import com.tejus.popularmovies.utilities.RetrofitUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -140,7 +140,8 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnMov
 
         @Override
         protected Void doInBackground(Void... v) {
-            MovieDatabase.movieResult = NetworkUtils.fetchMovies(mSortMode, getApplicationContext());
+            //MovieDatabase.movieResult = NetworkUtils.fetchMovies(mSortMode, getApplicationContext());
+            MovieDatabase.movieResult = RetrofitUtils.fetchMovies(mSortMode, MoviePreferences.getApiKey(MainActivity.this));
             return null;
         }
 

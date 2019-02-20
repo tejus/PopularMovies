@@ -10,6 +10,7 @@ public class Movie {
     //Member variables
     private int id;
     private String title;
+    @SerializedName("poster_path")
     private String posterPath;
     private String overview;
     private double popularity;
