@@ -1,4 +1,4 @@
-package com.tejus.popularmovies;
+package com.tejus.popularmovies.ui;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tejus.popularmovies.R;
 import com.tejus.popularmovies.data.MoviePreferences;
 import com.tejus.popularmovies.model.MovieDatabase;
 import com.tejus.popularmovies.utilities.NetworkUtils;

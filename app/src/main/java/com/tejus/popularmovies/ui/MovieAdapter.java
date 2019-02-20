@@ -1,4 +1,4 @@
-package com.tejus.popularmovies;
+package com.tejus.popularmovies.ui;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
+import com.tejus.popularmovies.R;
 import com.tejus.popularmovies.model.MovieDatabase;
 
 import butterknife.BindView;

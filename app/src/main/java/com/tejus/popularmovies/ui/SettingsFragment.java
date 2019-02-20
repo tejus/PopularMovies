@@ -1,8 +1,10 @@
-package com.tejus.popularmovies;
+package com.tejus.popularmovies.ui;
 
 
 import android.os.Bundle;
 import android.support.v7.preference.PreferenceFragmentCompat;
+
+import com.tejus.popularmovies.R;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 

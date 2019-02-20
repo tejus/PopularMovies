@@ -1,8 +1,10 @@
-package com.tejus.popularmovies;
+package com.tejus.popularmovies.ui;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+
+import com.tejus.popularmovies.R;
 
 public class SettingsActivity extends AppCompatActivity {
 

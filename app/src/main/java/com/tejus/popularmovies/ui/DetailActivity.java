@@ -1,4 +1,4 @@
-package com.tejus.popularmovies;
+package com.tejus.popularmovies.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.tejus.popularmovies.R;
 import com.tejus.popularmovies.model.Movie;
 import com.tejus.popularmovies.model.MovieDatabase;
 

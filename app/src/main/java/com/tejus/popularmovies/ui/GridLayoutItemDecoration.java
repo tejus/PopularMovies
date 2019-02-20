@@ -1,4 +1,4 @@
-package com.tejus.popularmovies;
+package com.tejus.popularmovies.ui;
 
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
