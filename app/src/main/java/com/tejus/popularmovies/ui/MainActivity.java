@@ -123,9 +123,9 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnMov
 
     @Override
     public void onItemClick(int position) {
-        //Intent intent = new Intent(this, DetailActivity.class);
-        //intent.putExtra("position", Integer.toString(position));
-        //startActivity(intent);
+        Intent intent = new Intent(this, DetailActivity.class);
+        intent.putExtra("position", Integer.toString(position));
+        startActivity(intent);
     }
 
     @Override

@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.tejus.popularmovies.data.MoviePreferences;
+import com.tejus.popularmovies.model.MovieDatabase;
 import com.tejus.popularmovies.model.MovieResult;
 import com.tejus.popularmovies.utilities.AppExecutors;
 import com.tejus.popularmovies.utilities.RetrofitUtils;
@@ -30,6 +31,7 @@ public class MainViewModel extends AndroidViewModel {
                     public void run() {
                         Log.d(LOG_TAG, "Setting received movies to the MutableLiveData<MovieResult> instance");
                         movies.setValue(result);
+                        MovieDatabase.movieList.addAll(result.getResults());
                     }
                 });
             }
