@@ -9,7 +9,7 @@ import android.util.Log;
 @Database(entities = {Movie.class}, version = 1, exportSchema = false)
 public abstract class TopMovieDatabase extends RoomDatabase {
 
-    private static final String LOG_TAG = MovieDatabase.class.getSimpleName();
+    private static final String LOG_TAG = TopMovieDatabase.class.getSimpleName();
 
     private static final Object LOCK = new Object();
     private static final String DATABASE_NAME = "top_movies";
