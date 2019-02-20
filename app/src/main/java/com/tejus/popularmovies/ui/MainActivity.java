@@ -34,9 +34,11 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements MainAdapter.OnMovieClickListener {
 
-    private static final String LOG_TAG = "MainActivity";
+    private static final String LOG_TAG = MainActivity.class.getSimpleName();
+
     private static final int NUM_COLUMNS = 2;
     private static final String SCROLL_POSITION_KEY = "scroll_state";
+    private static final String PARCEL_KEY = "movie";
 
     @BindView(R.id.rv_main)
     RecyclerView mRecyclerView;
@@ -125,9 +127,9 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnMov
         AppExecutors.getInstance().networkIO().execute(new Runnable() {
             @Override
             public void run() {
-                MovieResult resultPopular = RetrofitUtils.fetchMovies("popular",
+                MovieResult resultPopular = RetrofitUtils.fetchMovies(getString(R.string.sort_popular),
                         MoviePreferences.getApiKey(getApplicationContext()));
-                MovieResult resultTop = RetrofitUtils.fetchMovies("top_rated",
+                MovieResult resultTop = RetrofitUtils.fetchMovies(getString(R.string.sort_rating),
                         MoviePreferences.getApiKey(getApplicationContext()));
                 List<Movie> moviesPopular = resultPopular.getResults();
                 List<Movie> moviesTop = resultTop.getResults();
@@ -150,9 +152,9 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnMov
         if (mode.equals(mSortMode)) return;
         mSortMode = mode;
         mScrollPosition = 0;
-        if (mSortMode.equals("popular")) {
+        if (mSortMode.equals(getString(R.string.sort_popular))) {
             setupPopularViewModel();
-        } else if (mSortMode.equals("top_rated")) {
+        } else if (mSortMode.equals(getString(R.string.sort_rating))) {
             setupTopViewModel();
         }
     }
@@ -186,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnMov
     @Override
     public void onItemClick(int position) {
         Intent intent = new Intent(this, DetailActivity.class);
-        intent.putExtra("movie", mMainAdapter.getMovieByPosition(position));
+        intent.putExtra(PARCEL_KEY, mMainAdapter.getMovieByPosition(position));
         startActivity(intent);
     }
 

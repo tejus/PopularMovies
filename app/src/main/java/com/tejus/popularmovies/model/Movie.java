@@ -26,9 +26,9 @@ public class Movie implements Parcelable {
     @SerializedName("vote_average")
     @ColumnInfo(name = "vote_average")
     private double rating;
-    /*    @SerializedName("genre_ids")
-        @ColumnInfo(name = "genre_ids")
-        private int[] genreIds;*/
+    /*@SerializedName("genre_ids")
+    @ColumnInfo(name = "genre_ids")
+    private int[] genreIds;*/
     private boolean adult;
     @SerializedName("release_date")
     @ColumnInfo(name = "release_date")

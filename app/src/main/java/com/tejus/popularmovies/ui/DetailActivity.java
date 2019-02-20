@@ -17,7 +17,9 @@ import butterknife.ButterKnife;
 
 public class DetailActivity extends AppCompatActivity {
 
-    private static final String LOG_TAG = "DetailActivity";
+    private static final String LOG_TAG = DetailActivity.class.getSimpleName();
+
+    private static final String PARCEL_KEY = "movie";
 
     @BindView(R.id.iv_poster)
     ImageView mPosterImageView;
@@ -45,8 +47,7 @@ public class DetailActivity extends AppCompatActivity {
 
         //Retrieve the movie that was tapped
         Intent intent = getIntent();
-        String position = intent.getStringExtra("position");
-        mMovie = intent.getExtras().getParcelable("movie");
+        mMovie = intent.getExtras().getParcelable(PARCEL_KEY);
 
         //Populate the views with the selected movie
         mTitle.setText(mMovie.getTitle());
