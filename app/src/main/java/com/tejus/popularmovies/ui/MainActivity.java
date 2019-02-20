@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,7 +19,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.tejus.popularmovies.R;
+import com.tejus.popularmovies.data.MoviePreferences;
+import com.tejus.popularmovies.model.Movie;
 import com.tejus.popularmovies.model.MovieResult;
+import com.tejus.popularmovies.model.PopularMovieDatabase;
+import com.tejus.popularmovies.model.TopMovieDatabase;
+import com.tejus.popularmovies.utilities.AppExecutors;
+import com.tejus.popularmovies.utilities.RetrofitUtils;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,6 +53,9 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnMov
     private String mSortMode;
     private int mScrollPosition = 0;
 
+    private PopularMovieDatabase mDbPopular;
+    private TopMovieDatabase mDbTop;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +80,10 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnMov
 
         setupPreferences();
         showProgressBar();
-        setupViewModel();
+        mDbPopular = PopularMovieDatabase.getInstance(getApplicationContext());
+        mDbTop = TopMovieDatabase.getInstance(getApplicationContext());
+        fetchMovies();
+        setSortMode(mSortMode);
     }
 
     private void setupPreferences() {
@@ -104,21 +119,64 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnMov
         mRefreshPrompt.setVisibility(View.VISIBLE);
     }
 
-    private void setupViewModel() {
-        MainViewModel viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
-        viewModel.getMovies().observe(this, new Observer<MovieResult>() {
+    private void fetchMovies() {
+        showProgressBar();
+        AppExecutors.getInstance().networkIO().execute(new Runnable() {
             @Override
-            public void onChanged(@Nullable MovieResult result) {
-                mMainAdapter.setMovies(result);
+            public void run() {
+                MovieResult resultPopular = RetrofitUtils.fetchMovies("popular",
+                        MoviePreferences.getApiKey(getApplicationContext()));
+                MovieResult resultTop = RetrofitUtils.fetchMovies("top_rated",
+                        MoviePreferences.getApiKey(getApplicationContext()));
+                List<Movie> moviesPopular = resultPopular.getResults();
+                List<Movie> moviesTop = resultTop.getResults();
+                Log.d(LOG_TAG, "Initialising mainThread executor");
+                AppExecutors.getInstance().DiskIO().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.d(LOG_TAG, "Setting received movies to the LiveData<MovieResult> instance");
+                        mDbPopular.movieDao().deleteAllMovies();
+                        mDbPopular.movieDao().insertMovie(moviesPopular);
+                        mDbTop.movieDao().deleteAllMovies();
+                        mDbTop.movieDao().insertMovie(moviesTop);
+                    }
+                });
+            }
+        });
+    }
+
+    private void setSortMode(String mode) {
+        mSortMode = mode;
+        if (mSortMode.equals("popular")) {
+            setupPopularViewModel();
+        } else if (mSortMode.equals("top_rated")) {
+            setupTopViewModel();
+        }
+        mScrollPosition = 0;
+    }
+
+    private void setupPopularViewModel() {
+        MainPopularViewModel viewModel = ViewModelProviders.of(this).get(MainPopularViewModel.class);
+        viewModel.getMovies().observe(this, new Observer<List<Movie>>() {
+            @Override
+            public void onChanged(@Nullable List<Movie> movies) {
+                mMainAdapter.setMovies(movies);
                 hideProgressBar();
                 hideRefreshPrompt();
             }
         });
     }
 
-    private void changeSortMode(String mode) {
-        mSortMode = mode;
-        mScrollPosition = 0;
+    private void setupTopViewModel() {
+        MainTopViewModel viewModel = ViewModelProviders.of(this).get(MainTopViewModel.class);
+        viewModel.getMovies().observe(this, new Observer<List<Movie>>() {
+            @Override
+            public void onChanged(@Nullable List<Movie> movies) {
+                mMainAdapter.setMovies(movies);
+                hideProgressBar();
+                hideRefreshPrompt();
+            }
+        });
     }
 
     @Override
@@ -162,16 +220,17 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnMov
                 return true;
             //Manually reload the movies
             case R.id.action_refresh:
+                fetchMovies();
                 return true;
             //Changes sort mode to popular and reloads the movies
             case R.id.action_sort_popular:
                 item.setChecked(true);
-                changeSortMode(getString(R.string.sort_popular));
+                setSortMode(getString(R.string.sort_popular));
                 return true;
             //Changes sort mode to rating and reloads the movies
             case R.id.action_sort_rating:
                 item.setChecked(true);
-                changeSortMode(getString(R.string.sort_rating));
+                setSortMode(getString(R.string.sort_rating));
                 return true;
         }
         return super.onOptionsItemSelected(item);

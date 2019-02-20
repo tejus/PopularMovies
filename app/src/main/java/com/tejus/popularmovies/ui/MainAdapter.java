@@ -10,7 +10,9 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 import com.tejus.popularmovies.R;
-import com.tejus.popularmovies.model.MovieResult;
+import com.tejus.popularmovies.model.Movie;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,7 +22,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MovieViewHolde
     private static final String LOG_TAG = MainAdapter.class.getSimpleName();
 
     private final OnMovieClickListener mClickHandler;
-    private MovieResult movies;
+    private List<Movie> movies;
 
     public MainAdapter(OnMovieClickListener clickHandler) {
         mClickHandler = clickHandler;
@@ -37,7 +39,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MovieViewHolde
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder movieViewHolder, int i) {
         Picasso.get()
-                .load(movies.getResults().get(i).getPosterPath())
+                .load(movies.get(i).getPosterPathUri())
                 .placeholder(R.color.colorPrimaryDark)
                 .error(R.color.colorPrimaryDark)
                 .into(movieViewHolder.mImageView);
@@ -48,14 +50,14 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MovieViewHolde
         if (movies == null)
             return 0;
         else
-            return movies.getResults().size();
+            return movies.size();
     }
 
     public interface OnMovieClickListener {
         void onItemClick(int position);
     }
 
-    public void setMovies(MovieResult movies) {
+    public void setMovies(List<Movie> movies) {
         Log.d(LOG_TAG, "Setting received movies to the MovieResult instance and notifying data change");
         this.movies = movies;
         notifyDataSetChanged();
