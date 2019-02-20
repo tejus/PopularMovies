@@ -1,10 +1,13 @@
 package com.tejus.popularmovies.ui;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +22,7 @@ import android.widget.Toast;
 import com.tejus.popularmovies.R;
 import com.tejus.popularmovies.data.MoviePreferences;
 import com.tejus.popularmovies.model.MovieDatabase;
+import com.tejus.popularmovies.model.MovieResult;
 import com.tejus.popularmovies.utilities.RetrofitUtils;
 
 import butterknife.BindView;
@@ -68,9 +72,9 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnMov
         mRecyclerView.setAdapter(mMainAdapter);
 
         setupPreferences();
-
-        showRefreshPrompt();
-        loadJson();
+        showProgressBar();
+        //loadJson();
+        setupViewModel();
     }
 
     private void setupPreferences() {
@@ -106,6 +110,18 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnMov
         mRefreshPrompt.setVisibility(View.VISIBLE);
     }
 
+    private void setupViewModel() {
+        MainViewModel viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        viewModel.getMovies().observe(this, new Observer<MovieResult>() {
+            @Override
+            public void onChanged(@Nullable MovieResult result) {
+                mMainAdapter.setMovies(result);
+                hideProgressBar();
+                hideRefreshPrompt();
+            }
+        });
+    }
+
     /**
      * Executes the AsyncTask to retrieve the list of movies from
      * themoviedb.org and populate the list in MovieDatabase class
@@ -123,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnMov
     private void changeSortMode(String mode) {
         mSortMode = mode;
         mScrollPosition = 0;
-        loadJson();
+        //loadJson();
     }
 
     /**
@@ -159,9 +175,9 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnMov
 
     @Override
     public void onItemClick(int position) {
-        Intent intent = new Intent(this, DetailActivity.class);
-        intent.putExtra("position", Integer.toString(position));
-        startActivity(intent);
+        //Intent intent = new Intent(this, DetailActivity.class);
+        //intent.putExtra("position", Integer.toString(position));
+        //startActivity(intent);
     }
 
     @Override
@@ -198,7 +214,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnMov
                 return true;
             //Manually reload the movies
             case R.id.action_refresh:
-                loadJson();
+                //loadJson();
                 return true;
             //Changes sort mode to popular and reloads the movies
             case R.id.action_sort_popular:
