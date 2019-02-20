@@ -14,11 +14,11 @@ import com.tejus.popularmovies.model.MovieDatabase;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
+public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MovieViewHolder> {
 
     private final OnMovieClickListener mClickHandler;
 
-    public MovieAdapter(OnMovieClickListener clickHandler) {
+    public MainAdapter(OnMovieClickListener clickHandler) {
         mClickHandler = clickHandler;
     }
 

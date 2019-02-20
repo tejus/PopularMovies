@@ -24,7 +24,7 @@ import com.tejus.popularmovies.utilities.NetworkUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMovieClickListener {
+public class MainActivity extends AppCompatActivity implements MainAdapter.OnMovieClickListener {
 
     private static final String LOG_TAG = "MainActivity";
     private static final int NUM_COLUMNS = 2;
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
     @BindView(R.id.tv_refresh_prompt)
     TextView mRefreshPrompt;
 
-    private MovieAdapter mMovieAdapter;
+    private MainAdapter mMainAdapter;
     private GridLayoutManager layoutManager;
 
     private String mSortMode;
@@ -64,8 +64,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.addItemDecoration(itemDecoration);
         mRecyclerView.setHasFixedSize(true);
-        mMovieAdapter = new MovieAdapter(this);
-        mRecyclerView.setAdapter(mMovieAdapter);
+        mMainAdapter = new MainAdapter(this);
+        mRecyclerView.setAdapter(mMainAdapter);
 
         setupPreferences();
 
@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
             if (MovieDatabase.movieResult == null || MovieDatabase.movieResult.getResults().size() == 0) {
                 showRefreshPrompt();
             } else {
-                mMovieAdapter.notifyDataSetChanged();
+                mMainAdapter.notifyDataSetChanged();
             }
             mRecyclerView.smoothScrollToPosition(0);
         }
