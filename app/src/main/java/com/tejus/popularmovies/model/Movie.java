@@ -1,36 +1,48 @@
 package com.tejus.popularmovies.model;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 import android.net.Uri;
 
 import com.google.gson.annotations.SerializedName;
 import com.tejus.popularmovies.utilities.NetworkUtils;
 
+@Entity(tableName = "movies")
 public class Movie {
 
     //Member variables
+    @PrimaryKey
     private int id;
     private String title;
+
     @SerializedName("poster_path")
+    @ColumnInfo(name = "poster_path")
     private String posterPath;
     private String overview;
     private double popularity;
     @SerializedName("vote_average")
+    @ColumnInfo(name = "vote_average")
     private double rating;
-    private int[] genreIds;
+    /*    @SerializedName("genre_ids")
+        @ColumnInfo(name = "genre_ids")
+        private int[] genreIds;*/
     private boolean adult;
+    @SerializedName("release_date")
+    @ColumnInfo(name = "release_date")
     private String releaseDate;
 
     //Constructor
     public Movie(int id, String title, String posterPath, String overview,
-                 double popularity, double rating, boolean adult, int[] genreIds, String releaseDate) {
+                 double popularity, double rating, boolean adult, String releaseDate) {
         this.id = id;
         this.title = title;
         this.posterPath = posterPath;
         this.overview = overview;
         this.popularity = popularity;
         this.rating = rating;
+//        this.genreIds = genreIds;
         this.adult = adult;
-        this.genreIds = genreIds;
         this.releaseDate = releaseDate;
     }
 
@@ -43,7 +55,11 @@ public class Movie {
         return title;
     }
 
-    public Uri getPosterPath() {
+    public String getPosterPath() {
+        return posterPath;
+    }
+
+    public Uri getPosterPathUri() {
         return NetworkUtils.fetchPosterPath(posterPath);
     }
 
@@ -59,12 +75,12 @@ public class Movie {
         return rating;
     }
 
+    /*public int[] getGenreIds() {
+        return genreIds;
+    }*/
+
     public boolean isAdult() {
         return adult;
-    }
-
-    public int[] getGenreIds() {
-        return genreIds;
     }
 
     public String getReleaseDate() {
@@ -96,9 +112,9 @@ public class Movie {
         this.rating = rating;
     }
 
-    public void setGenreIds(int[] genreIds) {
+    /*public void setGenreIds(int[] genreIds) {
         this.genreIds = genreIds;
-    }
+    }*/
 
     public void setAdult(boolean adult) {
         this.adult = adult;

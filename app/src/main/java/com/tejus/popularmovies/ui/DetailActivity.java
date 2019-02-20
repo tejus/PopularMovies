@@ -58,7 +58,7 @@ public class DetailActivity extends AppCompatActivity {
 
         //Load the movie poster
         Picasso.get()
-                .load(mMovie.getPosterPath())
+                .load(mMovie.getPosterPathUri())
                 .into(mPosterImageView);
     }
 }
