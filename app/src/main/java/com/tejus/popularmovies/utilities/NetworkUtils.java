@@ -8,7 +8,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.tejus.popularmovies.R;
 import com.tejus.popularmovies.data.MoviePreferences;
-import com.tejus.popularmovies.model.MovieList;
+import com.tejus.popularmovies.model.MovieResult;
 
 import java.io.IOException;
 
@@ -51,7 +51,7 @@ public class NetworkUtils {
      * @param sortMode Sort mode, as popular or rating
      * @return String representing the JSON response from themoviedb.org
      */
-    public static MovieList fetchMovies(String sortMode, Context context) {
+    public static MovieResult fetchMovies(String sortMode, Context context) {
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
@@ -79,11 +79,11 @@ public class NetworkUtils {
         return Uri.parse(BASE_POSTER_URL + posterPath);
     }
 
-    private static MovieList getGsonMovieList(Response response) {
+    private static MovieResult getGsonMovieList(Response response) {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
         Gson gson = gsonBuilder.create();
-        MovieList movieList = gson.fromJson(response.body().charStream(), MovieList.class);
-        return movieList;
+        MovieResult movieResult = gson.fromJson(response.body().charStream(), MovieResult.class);
+        return movieResult;
     }
 }

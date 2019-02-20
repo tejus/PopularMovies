@@ -139,14 +139,14 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
 
         @Override
         protected Void doInBackground(Void... v) {
-            MovieDatabase.movieList = NetworkUtils.fetchMovies(mSortMode, getApplicationContext());
+            MovieDatabase.movieResult = NetworkUtils.fetchMovies(mSortMode, getApplicationContext());
             return null;
         }
 
         @Override
         protected void onPostExecute(Void v) {
             hideProgressBar();
-            if (MovieDatabase.movieList == null || MovieDatabase.movieList.movieList.size() == 0) {
+            if (MovieDatabase.movieResult == null || MovieDatabase.movieResult.movieList.size() == 0) {
                 showRefreshPrompt();
             } else {
                 mMovieAdapter.notifyDataSetChanged();
