@@ -63,6 +63,10 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MovieViewHolde
         notifyDataSetChanged();
     }
 
+    public Movie getMovieByPosition(int position) {
+        return movies.get(position);
+    }
+
     public class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @BindView(R.id.iv_poster_thumb)
