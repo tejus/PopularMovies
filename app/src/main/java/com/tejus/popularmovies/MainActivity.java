@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.OnMo
         @Override
         protected void onPostExecute(Void v) {
             hideProgressBar();
-            if (MovieDatabase.movieResult == null || MovieDatabase.movieResult.movieList.size() == 0) {
+            if (MovieDatabase.movieResult == null || MovieDatabase.movieResult.getResults().size() == 0) {
                 showRefreshPrompt();
             } else {
                 mMovieAdapter.notifyDataSetChanged();

@@ -46,7 +46,7 @@ public class DetailActivity extends AppCompatActivity {
         //Retrieve the movie that was tapped
         Intent intent = getIntent();
         String position = intent.getStringExtra("position");
-        mMovie = MovieDatabase.movieResult.movieList.get(Integer.valueOf(position));
+        mMovie = MovieDatabase.movieResult.getResults().get(Integer.valueOf(position));
 
         //Populate the views with the selected movie
         mTitle.setText(mMovie.getTitle());
