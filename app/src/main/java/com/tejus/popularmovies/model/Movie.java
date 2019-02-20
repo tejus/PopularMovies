@@ -4,12 +4,14 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.net.Uri;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 import com.tejus.popularmovies.utilities.NetworkUtils;
 
 @Entity(tableName = "movies")
-public class Movie {
+public class Movie implements Parcelable {
 
     //Member variables
     @PrimaryKey
@@ -45,6 +47,29 @@ public class Movie {
         this.adult = adult;
         this.releaseDate = releaseDate;
     }
+
+    protected Movie(Parcel in) {
+        id = in.readInt();
+        title = in.readString();
+        posterPath = in.readString();
+        overview = in.readString();
+        popularity = in.readDouble();
+        rating = in.readDouble();
+        adult = in.readByte() != 0;
+        releaseDate = in.readString();
+    }
+
+    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
+        @Override
+        public Movie createFromParcel(Parcel in) {
+            return new Movie(in);
+        }
+
+        @Override
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
 
     //Getter methods
     public int getId() {
@@ -122,5 +147,22 @@ public class Movie {
 
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(title);
+        dest.writeString(posterPath);
+        dest.writeString(overview);
+        dest.writeDouble(popularity);
+        dest.writeDouble(rating);
+        dest.writeByte((byte) (adult ? 1 : 0));
+        dest.writeString(releaseDate);
     }
 }
