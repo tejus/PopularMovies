@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnMov
     TextView mRefreshPrompt;
 
     private MainAdapter mMainAdapter;
-    private GridLayoutManager layoutManager;
+    private GridLayoutManager mLayoutManager;
 
     private String mSortMode;
     private int mScrollPosition = 0;
@@ -69,10 +69,14 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnMov
             }
         }
 
-        layoutManager = new GridLayoutManager(this, NUM_COLUMNS);
+        mDbPopular = PopularMovieDatabase.getInstance(getApplicationContext());
+        mDbTop = TopMovieDatabase.getInstance(getApplicationContext());
+        fetchMovies();
+
+        mLayoutManager = new GridLayoutManager(this, NUM_COLUMNS);
         GridLayoutItemDecoration itemDecoration = new GridLayoutItemDecoration(24, NUM_COLUMNS);
 
-        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.addItemDecoration(itemDecoration);
         mRecyclerView.setHasFixedSize(true);
         mMainAdapter = new MainAdapter(this);
@@ -80,9 +84,6 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnMov
 
         setupPreferences();
         showProgressBar();
-        mDbPopular = PopularMovieDatabase.getInstance(getApplicationContext());
-        mDbTop = TopMovieDatabase.getInstance(getApplicationContext());
-        fetchMovies();
         setSortMode(mSortMode);
     }
 
@@ -198,7 +199,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnMov
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        mScrollPosition = layoutManager.findFirstVisibleItemPosition();
+        mScrollPosition = mLayoutManager.findFirstVisibleItemPosition();
         outState.putInt(SCROLL_POSITION_KEY, mScrollPosition);
     }
 
