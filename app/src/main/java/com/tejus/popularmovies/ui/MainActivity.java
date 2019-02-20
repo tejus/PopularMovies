@@ -146,13 +146,14 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnMov
     }
 
     private void setSortMode(String mode) {
+        if (mode.equals(mSortMode)) return;
         mSortMode = mode;
+        mScrollPosition = 0;
         if (mSortMode.equals("popular")) {
             setupPopularViewModel();
         } else if (mSortMode.equals("top_rated")) {
             setupTopViewModel();
         }
-        mScrollPosition = 0;
     }
 
     private void setupPopularViewModel() {
@@ -163,6 +164,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnMov
                 mMainAdapter.setMovies(movies);
                 hideProgressBar();
                 hideRefreshPrompt();
+                mRecyclerView.smoothScrollToPosition(mScrollPosition);
             }
         });
     }
@@ -175,6 +177,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnMov
                 mMainAdapter.setMovies(movies);
                 hideProgressBar();
                 hideRefreshPrompt();
+                mRecyclerView.smoothScrollToPosition(mScrollPosition);
             }
         });
     }
