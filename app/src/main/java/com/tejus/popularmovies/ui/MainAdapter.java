@@ -41,7 +41,10 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MovieViewHolde
 
     @Override
     public int getItemCount() {
-        return MovieDatabase.movieResult.getResults().size();
+        if (MovieDatabase.movieResult == null) {
+            return 0;
+        } else
+            return MovieDatabase.movieResult.getResults().size();
     }
 
     public interface OnMovieClickListener {
