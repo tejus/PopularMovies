@@ -2,7 +2,6 @@ package com.tejus.popularmovies.ui;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +18,7 @@ import android.widget.Toast;
 import com.tejus.popularmovies.R;
 import com.tejus.popularmovies.data.MoviePreferences;
 import com.tejus.popularmovies.model.MovieDatabase;
+import com.tejus.popularmovies.utilities.AppExecutors;
 import com.tejus.popularmovies.utilities.RetrofitUtils;
 
 import butterknife.BindView;
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnMov
         setupPreferences();
 
         showRefreshPrompt();
-        loadJson();
+        fetchMovies();
     }
 
     private void setupPreferences() {
@@ -110,11 +110,35 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnMov
      * Executes the AsyncTask to retrieve the list of movies from
      * themoviedb.org and populate the list in MovieDatabase class
      */
-    private void loadJson() {
+    private void fetchMovies() {
         if (!MoviePreferences.getApiKey(this).equals("")) {
-            new FetchMovies().execute();
+            showProgressBar();
+            hideRefreshPrompt();
+            AppExecutors.getInstance().networkIO().execute(new Runnable() {
+                @Override
+                public void run() {
+                    MovieDatabase.movieResult = RetrofitUtils.fetchMovies(
+                            mSortMode,
+                            MoviePreferences.getApiKey(MainActivity.this)
+                    );
+                    AppExecutors.getInstance().mainThread().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            hideProgressBar();
+                            if (MovieDatabase.movieResult == null ||
+                                    MovieDatabase.movieResult.getResults().size() == 0) {
+                                showRefreshPrompt();
+                            } else {
+                                mMainAdapter.notifyDataSetChanged();
+                            }
+                            mRecyclerView.smoothScrollToPosition(0);
+                        }
+                    });
+                }
+            });
         } else {
-            Toast.makeText(getApplicationContext(), R.string.api_not_provided, Toast.LENGTH_SHORT)
+            Toast.makeText(getApplicationContext(),
+                    R.string.api_not_provided, Toast.LENGTH_SHORT)
                     .show();
             launchSettingsActivity();
         }
@@ -123,38 +147,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnMov
     private void changeSortMode(String mode) {
         mSortMode = mode;
         mScrollPosition = 0;
-        loadJson();
-    }
-
-    /**
-     * AsyncTask to fetch movies from themoviedb.org, using the sort mode
-     * set in mSortMode, and store them in a list in the MovieDatabase class
-     */
-    public class FetchMovies extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            showProgressBar();
-            hideRefreshPrompt();
-        }
-
-        @Override
-        protected Void doInBackground(Void... v) {
-            //MovieDatabase.movieResult = NetworkUtils.fetchMovies(mSortMode, getApplicationContext());
-            MovieDatabase.movieResult = RetrofitUtils.fetchMovies(mSortMode, MoviePreferences.getApiKey(MainActivity.this));
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void v) {
-            hideProgressBar();
-            if (MovieDatabase.movieResult == null || MovieDatabase.movieResult.getResults().size() == 0) {
-                showRefreshPrompt();
-            } else {
-                mMainAdapter.notifyDataSetChanged();
-            }
-            mRecyclerView.smoothScrollToPosition(0);
-        }
+        fetchMovies();
     }
 
     @Override
@@ -198,7 +191,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnMov
                 return true;
             //Manually reload the movies
             case R.id.action_refresh:
-                loadJson();
+                fetchMovies();
                 return true;
             //Changes sort mode to popular and reloads the movies
             case R.id.action_sort_popular:
