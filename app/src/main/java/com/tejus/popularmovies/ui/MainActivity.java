@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnMov
     }
 
     /**
-     * Executes the AsyncTask to retrieve the list of movies from
+     * Executes the Retrofit call to retrieve the list of movies from
      * themoviedb.org and populate the list in MovieDatabase class
      */
     private void fetchMovies() {
