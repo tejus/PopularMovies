@@ -131,6 +131,9 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnMov
                         MoviePreferences.getApiKey(getApplicationContext()));
                 MovieResult resultTop = RetrofitUtils.fetchMovies(getString(R.string.sort_rating),
                         MoviePreferences.getApiKey(getApplicationContext()));
+                if (resultPopular == null || resultTop == null) {
+                    return;
+                }
                 List<Movie> moviesPopular = resultPopular.getResults();
                 List<Movie> moviesTop = resultTop.getResults();
                 Log.d(LOG_TAG, "Initialising mainThread executor");
@@ -142,6 +145,12 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnMov
                         mDbPopular.movieDao().insertMovie(moviesPopular);
                         mDbTop.movieDao().deleteAllMovies();
                         mDbTop.movieDao().insertMovie(moviesTop);
+                        AppExecutors.getInstance().mainThread().execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                setSortMode(mSortMode);
+                            }
+                        });
                     }
                 });
             }
@@ -149,7 +158,6 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.OnMov
     }
 
     private void setSortMode(String mode) {
-        if (mode.equals(mSortMode)) return;
         mSortMode = mode;
         mScrollPosition = 0;
         if (mSortMode.equals(getString(R.string.sort_popular))) {
