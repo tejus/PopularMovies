@@ -36,6 +36,7 @@ public class RetrofitUtils {
             Response<MovieResult> response = call.execute();
             result = response.body();
         } catch (IOException e) {
+            Log.d(LOG_TAG, "Network call failed!");
             e.printStackTrace();
         }
 
