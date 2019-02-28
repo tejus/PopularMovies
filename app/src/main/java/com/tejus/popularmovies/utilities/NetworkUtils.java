@@ -79,6 +79,10 @@ public class NetworkUtils {
         return Uri.parse(BASE_POSTER_URL + posterPath);
     }
 
+    //  TODO (6) Create a method public static void loadPoster(ImageView imageView, String url)
+    //  to load images with picasso
+    //  TODO (7) Define as a binding adapter with "@BindingAdapter(app:loadPoster)"
+
     private static MovieResult getGsonMovieList(Response response) {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);

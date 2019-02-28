@@ -4,6 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <!-- TODO (8) Surround with layout tag for data binding
+         TODO (9) Add data tag and define variable with name="movie" and
+         type="com.tejus.popularmovies.model.Movie"
+         TODO (10) Bind to movie.loadImage with app:loadImage="@{movie.loadPoster}"-->
     <ImageView
         android:id="@+id/iv_poster_thumb"
         android:layout_width="match_parent"

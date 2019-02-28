@@ -35,6 +35,9 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
     private static final int NUM_COLUMNS = 2;
     private static final String SCROLL_POSITION_KEY = "scroll_state";
 
+    //  TODO (3) Add a private data binding member
+
+    //  TODO (5) Replace occurrences of the members below with the binding member
     @BindView(R.id.rv_main)
     RecyclerView mRecyclerView;
 
@@ -65,6 +68,8 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main, container, false);
+        //  TODO (4) Initialise the data binding member using inflate(inflater, container, false)
+        //  instead of Butterknife.bind()
         ButterKnife.bind(this, view);
         return view;
     }
