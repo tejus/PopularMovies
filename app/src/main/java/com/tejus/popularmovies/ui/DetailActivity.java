@@ -6,10 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
 import com.tejus.popularmovies.R;
 import com.tejus.popularmovies.model.Movie;
 import com.tejus.popularmovies.model.MovieDatabase;
+import com.tejus.popularmovies.utilities.NetworkUtils;
 
 import java.util.Locale;
 
@@ -57,8 +57,6 @@ public class DetailActivity extends AppCompatActivity {
         mOverview.setText(mMovie.getOverview());
 
         //Load the movie poster
-        Picasso.get()
-                .load(mMovie.getPosterPath())
-                .into(mPosterImageView);
+        NetworkUtils.loadPoster(mPosterImageView, mMovie.getPosterPath());
     }
 }

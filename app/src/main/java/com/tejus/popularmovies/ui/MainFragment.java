@@ -30,10 +30,7 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
     private static final int NUM_COLUMNS = 2;
     private static final String SCROLL_POSITION_KEY = "scroll_state";
 
-    //  COMPLETED (3) Add a private data binding member
     private FragmentMainBinding mBinding;
-
-    //  COMPLETED (5) Replace occurrences of the members below with the binding member
 
     private MainAdapter mMainAdapter;
     private GridLayoutManager layoutManager;
@@ -54,8 +51,6 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //  COMPLETED (4) Initialise the data binding member using inflate(inflater, container, false)
-        //  instead of Butterknife.bind()
         mBinding = FragmentMainBinding.inflate(inflater, container, false);
         return mBinding.getRoot();
     }

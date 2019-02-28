@@ -1,23 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    xmlns:bind="http://schemas.android.com/tools">
 
-    <!-- TODO (8) Surround with layout tag for data binding
-         TODO (9) Add data tag and define variable with name="movie" and
-         type="com.tejus.popularmovies.model.Movie"
-         TODO (10) Bind to movie.loadImage with app:loadImage="@{movie.loadPoster}"-->
-    <ImageView
-        android:id="@+id/iv_poster_thumb"
+    <data>
+
+        <variable
+            name="movie"
+            type="com.tejus.popularmovies.model.Movie" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:adjustViewBounds="true"
-        android:contentDescription="@string/details_poster_description"
-        android:scaleType="fitCenter"
-        app:layout_constraintDimensionRatio="2:3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="wrap_content">
 
-</android.support.constraint.ConstraintLayout>
+        <ImageView
+            android:id="@+id/iv_poster_thumb"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/details_poster_description"
+            android:scaleType="fitCenter"
+            app:layout_constraintDimensionRatio="2:3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            bind:loadPoster="@{movie.posterPath}" />
+    </android.support.constraint.ConstraintLayout>
+</layout>

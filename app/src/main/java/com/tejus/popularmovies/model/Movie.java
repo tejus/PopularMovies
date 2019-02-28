@@ -1,9 +1,6 @@
 package com.tejus.popularmovies.model;
 
-import android.net.Uri;
-
 import com.google.gson.annotations.SerializedName;
-import com.tejus.popularmovies.utilities.NetworkUtils;
 
 public class Movie {
 
@@ -43,8 +40,8 @@ public class Movie {
         return title;
     }
 
-    public Uri getPosterPath() {
-        return NetworkUtils.fetchPosterPath(posterPath);
+    public String getPosterPath() {
+        return posterPath;
     }
 
     public String getOverview() {
