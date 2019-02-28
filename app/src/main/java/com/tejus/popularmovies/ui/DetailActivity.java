@@ -1,62 +1,28 @@
 package com.tejus.popularmovies.ui;
 
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.tejus.popularmovies.R;
+import com.tejus.popularmovies.databinding.ActivityDetailBinding;
 import com.tejus.popularmovies.model.Movie;
 import com.tejus.popularmovies.model.MovieDatabase;
-import com.tejus.popularmovies.utilities.NetworkUtils;
-
-import java.util.Locale;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class DetailActivity extends AppCompatActivity {
 
-    private static final String LOG_TAG = "DetailActivity";
-
-    @BindView(R.id.iv_poster)
-    ImageView mPosterImageView;
-
-    @BindView(R.id.tv_title)
-    TextView mTitle;
-
-    @BindView(R.id.tv_release_date)
-    TextView mReleaseDate;
-
-    @BindView(R.id.tv_rating)
-    TextView mRating;
-
-    @BindView(R.id.tv_overview)
-    TextView mOverview;
-
-    private Movie mMovie;
+    private static final String LOG_TAG = DetailActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
-
-        ButterKnife.bind(this);
+        ActivityDetailBinding mBinding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
 
         //Retrieve the movie that was tapped
         Intent intent = getIntent();
         String position = intent.getStringExtra("position");
-        mMovie = MovieDatabase.movieResult.getResults().get(Integer.valueOf(position));
-
-        //Populate the views with the selected movie
-        mTitle.setText(mMovie.getTitle());
-        mReleaseDate.setText(mMovie.getReleaseDate());
-        String rating = String.format(Locale.getDefault(), "%.1f", mMovie.getRating());
-        mRating.setText(rating);
-        mOverview.setText(mMovie.getOverview());
-
-        //Load the movie poster
-        NetworkUtils.loadPoster(mPosterImageView, mMovie.getPosterPath());
+        Movie mMovie = MovieDatabase.movieResult.getResults().get(Integer.valueOf(position));
+        mBinding.setMovie(mMovie);
     }
 }
