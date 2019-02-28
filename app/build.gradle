@@ -20,7 +20,8 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    //  TODO (1) Add data binding dependency
+    //  COMPLETED (1) Add data binding dependency
+    dataBinding.enabled = true
 
 }
 
