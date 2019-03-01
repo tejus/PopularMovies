@@ -1,13 +1,14 @@
 package com.tejus.popularmovies.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -38,8 +39,20 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
     private int mScrollPosition;
     private String mSortMode;
 
+    private OnMovieClickListener mListener;
+
     public MainFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mListener = (OnMovieClickListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement OnMovieClickListener!");
+        }
     }
 
     @Override
@@ -52,12 +65,6 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mBinding = FragmentMainBinding.inflate(inflater, container, false);
-        return mBinding.getRoot();
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
 
         layoutManager = new GridLayoutManager(getActivity(), NUM_COLUMNS);
         GridLayoutItemDecoration itemDecoration = new GridLayoutItemDecoration(24, NUM_COLUMNS);
@@ -71,19 +78,14 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
         setupPreferences();
         checkApiKey();
 
-        if (savedInstanceState != null && savedInstanceState.containsKey(SCROLL_POSITION_KEY)) {
-            mScrollPosition = savedInstanceState.getInt(SCROLL_POSITION_KEY);
-        } else {
-            mScrollPosition = 0;
-            showRefreshPrompt();
-            fetchMovies();
-        }
+        return mBinding.getRoot();
     }
 
     @Override
     public void onResume() {
         super.onResume();
         if (layoutManager.getItemCount() == 0) {
+            Log.d(LOG_TAG, "Calling fetchMovies from onResume()");
             fetchMovies();
         }
     }
@@ -169,16 +171,7 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
 
     @Override
     public void onItemClick(int position) {
-        Intent intent = new Intent(getActivity(), DetailActivity.class);
-        intent.putExtra("position", Integer.toString(position));
-        startActivity(intent);
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        mScrollPosition = layoutManager.findFirstVisibleItemPosition();
-        outState.putInt(SCROLL_POSITION_KEY, mScrollPosition);
+        mListener.onMovieClicked(position);
     }
 
     @Override
@@ -221,5 +214,9 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public interface OnMovieClickListener {
+        void onMovieClicked(int position);
     }
 }
