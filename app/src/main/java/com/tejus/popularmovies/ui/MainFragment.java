@@ -35,7 +35,6 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
     private MainAdapter mMainAdapter;
     private GridLayoutManager layoutManager;
 
-    private int mScrollPosition;
     private String mSortMode;
 
     public MainFragment() {
@@ -152,7 +151,6 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
 
     private void changeSortMode(String mode) {
         mSortMode = mode;
-        mScrollPosition = 0;
         fetchMovies();
     }
 
