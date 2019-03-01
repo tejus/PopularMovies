@@ -1,10 +1,12 @@
 package com.tejus.popularmovies.ui;
 
 import android.support.annotation.NonNull;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.tejus.popularmovies.databinding.ItemMovieBinding;
 import com.tejus.popularmovies.model.Movie;
@@ -30,8 +32,9 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MovieViewHolde
     public void onBindViewHolder(@NonNull MovieViewHolder movieViewHolder, int i) {
         Movie movie = MovieDatabase.movieResult.getResults().get(i);
         movieViewHolder.mBinding.setMovie(movie);
+        ViewCompat.setTransitionName(movieViewHolder.mBinding.ivPosterThumb, String.valueOf(movie.getId()));
         movieViewHolder.mBinding.getRoot().setOnClickListener((View v) -> {
-            mClickHandler.onMovieClick(movieViewHolder.getAdapterPosition());
+            mClickHandler.onMovieClick(movieViewHolder.getAdapterPosition(), movieViewHolder.mBinding.ivPosterThumb);
         });
     }
 
@@ -44,7 +47,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MovieViewHolde
     }
 
     public interface OnMovieClickListener {
-        void onMovieClick(int position);
+        void onMovieClick(int position, ImageView sharedImageView);
     }
 
     public class MovieViewHolder extends RecyclerView.ViewHolder {

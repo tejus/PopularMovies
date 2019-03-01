@@ -2,10 +2,13 @@ package com.tejus.popularmovies.ui;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.transition.Fade;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.tejus.popularmovies.R;
@@ -45,6 +49,10 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            setEnterTransition(new Fade());
+            setExitTransition(new Fade());
+        }
     }
 
     @Override
@@ -155,13 +163,15 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
     }
 
     @Override
-    public void onMovieClick(int position) {
+    public void onMovieClick(int position, ImageView sharedImageView) {
         Bundle bundle = new Bundle();
         bundle.putInt("position", position);
+        bundle.putString("transition_name", ViewCompat.getTransitionName(sharedImageView));
         Fragment fragment = new DetailFragment();
         fragment.setArguments(bundle);
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
+                .addSharedElement(sharedImageView, ViewCompat.getTransitionName(sharedImageView))
                 .addToBackStack(fragment.toString())
                 .replace(R.id.fragment_container, fragment, fragment.toString())
                 .commit();
