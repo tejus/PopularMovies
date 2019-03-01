@@ -6,10 +6,12 @@ import android.support.annotation.Nullable;
 import android.support.transition.Fade;
 import android.support.transition.TransitionInflater;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.tejus.popularmovies.R;
 import com.tejus.popularmovies.databinding.FragmentDetailBinding;
 import com.tejus.popularmovies.model.Movie;
 import com.tejus.popularmovies.model.MovieDatabase;
@@ -54,6 +56,8 @@ public class DetailFragment extends Fragment {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mBinding.ivPoster.setTransitionName(transitionName);
         }
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.details_screen_name));
         mBinding.setMovie(mMovie);
     }
 }

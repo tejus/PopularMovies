@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.transition.Fade;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -82,6 +83,8 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
             Log.d(LOG_TAG, "Calling fetchMovies from onResume()");
             fetchMovies();
         }
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.app_name));
     }
 
     private void checkApiKey() {
