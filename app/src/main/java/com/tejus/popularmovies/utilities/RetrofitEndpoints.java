@@ -1,5 +1,6 @@
 package com.tejus.popularmovies.utilities;
 
+import com.tejus.popularmovies.model.Movie;
 import com.tejus.popularmovies.model.MovieResult;
 
 import retrofit2.Call;
@@ -18,4 +19,8 @@ public interface RetrofitEndpoints {
                                 @Query(API_PARAM) String api,
                                 @Query(LANGUAGE_PARAM) String language,
                                 @Query(PAGE_PARAM) String page);
+
+    @GET("3/movie/{id}?append_to_response=videos,reviews")
+    Call<Movie> getMovie(@Path("id") int id,
+                         @Query(API_PARAM) String api);
 }
