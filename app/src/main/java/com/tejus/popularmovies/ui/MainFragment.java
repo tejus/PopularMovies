@@ -1,6 +1,5 @@
 package com.tejus.popularmovies.ui;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -39,20 +38,8 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
     private int mScrollPosition;
     private String mSortMode;
 
-    private OnMovieClickListener mListener;
-
     public MainFragment() {
         // Required empty public constructor
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        try {
-            mListener = (OnMovieClickListener) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + " must implement OnMovieClickListener!");
-        }
     }
 
     @Override
@@ -170,8 +157,16 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
     }
 
     @Override
-    public void onItemClick(int position) {
-        mListener.onMovieClicked(position);
+    public void onMovieClick(int position) {
+        Bundle bundle = new Bundle();
+        bundle.putInt("position", position);
+        Fragment fragment = new DetailFragment();
+        fragment.setArguments(bundle);
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .addToBackStack(fragment.toString())
+                .replace(R.id.fragment_container, fragment, fragment.toString())
+                .commit();
     }
 
     @Override
@@ -214,9 +209,5 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public interface OnMovieClickListener {
-        void onMovieClicked(int position);
     }
 }

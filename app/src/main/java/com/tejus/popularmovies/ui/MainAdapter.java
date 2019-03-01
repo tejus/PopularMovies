@@ -30,6 +30,9 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MovieViewHolde
     public void onBindViewHolder(@NonNull MovieViewHolder movieViewHolder, int i) {
         Movie movie = MovieDatabase.movieResult.getResults().get(i);
         movieViewHolder.mBinding.setMovie(movie);
+        movieViewHolder.mBinding.getRoot().setOnClickListener((View v) -> {
+            mClickHandler.onMovieClick(movieViewHolder.getAdapterPosition());
+        });
     }
 
     @Override
@@ -41,21 +44,15 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MovieViewHolde
     }
 
     public interface OnMovieClickListener {
-        void onItemClick(int position);
+        void onMovieClick(int position);
     }
 
-    public class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class MovieViewHolder extends RecyclerView.ViewHolder {
         ItemMovieBinding mBinding;
 
         public MovieViewHolder(ItemMovieBinding binding) {
             super(binding.getRoot());
             mBinding = binding;
-            mBinding.getRoot().setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-            mClickHandler.onItemClick(getAdapterPosition());
         }
     }
 }
