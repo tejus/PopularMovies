@@ -16,6 +16,8 @@ public class Movie {
     private int[] genreIds;
     private boolean adult;
     private String releaseDate;
+    private Videos videos;
+    private Reviews reviews;
 
     //Constructor
     public Movie(int id, String title, String posterPath, String overview,
@@ -68,6 +70,14 @@ public class Movie {
         return releaseDate;
     }
 
+    public Videos getVideos() {
+        return videos;
+    }
+
+    public Reviews getReviews() {
+        return reviews;
+    }
+
     //Setter methods
     public void setId(int id) {
         this.id = id;
@@ -103,5 +113,13 @@ public class Movie {
 
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
+    }
+
+    public void setVideos(Videos videos) {
+        this.videos = videos;
+    }
+
+    public void setReviews(Reviews reviews) {
+        this.reviews = reviews;
     }
 }
