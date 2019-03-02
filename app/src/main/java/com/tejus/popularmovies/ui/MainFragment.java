@@ -1,14 +1,11 @@
 package com.tejus.popularmovies.ui;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.transition.Fade;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
@@ -33,7 +30,6 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
     private static final String LOG_TAG = MainFragment.class.getSimpleName();
 
     private static final int NUM_COLUMNS = 2;
-    private static final String SCROLL_POSITION_KEY = "scroll_state";
 
     private FragmentMainBinding mBinding;
 
@@ -44,6 +40,14 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
 
     public MainFragment() {
         // Required empty public constructor
+    }
+
+    public static MainFragment newInstance(String sortMode) {
+        MainFragment fragment = new MainFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("sort_mode", sortMode);
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
     @Override
@@ -70,9 +74,10 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
         mMainAdapter = new MainAdapter(this);
         mBinding.rvMain.setAdapter(mMainAdapter);
 
-        setupPreferences();
-        checkApiKey();
+        mSortMode = getArguments().getString(getString(R.string.pref_sort_mode_key));
 
+        checkApiKey();
+        Log.d(LOG_TAG, "onCreateView in MainFragment");
         return mBinding.getRoot();
     }
 
@@ -94,18 +99,6 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
                     .show();
             launchSettingsActivity();
         }
-    }
-
-    private void setupPreferences() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        mSortMode = sharedPreferences.getString(getString(R.string.pref_sort_mode_key), getString(R.string.sort_popular));
-    }
-
-    private void savePreferences() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(getString(R.string.pref_sort_mode_key), mSortMode);
-        editor.apply();
     }
 
     private void launchSettingsActivity() {
@@ -160,40 +153,16 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
         });
     }
 
-    private void changeSortMode(String mode) {
-        mSortMode = mode;
-        fetchMovies();
-    }
-
     @Override
     public void onMovieClick(int position, ImageView sharedImageView) {
-        Bundle bundle = new Bundle();
-        bundle.putInt("position", position);
-        bundle.putString("transition_name", ViewCompat.getTransitionName(sharedImageView));
-        Fragment fragment = new DetailFragment();
-        fragment.setArguments(bundle);
-        getActivity().getSupportFragmentManager()
-                .beginTransaction()
-                .addSharedElement(sharedImageView, ViewCompat.getTransitionName(sharedImageView))
-                .addToBackStack(fragment.toString())
-                .replace(R.id.fragment_container, fragment, fragment.toString())
-                .commit();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        savePreferences();
+        Intent intent = new Intent(getActivity(), DetailActivity.class);
+        intent.putExtra("position", position);
+        startActivity(intent);
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.main, menu);
-        if (mSortMode.equals(getString(R.string.sort_popular))) {
-            menu.findItem(R.id.action_sort_popular).setChecked(true);
-        } else {
-            menu.findItem(R.id.action_sort_rating).setChecked(true);
-        }
     }
 
     @Override
@@ -207,16 +176,6 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
             case R.id.action_refresh:
                 checkApiKey();
                 fetchMovies();
-                return true;
-            //Changes sort mode to popular and reloads the movies
-            case R.id.action_sort_popular:
-                item.setChecked(true);
-                changeSortMode(getString(R.string.sort_popular));
-                return true;
-            //Changes sort mode to rating and reloads the movies
-            case R.id.action_sort_rating:
-                item.setChecked(true);
-                changeSortMode(getString(R.string.sort_rating));
                 return true;
         }
         return super.onOptionsItemSelected(item);

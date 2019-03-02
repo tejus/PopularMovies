@@ -1,17 +1,12 @@
 package com.tejus.popularmovies.ui;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.transition.Fade;
-import android.support.transition.TransitionInflater;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.tejus.popularmovies.R;
 import com.tejus.popularmovies.databinding.FragmentDetailBinding;
 import com.tejus.popularmovies.model.Movie;
 import com.tejus.popularmovies.model.MovieDatabase;
@@ -31,12 +26,12 @@ public class DetailFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+/*        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             setSharedElementEnterTransition(TransitionInflater.from(getContext())
                     .inflateTransition(android.R.transition.move));
             setEnterTransition(new Fade());
             setExitTransition(new Fade());
-        }
+        }*/
     }
 
     @Override
@@ -51,13 +46,11 @@ public class DetailFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         int pos = getArguments().getInt("position");
-        String transitionName = getArguments().getString("transition_name");
+        //String transitionName = getArguments().getString("transition_name");
         mMovie = MovieDatabase.movieResult.getResults().get(pos);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+/*        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mBinding.ivPoster.setTransitionName(transitionName);
-        }
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.details_screen_name));
+        }*/
         mBinding.setMovie(mMovie);
     }
 }
