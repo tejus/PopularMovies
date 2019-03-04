@@ -26,12 +26,6 @@ public class DetailFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-/*        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            setSharedElementEnterTransition(TransitionInflater.from(getContext())
-                    .inflateTransition(android.R.transition.move));
-            setEnterTransition(new Fade());
-            setExitTransition(new Fade());
-        }*/
     }
 
     @Override
@@ -46,11 +40,7 @@ public class DetailFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         int pos = getArguments().getInt("position");
-        //String transitionName = getArguments().getString("transition_name");
         mMovie = MovieDatabase.movieResult.getResults().get(pos);
-/*        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mBinding.ivPoster.setTransitionName(transitionName);
-        }*/
         mBinding.setMovie(mMovie);
     }
 }

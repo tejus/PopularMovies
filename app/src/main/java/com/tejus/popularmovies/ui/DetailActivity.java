@@ -25,17 +25,13 @@ public class DetailActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        //  TODO https://mikescamell.com/shared-element-transitions-part-1/index.html
         int pos = getIntent().getIntExtra("position", 0);
-        //String transitionName = getIntent().getStringExtra("transition_name");
         Bundle bundle = new Bundle();
         bundle.putInt("position", pos);
-        //bundle.putString("transition_name", transitionName);
         Fragment fragment = new DetailFragment();
         fragment.setArguments(bundle);
         getSupportFragmentManager()
                 .beginTransaction()
-                //.addSharedElement()
                 .replace(R.id.fragment_container, fragment)
                 .commit();
     }

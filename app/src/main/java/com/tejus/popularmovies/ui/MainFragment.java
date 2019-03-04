@@ -1,12 +1,9 @@
 package com.tejus.popularmovies.ui;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.transition.Fade;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,7 +12,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.tejus.popularmovies.R;
@@ -54,10 +50,6 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            setEnterTransition(new Fade());
-            setExitTransition(new Fade());
-        }
     }
 
     @Override
@@ -152,7 +144,7 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
     }
 
     @Override
-    public void onMovieClick(int position, ImageView sharedImageView) {
+    public void onMovieClick(int position) {
         Intent intent = new Intent(getActivity(), DetailActivity.class);
         intent.putExtra("position", position);
         startActivity(intent);
