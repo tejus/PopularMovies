@@ -4,13 +4,13 @@
 
     <item
         android:id="@+id/nav_sort_popular"
-        android:icon="@drawable/baseline_trending_up_white_24"
+        android:icon="@drawable/bottom_navigation_popular_icons"
         android:orderInCategory="1"
         android:title="@string/action_sort_popular"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/nav_sort_rating"
-        android:icon="@drawable/baseline_thumb_up_white_24"
+        android:icon="@drawable/bottom_navigation_top_rated_icons"
         android:orderInCategory="2"
         android:title="@string/action_sort_rating"
         app:showAsAction="ifRoom" />
