@@ -88,8 +88,6 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
             Log.d(LOG_TAG, "Calling fetchMovies from onResume()");
             fetchMovies();
         }
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.app_name));
     }
 
     private void checkApiKey() {
