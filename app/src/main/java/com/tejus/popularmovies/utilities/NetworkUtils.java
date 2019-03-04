@@ -26,8 +26,8 @@ public class NetworkUtils {
     public static void loadPoster(ImageView imageView, String posterPath) {
         Picasso.get()
                 .load(fetchPosterPath(posterPath))
-                .placeholder(R.color.colorPrimaryDark)
-                .error(R.color.colorPrimaryDark)
+                .placeholder(R.color.colorPrimaryLight)
+                .error(R.color.colorPrimaryLight)
                 .into(imageView);
     }
 }

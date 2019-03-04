@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        setSupportActionBar(mBinding.toolbar);
 
         MainPagerAdapter mPagerAdapter = new MainPagerAdapter(this, getSupportFragmentManager());
         mBinding.viewPager.setAdapter(mPagerAdapter);
@@ -67,12 +68,14 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_sort_popular:
                 Log.d(LOG_TAG, "switch case nav_sort_popular matched");
                 if (changeSortMode(getString(R.string.sort_popular))) {
+                    mBinding.toolbar.setTitle(R.string.fragment_popular);
                     mBinding.viewPager.setCurrentItem(0);
                 }
                 return true;
             case R.id.nav_sort_rating:
                 Log.d(LOG_TAG, "switch case nav_sort_rating matched");
                 if (changeSortMode(getString(R.string.sort_rating))) {
+                    mBinding.toolbar.setTitle(R.string.fragment_top_rated);
                     mBinding.viewPager.setCurrentItem(1);
                 }
                 return true;
