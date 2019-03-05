@@ -22,7 +22,7 @@
     <string name="pref_apikey_summary">Required to access TheMovieDB.org database</string>
     <string name="title_activity_scrolling">ScrollingActivity</string>
     <string name="pref_sort_mode_key">sort_mode</string>
-    <string name="position_key">position</string>
+    <string name="movie_key">movie</string>
     <string name="sort_popular">popular</string>
     <string name="sort_rating">top_rated</string>
 </resources>

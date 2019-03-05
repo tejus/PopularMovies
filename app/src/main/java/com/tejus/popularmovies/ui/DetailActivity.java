@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.tejus.popularmovies.R;
 import com.tejus.popularmovies.databinding.ActivityDetailBinding;
+import com.tejus.popularmovies.model.Movie;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -25,9 +26,9 @@ public class DetailActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        int pos = getIntent().getIntExtra(getString(R.string.position_key), 0);
+        Movie movie = getIntent().getExtras().getParcelable(getString(R.string.movie_key));
         Bundle bundle = new Bundle();
-        bundle.putInt(getString(R.string.position_key), pos);
+        bundle.putParcelable(getString(R.string.movie_key), movie);
         Fragment fragment = new DetailFragment();
         fragment.setArguments(bundle);
         getSupportFragmentManager()

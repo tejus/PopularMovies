@@ -40,8 +40,10 @@ public class DetailFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        int pos = getArguments().getInt(getString(R.string.position_key));
-        mMovie = MovieDatabase.movieResult.getResults().get(pos);
-        mBinding.setMovie(mMovie);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            mMovie = bundle.getParcelable(getString(R.string.movie_key));
+            mBinding.setMovie(mMovie);
+        }
     }
 }

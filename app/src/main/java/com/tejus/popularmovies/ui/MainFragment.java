@@ -147,7 +147,7 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
     @Override
     public void onMovieClick(int position) {
         Intent intent = new Intent(getActivity(), DetailActivity.class);
-        intent.putExtra(getString(R.string.position_key), position);
+        intent.putExtra(getString(R.string.movie_key), MovieDatabase.movieResult.getResults().get(position));
         startActivity(intent);
     }
 
