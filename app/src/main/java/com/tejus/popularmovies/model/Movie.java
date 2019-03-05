@@ -1,8 +1,11 @@
 package com.tejus.popularmovies.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class Movie {
+public class Movie implements Parcelable {
 
     //Member variables
     private int id;
@@ -32,6 +35,30 @@ public class Movie {
         this.genreIds = genreIds;
         this.releaseDate = releaseDate;
     }
+
+    protected Movie(Parcel in) {
+        id = in.readInt();
+        title = in.readString();
+        posterPath = in.readString();
+        overview = in.readString();
+        popularity = in.readDouble();
+        rating = in.readDouble();
+        genreIds = in.createIntArray();
+        adult = in.readByte() != 0;
+        releaseDate = in.readString();
+    }
+
+    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
+        @Override
+        public Movie createFromParcel(Parcel in) {
+            return new Movie(in);
+        }
+
+        @Override
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
 
     //Getter methods
     public int getId() {
@@ -121,5 +148,23 @@ public class Movie {
 
     public void setReviews(Reviews reviews) {
         this.reviews = reviews;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(title);
+        dest.writeString(posterPath);
+        dest.writeString(overview);
+        dest.writeDouble(popularity);
+        dest.writeDouble(rating);
+        dest.writeIntArray(genreIds);
+        dest.writeByte((byte) (adult ? 1 : 0));
+        dest.writeString(releaseDate);
     }
 }
