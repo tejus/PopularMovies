@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import com.tejus.popularmovies.databinding.ItemMovieBinding;
 import com.tejus.popularmovies.model.Movie;
-import com.tejus.popularmovies.model.MovieDatabase;
+import com.tejus.popularmovies.db.MovieDatabase;
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MovieViewHolder> {
 

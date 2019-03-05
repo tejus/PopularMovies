@@ -1,4 +1,6 @@
-package com.tejus.popularmovies.model;
+package com.tejus.popularmovies.db;
+
+import com.tejus.popularmovies.model.MovieResult;
 
 public class MovieDatabase {
 

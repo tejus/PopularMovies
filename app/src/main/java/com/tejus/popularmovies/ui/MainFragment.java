@@ -18,7 +18,7 @@ import android.widget.Toast;
 import com.tejus.popularmovies.R;
 import com.tejus.popularmovies.data.MoviePreferences;
 import com.tejus.popularmovies.databinding.FragmentMainBinding;
-import com.tejus.popularmovies.model.MovieDatabase;
+import com.tejus.popularmovies.db.MovieDatabase;
 import com.tejus.popularmovies.utilities.AppExecutors;
 import com.tejus.popularmovies.utilities.RetrofitUtils;
 

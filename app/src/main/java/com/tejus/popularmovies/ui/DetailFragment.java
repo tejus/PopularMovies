@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import com.tejus.popularmovies.R;
 import com.tejus.popularmovies.databinding.FragmentDetailBinding;
 import com.tejus.popularmovies.model.Movie;
-import com.tejus.popularmovies.model.MovieDatabase;
 
 public class DetailFragment extends Fragment {
 
