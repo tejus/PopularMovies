@@ -79,6 +79,11 @@ public class MainActivity extends AppCompatActivity
                     mBinding.viewPager.setCurrentItem(1);
                 }
                 return true;
+            case R.id.nav_favourites:
+                Log.d(LOG_TAG, "switch case nav_favourites matched");
+                mBinding.toolbar.setTitle(R.string.fragment_favourites);
+                mBinding.viewPager.setCurrentItem(2);
+                return true;
         }
         return false;
     }

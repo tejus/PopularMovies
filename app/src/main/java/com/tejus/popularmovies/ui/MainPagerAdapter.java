@@ -11,11 +11,13 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 
     private Fragment fragmentPopular;
     private Fragment fragmentRating;
+    private Fragment fragmentFavourite;
 
     public MainPagerAdapter(Context context, FragmentManager fm) {
         super(fm);
         fragmentPopular = MainFragment.newInstance(context, context.getString(R.string.sort_popular));
         fragmentRating = MainFragment.newInstance(context, context.getString(R.string.sort_rating));
+        fragmentFavourite = FavouriteFragment.newInstance();
     }
 
     @Override
@@ -25,6 +27,8 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
                 return fragmentPopular;
             case 1:
                 return fragmentRating;
+            case 2:
+                return fragmentFavourite;
             default:
                 return null;
         }
@@ -32,6 +36,6 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return 3;
     }
 }
