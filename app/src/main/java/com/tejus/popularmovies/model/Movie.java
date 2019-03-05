@@ -1,22 +1,29 @@
 package com.tejus.popularmovies.model;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+@Entity(tableName = "movies")
 public class Movie implements Parcelable {
 
     //Member variables
+    @PrimaryKey
     private int id;
     private String title;
     @SerializedName("poster_path")
+    @ColumnInfo(name = "poster_path")
     private String posterPath;
     private String overview;
     private double popularity;
     @SerializedName("vote_average")
+    @ColumnInfo(name = "vote_average")
     private double rating;
-    private int[] genreIds;
+    //private int[] genreIds;
     private boolean adult;
     private String releaseDate;
     private Videos videos;
@@ -24,7 +31,7 @@ public class Movie implements Parcelable {
 
     //Constructor
     public Movie(int id, String title, String posterPath, String overview,
-                 double popularity, double rating, boolean adult, int[] genreIds, String releaseDate) {
+                 double popularity, double rating, boolean adult, String releaseDate) {
         this.id = id;
         this.title = title;
         this.posterPath = posterPath;
@@ -32,7 +39,7 @@ public class Movie implements Parcelable {
         this.popularity = popularity;
         this.rating = rating;
         this.adult = adult;
-        this.genreIds = genreIds;
+        //this.genreIds = genreIds;
         this.releaseDate = releaseDate;
     }
 
@@ -43,7 +50,7 @@ public class Movie implements Parcelable {
         overview = in.readString();
         popularity = in.readDouble();
         rating = in.readDouble();
-        genreIds = in.createIntArray();
+        //genreIds = in.createIntArray();
         adult = in.readByte() != 0;
         releaseDate = in.readString();
     }
@@ -89,9 +96,9 @@ public class Movie implements Parcelable {
         return adult;
     }
 
-    public int[] getGenreIds() {
+    /*public int[] getGenreIds() {
         return genreIds;
-    }
+    }*/
 
     public String getReleaseDate() {
         return releaseDate;
@@ -130,9 +137,9 @@ public class Movie implements Parcelable {
         this.rating = rating;
     }
 
-    public void setGenreIds(int[] genreIds) {
+    /*public void setGenreIds(int[] genreIds) {
         this.genreIds = genreIds;
-    }
+    }*/
 
     public void setAdult(boolean adult) {
         this.adult = adult;
@@ -163,7 +170,7 @@ public class Movie implements Parcelable {
         dest.writeString(overview);
         dest.writeDouble(popularity);
         dest.writeDouble(rating);
-        dest.writeIntArray(genreIds);
+        //dest.writeIntArray(genreIds);
         dest.writeByte((byte) (adult ? 1 : 0));
         dest.writeString(releaseDate);
     }
