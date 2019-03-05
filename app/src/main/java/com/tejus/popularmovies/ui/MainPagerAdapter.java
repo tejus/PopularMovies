@@ -14,8 +14,8 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 
     public MainPagerAdapter(Context context, FragmentManager fm) {
         super(fm);
-        fragmentPopular = MainFragment.newInstance(context.getString(R.string.sort_popular));
-        fragmentRating = MainFragment.newInstance(context.getString(R.string.sort_rating));
+        fragmentPopular = MainFragment.newInstance(context, context.getString(R.string.sort_popular));
+        fragmentRating = MainFragment.newInstance(context, context.getString(R.string.sort_rating));
     }
 
     @Override

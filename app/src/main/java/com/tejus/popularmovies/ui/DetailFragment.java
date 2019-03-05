@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.tejus.popularmovies.R;
 import com.tejus.popularmovies.databinding.FragmentDetailBinding;
 import com.tejus.popularmovies.model.Movie;
 import com.tejus.popularmovies.model.MovieDatabase;
@@ -39,7 +40,7 @@ public class DetailFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        int pos = getArguments().getInt("position");
+        int pos = getArguments().getInt(getString(R.string.position_key));
         mMovie = MovieDatabase.movieResult.getResults().get(pos);
         mBinding.setMovie(mMovie);
     }

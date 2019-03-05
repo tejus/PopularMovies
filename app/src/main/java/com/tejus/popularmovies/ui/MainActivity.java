@@ -16,7 +16,7 @@ import com.tejus.popularmovies.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity
         implements BottomNavigationView.OnNavigationItemSelectedListener {
 
-    private static final String LOG_TAG = "MainActivity";
+    private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
     private String mSortMode;
     private ActivityMainBinding mBinding;

@@ -25,9 +25,9 @@ public class DetailActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        int pos = getIntent().getIntExtra("position", 0);
+        int pos = getIntent().getIntExtra(getString(R.string.position_key), 0);
         Bundle bundle = new Bundle();
-        bundle.putInt("position", pos);
+        bundle.putInt(getString(R.string.position_key), pos);
         Fragment fragment = new DetailFragment();
         fragment.setArguments(bundle);
         getSupportFragmentManager()

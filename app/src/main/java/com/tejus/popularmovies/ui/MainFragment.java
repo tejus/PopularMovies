@@ -1,5 +1,6 @@
 package com.tejus.popularmovies.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -38,10 +39,10 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
         // Required empty public constructor
     }
 
-    public static MainFragment newInstance(String sortMode) {
+    public static MainFragment newInstance(Context context, String sortMode) {
         MainFragment fragment = new MainFragment();
         Bundle bundle = new Bundle();
-        bundle.putString("sort_mode", sortMode);
+        bundle.putString(context.getString(R.string.pref_sort_mode_key), sortMode);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -146,7 +147,7 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
     @Override
     public void onMovieClick(int position) {
         Intent intent = new Intent(getActivity(), DetailActivity.class);
-        intent.putExtra("position", position);
+        intent.putExtra(getString(R.string.position_key), position);
         startActivity(intent);
     }
 
