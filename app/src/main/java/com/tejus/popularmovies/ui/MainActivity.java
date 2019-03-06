@@ -50,10 +50,9 @@ public class MainActivity extends AppCompatActivity
         editor.apply();
     }
 
-    private boolean changeSortMode(String mode) {
-        if (mode.equals(mSortMode)) return false;
+    private void changeSortMode(String mode) {
+        if (mode.equals(mSortMode)) return;
         mSortMode = mode;
-        return true;
     }
 
     @Override
@@ -67,17 +66,15 @@ public class MainActivity extends AppCompatActivity
         switch (menuItem.getItemId()) {
             case R.id.nav_sort_popular:
                 Log.d(LOG_TAG, "switch case nav_sort_popular matched");
-                if (changeSortMode(getString(R.string.sort_popular))) {
-                    mBinding.toolbar.setTitle(R.string.fragment_popular);
-                    mBinding.viewPager.setCurrentItem(0);
-                }
+                changeSortMode(getString(R.string.sort_popular));
+                mBinding.toolbar.setTitle(R.string.fragment_popular);
+                mBinding.viewPager.setCurrentItem(0);
                 return true;
             case R.id.nav_sort_rating:
                 Log.d(LOG_TAG, "switch case nav_sort_rating matched");
-                if (changeSortMode(getString(R.string.sort_rating))) {
-                    mBinding.toolbar.setTitle(R.string.fragment_top_rated);
-                    mBinding.viewPager.setCurrentItem(1);
-                }
+                changeSortMode(getString(R.string.sort_rating));
+                mBinding.toolbar.setTitle(R.string.fragment_top_rated);
+                mBinding.viewPager.setCurrentItem(1);
                 return true;
             case R.id.nav_favourites:
                 Log.d(LOG_TAG, "switch case nav_favourites matched");
