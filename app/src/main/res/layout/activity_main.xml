@@ -15,11 +15,11 @@
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="64dp"
+                android:layout_height="?attr/actionBarSize"
                 android:background="@color/colorPrimaryDark"
                 android:minHeight="64dp"
                 app:layout_scrollFlags="scroll|enterAlways"
-                app:titleTextAppearance="@style/TextAppearance.AppCompat.Headline"
+                app:titleTextAppearance="@style/TextAppearance.AppCompat.Title"
                 app:titleTextColor="@color/colorAccent" />
         </android.support.design.widget.AppBarLayout>
 
