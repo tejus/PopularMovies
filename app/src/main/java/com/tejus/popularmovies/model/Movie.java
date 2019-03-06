@@ -12,7 +12,10 @@ import com.google.gson.annotations.SerializedName;
 public class Movie implements Parcelable {
 
     //Member variables
-    @PrimaryKey
+    //dbId is declared and set as the auto-generating primary key here as an easy way
+    //to store and retrieve the earliest movie first from the favourites database (FIFO).
+    @PrimaryKey(autoGenerate = true)
+    private int dbId;
     private int id;
     private String title;
     @SerializedName("poster_path")
@@ -67,6 +70,11 @@ public class Movie implements Parcelable {
     };
 
     //Getter methods
+
+    public int getDbId() {
+        return dbId;
+    }
+
     public int getId() {
         return id;
     }
@@ -104,6 +112,11 @@ public class Movie implements Parcelable {
     }
 
     //Setter methods
+
+    public void setDbId(int dbId) {
+        this.dbId = dbId;
+    }
+
     public void setId(int id) {
         this.id = id;
     }

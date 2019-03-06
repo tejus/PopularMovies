@@ -13,7 +13,8 @@ import java.util.List;
 @Dao
 public interface FavouriteMoviesDao {
 
-    @Query("SELECT * FROM movies")
+    //Fetch the earliest stored movie first (FIFO)
+    @Query("SELECT * FROM movies ORDER BY dbId ASC")
     LiveData<List<Movie>> loadAllMovies();
 
     @Query("SELECT COUNT(id) FROM movies WHERE id = :id")
