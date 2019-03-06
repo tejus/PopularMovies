@@ -25,6 +25,7 @@ public class Movie implements Parcelable {
     private double rating;
     //private int[] genreIds;
     private boolean adult;
+    @SerializedName("release_date")
     private String releaseDate;
 
     //Constructor
