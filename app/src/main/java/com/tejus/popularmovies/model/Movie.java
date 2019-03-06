@@ -15,6 +15,7 @@ public class Movie {
     private double rating;
     private int[] genreIds;
     private boolean adult;
+    @SerializedName("release_date")
     private String releaseDate;
     private Videos videos;
     private Reviews reviews;
