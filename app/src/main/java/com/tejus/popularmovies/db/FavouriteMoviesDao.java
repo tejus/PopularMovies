@@ -16,6 +16,9 @@ public interface FavouriteMoviesDao {
     @Query("SELECT * FROM movies")
     LiveData<List<Movie>> loadAllMovies();
 
+    @Query("SELECT COUNT(id) FROM movies WHERE id = :id")
+    int searchMovieById(int id);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertMovie(Movie movie);
 
