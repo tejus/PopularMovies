@@ -96,6 +96,22 @@
                 app:layout_constraintBaseline_toBaselineOf="@+id/tv_rating"
                 app:layout_constraintStart_toEndOf="@+id/tv_rating" />
 
+            <ToggleButton
+                android:id="@+id/toggle_favourite"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="@dimen/large_margin"
+                android:layout_marginRight="@dimen/large_margin"
+                android:background="@drawable/button_favourite"
+                android:backgroundTint="@color/colorAccent"
+                android:checked="false"
+                android:text=""
+                android:textOff=""
+                android:textOn=""
+                app:layout_constraintBottom_toBottomOf="@id/iv_poster"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
+
             <TextView
                 android:id="@+id/tv_overview_heading"
                 style="@style/details_header_text"
