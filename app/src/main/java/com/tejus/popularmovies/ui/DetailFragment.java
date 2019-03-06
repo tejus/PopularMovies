@@ -9,14 +9,16 @@ import android.view.ViewGroup;
 
 import com.tejus.popularmovies.R;
 import com.tejus.popularmovies.databinding.FragmentDetailBinding;
+import com.tejus.popularmovies.db.FavouriteMoviesDatabase;
 import com.tejus.popularmovies.model.Movie;
+import com.tejus.popularmovies.utilities.AppExecutors;
 
 public class DetailFragment extends Fragment {
 
     private static final String LOG_TAG = DetailFragment.class.getSimpleName();
 
     FragmentDetailBinding mBinding;
-
+    FavouriteMoviesDatabase mDb;
     Movie mMovie;
 
     public DetailFragment() {
@@ -32,6 +34,7 @@ public class DetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mBinding = FragmentDetailBinding.inflate(inflater, container, false);
+        mDb = FavouriteMoviesDatabase.getInstance(getContext());
         return mBinding.getRoot();
     }
 
@@ -43,6 +46,35 @@ public class DetailFragment extends Fragment {
         if (bundle != null) {
             mMovie = bundle.getParcelable(getString(R.string.movie_key));
             mBinding.setMovie(mMovie);
+            checkFavouriteDb();
         }
+    }
+
+    private void setFavouriteListener() {
+        mBinding.toggleFavourite.setOnCheckedChangeListener((buttonView, isChecked) -> toggleFavourite(isChecked));
+    }
+
+    private void setFavourite() {
+        mBinding.toggleFavourite.setChecked(true);
+    }
+
+    private void checkFavouriteDb() {
+        AppExecutors.getInstance().diskIO().execute(() -> {
+            if (mDb.favouriteMoviesDao().searchMovieById(mMovie.getId()) > 0) {
+                AppExecutors.getInstance().mainThread().execute(this::setFavourite);
+            }
+            //Set listener AFTER the initial check to prevent an additional call to the listener
+            AppExecutors.getInstance().mainThread().execute(this::setFavouriteListener);
+        });
+    }
+
+    private void toggleFavourite(boolean isChecked) {
+        AppExecutors.getInstance().diskIO().execute(() -> {
+            if (isChecked) {
+                mDb.favouriteMoviesDao().insertMovie(mMovie);
+            } else {
+                mDb.favouriteMoviesDao().deleteMovieById(mMovie.getId());
+            }
+        });
     }
 }
