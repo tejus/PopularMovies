@@ -45,7 +45,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MovieViewHolde
         if (MovieDatabase.getMovies(mContext, mSortMode) == null) {
             return 0;
         } else
-            return MovieDatabase.getMovies(mContext, mSortMode).getResults().size();
+            return MovieDatabase.getMovies(mContext, mSortMode).size();
     }
 
     public interface OnMovieClickListener {

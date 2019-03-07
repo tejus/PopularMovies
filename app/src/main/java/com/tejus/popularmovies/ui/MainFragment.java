@@ -126,7 +126,7 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
                         mSortMode,
                         MoviePreferences.getApiKey(getActivity())
                 );
-                MovieDatabase.setMovies(getActivity(), mSortMode, movieResult);
+                MovieDatabase.setMovies(getActivity(), mSortMode, movieResult.getResults());
                 AppExecutors.getInstance().mainThread().execute(new Runnable() {
                     @Override
                     public void run() {
