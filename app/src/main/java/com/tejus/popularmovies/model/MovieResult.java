@@ -1,14 +1,11 @@
 package com.tejus.popularmovies.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MovieResult<T extends Parcelable> implements Parcelable {
+public class MovieResult<T> {
 
     private int page;
     @SerializedName("total_results")
@@ -20,24 +17,6 @@ public class MovieResult<T extends Parcelable> implements Parcelable {
     public MovieResult() {
         results = new ArrayList<>();
     }
-
-    protected MovieResult(Parcel in) {
-        page = in.readInt();
-        totalResults = in.readInt();
-        totalPages = in.readInt();
-    }
-
-    public static final Creator<MovieResult> CREATOR = new Creator<MovieResult>() {
-        @Override
-        public MovieResult createFromParcel(Parcel in) {
-            return new MovieResult(in);
-        }
-
-        @Override
-        public MovieResult[] newArray(int size) {
-            return new MovieResult[size];
-        }
-    };
 
     public int getPage() {
         return page;
@@ -69,17 +48,5 @@ public class MovieResult<T extends Parcelable> implements Parcelable {
 
     public void setResults(List<T> results) {
         this.results = results;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(page);
-        dest.writeInt(totalResults);
-        dest.writeInt(totalPages);
     }
 }

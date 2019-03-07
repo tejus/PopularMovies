@@ -1,35 +1,12 @@
 package com.tejus.popularmovies.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-public class Videos implements Parcelable {
+public class Videos {
 
     private String id;
     private String key;
     private String name;
     private String site;
     private String type;
-
-    protected Videos(Parcel in) {
-        id = in.readString();
-        key = in.readString();
-        name = in.readString();
-        site = in.readString();
-        type = in.readString();
-    }
-
-    public static final Creator<Videos> CREATOR = new Creator<Videos>() {
-        @Override
-        public Videos createFromParcel(Parcel in) {
-            return new Videos(in);
-        }
-
-        @Override
-        public Videos[] newArray(int size) {
-            return new Videos[size];
-        }
-    };
 
     //Getter methods
     public String getId() {
@@ -71,19 +48,5 @@ public class Videos implements Parcelable {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
-        dest.writeString(key);
-        dest.writeString(name);
-        dest.writeString(site);
-        dest.writeString(type);
     }
 }
