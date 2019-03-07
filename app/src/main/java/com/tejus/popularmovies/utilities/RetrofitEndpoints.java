@@ -15,7 +15,7 @@ public interface RetrofitEndpoints {
     static final String PAGE_PARAM = "page";
 
     @GET("3/movie/{sort}")
-    Call<MovieResult> getMovies(@Path("sort") String sortMode,
+    Call<MovieResult<Movie>> getMovies(@Path("sort") String sortMode,
                                 @Query(API_PARAM) String api,
                                 @Query(LANGUAGE_PARAM) String language,
                                 @Query(PAGE_PARAM) String page);

@@ -26,15 +26,15 @@ public class RetrofitUtils {
             .build();
     private static RetrofitEndpoints endpoints = retrofit.create(RetrofitEndpoints.class);
 
-    public static MovieResult fetchMovies(String sortMode, String apiKey) {
-        Call<MovieResult> call = endpoints.getMovies(sortMode,
+    public static MovieResult<Movie> fetchMovies(String sortMode, String apiKey) {
+        Call<MovieResult<Movie>> call = endpoints.getMovies(sortMode,
                 apiKey,
                 LANGUAGE_KEY,
                 Integer.toString(1));
 
         Log.d(LOG_TAG, "Executing network call");
         try {
-            Response<MovieResult> response = call.execute();
+            Response<MovieResult<Movie>> response = call.execute();
             movieResult = response.body();
         } catch (IOException e) {
             Log.d(LOG_TAG, "Network call failed!");

@@ -5,14 +5,14 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MovieResult {
+public class MovieResult<T> {
 
     private int page;
     @SerializedName("total_results")
     private int totalResults;
     @SerializedName("total_pages")
     private int totalPages;
-    private List<Movie> results;
+    private List<T> results;
 
     public MovieResult() {
         results = new ArrayList<>();
@@ -42,11 +42,11 @@ public class MovieResult {
         this.totalPages = totalPages;
     }
 
-    public List<Movie> getResults() {
+    public List<T> getResults() {
         return results;
     }
 
-    public void setResults(List<Movie> results) {
+    public void setResults(List<T> results) {
         this.results = results;
     }
 }
