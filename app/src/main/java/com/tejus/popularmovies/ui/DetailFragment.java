@@ -56,6 +56,8 @@ public class DetailFragment extends Fragment {
 
     private void setFavourite() {
         mBinding.toggleFavourite.setChecked(true);
+        //Set listener AFTER the initial check to prevent an additional call to the listener
+        setFavouriteListener();
     }
 
     private void checkFavouriteDb() {
@@ -63,8 +65,6 @@ public class DetailFragment extends Fragment {
             if (mDb.favouriteMoviesDao().searchMovieById(mMovie.getId()) > 0) {
                 AppExecutors.getInstance().mainThread().execute(this::setFavourite);
             }
-            //Set listener AFTER the initial check to prevent an additional call to the listener
-            AppExecutors.getInstance().mainThread().execute(this::setFavouriteListener);
         });
     }
 
