@@ -19,6 +19,7 @@ import com.tejus.popularmovies.R;
 import com.tejus.popularmovies.data.MoviePreferences;
 import com.tejus.popularmovies.databinding.FragmentMainBinding;
 import com.tejus.popularmovies.db.MovieDatabase;
+import com.tejus.popularmovies.model.MovieResult;
 import com.tejus.popularmovies.utilities.AppExecutors;
 import com.tejus.popularmovies.utilities.RetrofitUtils;
 
@@ -29,11 +30,9 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
     private static final int NUM_COLUMNS = 2;
 
     private FragmentMainBinding mBinding;
-
-    private MainAdapter mMainAdapter;
-    private GridLayoutManager layoutManager;
-
     private String mSortMode;
+    private GridLayoutManager layoutManager;
+    private MainAdapter mMainAdapter;
 
     public MainFragment() {
         // Required empty public constructor
@@ -56,20 +55,20 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        checkApiKey();
+
         mBinding = FragmentMainBinding.inflate(inflater, container, false);
+        mSortMode = getArguments().getString(getString(R.string.pref_sort_mode_key));
 
         layoutManager = new GridLayoutManager(getActivity(), NUM_COLUMNS);
+        mMainAdapter = new MainAdapter(getActivity(), mSortMode, this);
         GridLayoutItemDecoration itemDecoration = new GridLayoutItemDecoration(24, NUM_COLUMNS);
 
         mBinding.rvMain.setLayoutManager(layoutManager);
         mBinding.rvMain.addItemDecoration(itemDecoration);
         mBinding.rvMain.setHasFixedSize(true);
-        mMainAdapter = new MainAdapter(this);
         mBinding.rvMain.setAdapter(mMainAdapter);
 
-        mSortMode = getArguments().getString(getString(R.string.pref_sort_mode_key));
-
-        checkApiKey();
         Log.d(LOG_TAG, "onCreateView in MainFragment");
         return mBinding.getRoot();
     }
@@ -123,16 +122,16 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
         AppExecutors.getInstance().networkIO().execute(new Runnable() {
             @Override
             public void run() {
-                MovieDatabase.movieResult = RetrofitUtils.fetchMovies(
+                MovieResult movieResult = RetrofitUtils.fetchMovies(
                         mSortMode,
                         MoviePreferences.getApiKey(getActivity())
                 );
+                MovieDatabase.setMovies(getActivity(), mSortMode, movieResult);
                 AppExecutors.getInstance().mainThread().execute(new Runnable() {
                     @Override
                     public void run() {
                         hideProgressBar();
-                        if (MovieDatabase.movieResult == null ||
-                                MovieDatabase.movieResult.getResults().size() == 0) {
+                        if (MovieDatabase.getMovies(getActivity(), mSortMode) == null) {
                             showRefreshPrompt();
                         } else {
                             mMainAdapter.notifyDataSetChanged();
@@ -147,7 +146,10 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
     @Override
     public void onMovieClick(int position) {
         Intent intent = new Intent(getActivity(), DetailActivity.class);
-        intent.putExtra(getString(R.string.movie_key), MovieDatabase.movieResult.getResults().get(position));
+        intent.putExtra(
+                getString(R.string.movie_key),
+                MovieDatabase.getMovie(getActivity(), mSortMode, position)
+        );
         startActivity(intent);
     }
 

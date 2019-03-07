@@ -1,5 +1,6 @@
 package com.tejus.popularmovies.ui;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,14 +8,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.tejus.popularmovies.databinding.ItemMovieBinding;
-import com.tejus.popularmovies.model.Movie;
 import com.tejus.popularmovies.db.MovieDatabase;
+import com.tejus.popularmovies.model.Movie;
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MovieViewHolder> {
 
+    private Context mContext;
+    private String mSortMode;
     private final OnMovieClickListener mClickHandler;
 
-    public MainAdapter(OnMovieClickListener clickHandler) {
+    public MainAdapter(Context context, String sortMode, OnMovieClickListener clickHandler) {
+        mContext = context;
+        mSortMode = sortMode;
         mClickHandler = clickHandler;
     }
 
@@ -28,7 +33,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MovieViewHolde
 
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder movieViewHolder, int i) {
-        Movie movie = MovieDatabase.movieResult.getResults().get(i);
+        Movie movie = MovieDatabase.getMovie(mContext, mSortMode, i);
         movieViewHolder.mBinding.setMovie(movie);
         movieViewHolder.mBinding.getRoot().setOnClickListener((View v) -> {
             mClickHandler.onMovieClick(movieViewHolder.getAdapterPosition());
@@ -37,10 +42,10 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MovieViewHolde
 
     @Override
     public int getItemCount() {
-        if (MovieDatabase.movieResult == null) {
+        if (MovieDatabase.getMovies(mContext, mSortMode) == null) {
             return 0;
         } else
-            return MovieDatabase.movieResult.getResults().size();
+            return MovieDatabase.getMovies(mContext, mSortMode).getResults().size();
     }
 
     public interface OnMovieClickListener {
