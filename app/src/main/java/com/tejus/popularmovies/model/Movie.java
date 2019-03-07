@@ -2,6 +2,7 @@ package com.tejus.popularmovies.model;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -30,6 +31,10 @@ public class Movie implements Parcelable {
     private boolean adult;
     @SerializedName("release_date")
     private String releaseDate;
+    @Ignore
+    private MovieResult<Reviews> reviews;
+    @Ignore
+    private MovieResult<Videos> videos;
 
     //Constructor
     public Movie(int id, String title, String posterPath, String overview,
@@ -55,6 +60,8 @@ public class Movie implements Parcelable {
         //genreIds = in.createIntArray();
         adult = in.readByte() != 0;
         releaseDate = in.readString();
+        reviews = in.readParcelable(MovieResult.class.getClassLoader());
+        videos = in.readParcelable(MovieResult.class.getClassLoader());
     }
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
@@ -70,7 +77,6 @@ public class Movie implements Parcelable {
     };
 
     //Getter methods
-
     public int getDbId() {
         return dbId;
     }
@@ -111,8 +117,15 @@ public class Movie implements Parcelable {
         return releaseDate;
     }
 
-    //Setter methods
+    public MovieResult<Reviews> getReviews() {
+        return reviews;
+    }
 
+    public MovieResult<Videos> getVideos() {
+        return videos;
+    }
+
+    //Setter methods
     public void setDbId(int dbId) {
         this.dbId = dbId;
     }
@@ -153,6 +166,14 @@ public class Movie implements Parcelable {
         this.releaseDate = releaseDate;
     }
 
+    public void setReviews(MovieResult<Reviews> reviews) {
+        this.reviews = reviews;
+    }
+
+    public void setVideos(MovieResult<Videos> videos) {
+        this.videos = videos;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -169,5 +190,7 @@ public class Movie implements Parcelable {
         //dest.writeIntArray(genreIds);
         dest.writeByte((byte) (adult ? 1 : 0));
         dest.writeString(releaseDate);
+        dest.writeParcelable(reviews, flags);
+        dest.writeParcelable(videos, flags);
     }
 }

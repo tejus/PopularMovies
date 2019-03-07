@@ -1,69 +1,89 @@
 package com.tejus.popularmovies.model;
 
-import java.util.List;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class Videos {
+public class Videos implements Parcelable {
 
-    private List<VideoResults> results;
+    private String id;
+    private String key;
+    private String name;
+    private String site;
+    private String type;
 
-    //Getter method
-    public List<VideoResults> getResults() {
-        return results;
+    protected Videos(Parcel in) {
+        id = in.readString();
+        key = in.readString();
+        name = in.readString();
+        site = in.readString();
+        type = in.readString();
     }
 
-    //Setter method
-    public void setResults(List<VideoResults> results) {
-        this.results = results;
+    public static final Creator<Videos> CREATOR = new Creator<Videos>() {
+        @Override
+        public Videos createFromParcel(Parcel in) {
+            return new Videos(in);
+        }
+
+        @Override
+        public Videos[] newArray(int size) {
+            return new Videos[size];
+        }
+    };
+
+    //Getter methods
+    public String getId() {
+        return id;
     }
 
-    public class VideoResults {
+    public String getKey() {
+        return key;
+    }
 
-        private String id;
-        private String key;
-        private String name;
-        private String site;
-        private String type;
+    public String getName() {
+        return name;
+    }
 
-        //Getter methods
-        public String getId() {
-            return id;
-        }
+    public String getSite() {
+        return site;
+    }
 
-        public String getKey() {
-            return key;
-        }
+    public String getType() {
+        return type;
+    }
 
-        public String getName() {
-            return name;
-        }
+    //Setter methods
+    public void setId(String id) {
+        this.id = id;
+    }
 
-        public String getSite() {
-            return site;
-        }
+    public void setKey(String key) {
+        this.key = key;
+    }
 
-        public String getType() {
-            return type;
-        }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-        //Setter methods
-        public void setId(String id) {
-            this.id = id;
-        }
+    public void setSite(String site) {
+        this.site = site;
+    }
 
-        public void setKey(String key) {
-            this.key = key;
-        }
+    public void setType(String type) {
+        this.type = type;
+    }
 
-        public void setName(String name) {
-            this.name = name;
-        }
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
-        public void setSite(String site) {
-            this.site = site;
-        }
-
-        public void setType(String type) {
-            this.type = type;
-        }
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(key);
+        dest.writeString(name);
+        dest.writeString(site);
+        dest.writeString(type);
     }
 }

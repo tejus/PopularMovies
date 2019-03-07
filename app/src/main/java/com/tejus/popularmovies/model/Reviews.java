@@ -1,51 +1,78 @@
 package com.tejus.popularmovies.model;
 
-import java.util.List;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class Reviews {
+public class Reviews implements Parcelable {
 
-    private List<ReviewResults> results;
+    private String author;
+    private String content;
+    private String id;
+    private String url;
 
-    //Getter method
-    public List<ReviewResults> getResults() {
-        return results;
+    protected Reviews(Parcel in) {
+        author = in.readString();
+        content = in.readString();
+        id = in.readString();
+        url = in.readString();
     }
 
-    //Setter method
-    public void setResults(List<ReviewResults> results) {
-        this.results = results;
+    public static final Creator<Reviews> CREATOR = new Creator<Reviews>() {
+        @Override
+        public Reviews createFromParcel(Parcel in) {
+            return new Reviews(in);
+        }
+
+        @Override
+        public Reviews[] newArray(int size) {
+            return new Reviews[size];
+        }
+    };
+
+    //Getter methods
+    public String getAuthor() {
+        return author;
     }
 
-    public class ReviewResults {
+    public String getContent() {
+        return content;
+    }
 
-        private String author;
-        private String content;
-        private String id;
+    public String getId() {
+        return id;
+    }
 
-        //Getter methods
-        public String getAuthor() {
-            return author;
-        }
+    public String getUrl() {
+        return url;
+    }
 
-        public String getContent() {
-            return content;
-        }
+    //Setter methods
+    public void setAuthor(String author) {
+        this.author = author;
+    }
 
-        public String getId() {
-            return id;
-        }
+    public void setContent(String content) {
+        this.content = content;
+    }
 
-        //Setter methods
-        public void setAuthor(String author) {
-            this.author = author;
-        }
+    public void setId(String id) {
+        this.id = id;
+    }
 
-        public void setContent(String content) {
-            this.content = content;
-        }
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
-        public void setId(String id) {
-            this.id = id;
-        }
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(author);
+        dest.writeString(content);
+        dest.writeString(id);
+        dest.writeString(url);
     }
 }
