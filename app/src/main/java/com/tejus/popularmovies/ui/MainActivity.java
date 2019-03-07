@@ -27,8 +27,8 @@ public class MainActivity extends AppCompatActivity
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         setSupportActionBar(mBinding.toolbar);
 
-        MainPagerAdapter mPagerAdapter = new MainPagerAdapter(this, getSupportFragmentManager());
-        mBinding.viewPager.setAdapter(mPagerAdapter);
+        MainPagerAdapter pagerAdapter = new MainPagerAdapter(this, getSupportFragmentManager());
+        mBinding.viewPager.setAdapter(pagerAdapter);
         mBinding.bottomNav.setOnNavigationItemSelectedListener(this);
         setupPreferences();
         mBinding.viewPager
