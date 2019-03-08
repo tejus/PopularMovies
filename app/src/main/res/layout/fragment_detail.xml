@@ -43,6 +43,7 @@
                 android:layout_marginEnd="@dimen/mid_margin"
                 android:layout_marginRight="@dimen/mid_margin"
                 android:text="@{movie.title}"
+                android:textColor="@android:color/white"
                 android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/iv_poster"
@@ -57,6 +58,7 @@
                 android:layout_marginLeft="@dimen/mid_margin"
                 android:layout_marginTop="8dp"
                 android:text="@{movie.releaseDate}"
+                android:textColor="@android:color/white"
                 app:layout_constraintStart_toEndOf="@+id/iv_poster"
                 app:layout_constraintTop_toBottomOf="@+id/tv_title" />
 
@@ -68,6 +70,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
                 android:text="@string/details_rating_heading"
+                android:textColor="@android:color/white"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toTopOf="@+id/tv_rating"
                 app:layout_constraintStart_toEndOf="@+id/iv_poster" />
@@ -80,6 +83,7 @@
                 android:layout_marginStart="@dimen/mid_margin"
                 android:layout_marginLeft="@dimen/mid_margin"
                 android:text='@{String.format("%.1f", movie.rating)}'
+                android:textColor="@android:color/white"
                 android:textSize="34sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_poster"
@@ -93,6 +97,7 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginLeft="4dp"
                 android:text="@string/details_rating_max"
+                android:textColor="@android:color/white"
                 app:layout_constraintBaseline_toBaselineOf="@+id/tv_rating"
                 app:layout_constraintStart_toEndOf="@+id/tv_rating" />
 
@@ -121,6 +126,7 @@
                 android:layout_marginLeft="@dimen/large_margin"
                 android:layout_marginTop="@dimen/large_margin"
                 android:text="@string/details_overview_heading"
+                android:textColor="@android:color/white"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/iv_poster" />
 
@@ -136,6 +142,7 @@
                 android:layout_marginRight="@dimen/large_margin"
                 android:paddingBottom="@dimen/large_margin"
                 android:text="@{movie.overview}"
+                android:textColor="@android:color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_overview_heading" />

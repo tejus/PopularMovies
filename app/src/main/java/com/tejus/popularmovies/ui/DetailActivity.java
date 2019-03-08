@@ -2,15 +2,18 @@ package com.tejus.popularmovies.ui;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 
 import com.tejus.popularmovies.R;
 import com.tejus.popularmovies.databinding.ActivityDetailBinding;
 import com.tejus.popularmovies.model.Movie;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity
+        implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     private static final String LOG_TAG = DetailActivity.class.getSimpleName();
 
@@ -20,6 +23,7 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
+        setSupportActionBar(mBinding.detailToolbar);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -27,13 +31,17 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         Movie movie = getIntent().getExtras().getParcelable(getString(R.string.movie_key));
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(getString(R.string.movie_key), movie);
-        Fragment fragment = new DetailFragment();
-        fragment.setArguments(bundle);
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .commit();
+        DetailsPagerAdapter pagerAdapter = new DetailsPagerAdapter(this, getSupportFragmentManager(), movie);
+        mBinding.detailViewPager.setAdapter(pagerAdapter);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case R.id.nav_details:
+                mBinding.detailViewPager.setCurrentItem(0);
+                return true;
+        }
+        return false;
     }
 }

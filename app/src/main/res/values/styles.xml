@@ -7,7 +7,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
-        <item name="actionOverflowButtonStyle">@style/custom_overflow_menu_button</item>
+        <item name="colorControlNormal">@android:color/white</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -16,7 +16,7 @@
     </style>
 
     <style name="custom_overflow_menu_button" parent="Widget.AppCompat.ActionButton.Overflow">
-        <item name="android:tint">#ffffff</item>
+        <item name="android:tint">@android:color/white</item>
     </style>
 
     <style name="details_header_text">

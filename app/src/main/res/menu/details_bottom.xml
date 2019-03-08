@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/nav_details"
+        android:icon="@drawable/bottom_navigation_details_icons"
+        android:orderInCategory="1"
+        android:title="@string/action_details"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/nav_reviews"
+        android:icon="@drawable/bottom_navigation_reviews_icons"
+        android:orderInCategory="2"
+        android:title="@string/action_reviews"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/nav_videos"
+        android:icon="@drawable/bottom_navigation_videos_icons"
+        android:orderInCategory="2"
+        android:title="@string/action_videos"
+        app:showAsAction="ifRoom" />
+</menu>
