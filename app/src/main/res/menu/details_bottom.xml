@@ -19,7 +19,7 @@
     <item
         android:id="@+id/nav_videos"
         android:icon="@drawable/bottom_navigation_videos_icons"
-        android:orderInCategory="2"
+        android:orderInCategory="3"
         android:title="@string/action_videos"
         app:showAsAction="ifRoom" />
 </menu>
