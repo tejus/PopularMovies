@@ -33,6 +33,7 @@ public class DetailActivity extends AppCompatActivity
         Movie movie = getIntent().getExtras().getParcelable(getString(R.string.movie_key));
         DetailsPagerAdapter pagerAdapter = new DetailsPagerAdapter(this, getSupportFragmentManager(), movie);
         mBinding.detailViewPager.setAdapter(pagerAdapter);
+        mBinding.detailBottomNav.setOnNavigationItemSelectedListener(this);
     }
 
     @Override
@@ -40,6 +41,12 @@ public class DetailActivity extends AppCompatActivity
         switch (menuItem.getItemId()) {
             case R.id.nav_details:
                 mBinding.detailViewPager.setCurrentItem(0);
+                return true;
+            case R.id.nav_reviews:
+                mBinding.detailViewPager.setCurrentItem(1);
+                return true;
+            case R.id.nav_videos:
+                mBinding.detailViewPager.setCurrentItem(2);
                 return true;
         }
         return false;

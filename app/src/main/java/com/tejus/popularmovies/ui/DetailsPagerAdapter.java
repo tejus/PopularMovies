@@ -9,11 +9,17 @@ import com.tejus.popularmovies.model.Movie;
 
 public class DetailsPagerAdapter extends FragmentPagerAdapter {
 
+    private static final String LOG_TAG = DetailsPagerAdapter.class.getSimpleName();
+
     private Fragment fragmentDetails;
+    private Fragment fragmentReviews;
+    private Fragment fragmentVideos;
 
     public DetailsPagerAdapter(Context context, FragmentManager fm, Movie movie) {
         super(fm);
         fragmentDetails = DetailFragment.newInstance(context, movie);
+        fragmentReviews = ReviewsFragment.newInstance(context, movie.getId());
+        fragmentVideos = VideosFragment.newInstance(context, movie.getId());
     }
 
     @Override
@@ -21,6 +27,10 @@ public class DetailsPagerAdapter extends FragmentPagerAdapter {
         switch (i) {
             case 0:
                 return fragmentDetails;
+            case 1:
+                return fragmentReviews;
+            case 2:
+                return fragmentVideos;
             default:
                 return null;
         }
@@ -28,6 +38,6 @@ public class DetailsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 1;
+        return 3;
     }
 }
