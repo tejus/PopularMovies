@@ -4,6 +4,8 @@ import android.util.Log;
 
 import com.tejus.popularmovies.model.Movie;
 import com.tejus.popularmovies.model.MovieResult;
+import com.tejus.popularmovies.model.Reviews;
+import com.tejus.popularmovies.model.Videos;
 
 import java.io.IOException;
 
@@ -18,8 +20,6 @@ public class RetrofitUtils {
 
     private static final String BASE_URL = "https://api.themoviedb.org/";
     private static final String LANGUAGE_KEY = "en-US";
-    private static MovieResult movieResult = null;
-    private static Movie movie = null;
     private static Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
@@ -31,6 +31,7 @@ public class RetrofitUtils {
                 apiKey,
                 LANGUAGE_KEY,
                 Integer.toString(1));
+        MovieResult<Movie> movieResult = new MovieResult<>();
 
         Log.d(LOG_TAG, "Executing network call");
         try {
@@ -45,19 +46,43 @@ public class RetrofitUtils {
         return movieResult;
     }
 
-    public static Movie fetchMovie(int id, String apiKey) {
-        Call<Movie> call = endpoints.getMovie(id, apiKey);
+
+    public static MovieResult<Reviews> fetchReviews(int id, String apiKey) {
+        Call<MovieResult<Reviews>> call = endpoints.getReviews(id,
+                LANGUAGE_KEY,
+                apiKey);
+        MovieResult<Reviews> movieResult = new MovieResult<>();
 
         Log.d(LOG_TAG, "Executing network call");
         try {
-            Response<Movie> response = call.execute();
-            movie = response.body();
+            Response<MovieResult<Reviews>> response = call.execute();
+            movieResult = response.body();
         } catch (IOException e) {
             Log.d(LOG_TAG, "Network call failed!");
             e.printStackTrace();
         }
 
-        Log.d(LOG_TAG, "Returning movie from network call");
-        return movie;
+        Log.d(LOG_TAG, "Returning reviews from network call");
+        return movieResult;
+    }
+
+
+    public static MovieResult<Videos> fetchVideos(int id, String apiKey) {
+        Call<MovieResult<Videos>> call = endpoints.getVideos(id,
+                LANGUAGE_KEY,
+                apiKey);
+        MovieResult<Videos> movieResult = new MovieResult<>();
+
+        Log.d(LOG_TAG, "Executing network call");
+        try {
+            Response<MovieResult<Videos>> response = call.execute();
+            movieResult = response.body();
+        } catch (IOException e) {
+            Log.d(LOG_TAG, "Network call failed!");
+            e.printStackTrace();
+        }
+
+        Log.d(LOG_TAG, "Returning videos from network call");
+        return movieResult;
     }
 }
