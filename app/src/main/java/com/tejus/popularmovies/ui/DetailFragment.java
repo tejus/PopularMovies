@@ -52,7 +52,7 @@ public class DetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         mBinding = FragmentDetailBinding.inflate(inflater, container, false);
         mBinding.setMovie(mMovie);
-        checkFavouriteDb();
+        setupFavourite();
         return mBinding.getRoot();
     }
 
@@ -60,17 +60,18 @@ public class DetailFragment extends Fragment {
         mBinding.toggleFavourite.setOnCheckedChangeListener((buttonView, isChecked) -> toggleFavourite(isChecked));
     }
 
-    private void setFavourite() {
-        mBinding.toggleFavourite.setChecked(true);
+    private void checkFavourite(int count) {
+        if (count > 0) {
+            mBinding.toggleFavourite.setChecked(true);
+        }
         //Set listener AFTER the initial check to prevent an additional call to the listener
         setFavouriteListener();
     }
 
-    private void checkFavouriteDb() {
+    private void setupFavourite() {
         AppExecutors.getInstance().diskIO().execute(() -> {
-            if (mDb.favouriteMoviesDao().searchMovieById(mMovie.getId()) > 0) {
-                AppExecutors.getInstance().mainThread().execute(this::setFavourite);
-            }
+            final int count = mDb.favouriteMoviesDao().searchMovieById(mMovie.getId());
+            AppExecutors.getInstance().mainThread().execute(() -> checkFavourite(count));
         });
     }
 
