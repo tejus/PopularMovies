@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="review"
+            type="com.tejus.popularmovies.model.Reviews" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_author"
+            style="@style/details_header_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/mid_margin"
+            android:layout_marginLeft="@dimen/mid_margin"
+            android:layout_marginTop="@dimen/mid_margin"
+            android:text="@{review.author}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:id="@+id/tv_content"
+            style="@style/details_content_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/mid_margin"
+            android:layout_marginLeft="@dimen/mid_margin"
+            android:layout_marginTop="@dimen/mid_margin"
+            android:layout_marginEnd="@dimen/mid_margin"
+            android:layout_marginRight="@dimen/mid_margin"
+            android:layout_marginBottom="@dimen/mid_margin"
+            android:text="@{review.content}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+</layout>
