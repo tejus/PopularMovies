@@ -2,6 +2,7 @@ package com.tejus.popularmovies.ui;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -18,9 +19,9 @@ public class DetailFragment extends Fragment {
 
     private static final String LOG_TAG = DetailFragment.class.getSimpleName();
 
-    FragmentDetailBinding mBinding;
-    FavouriteMoviesDatabase mDb;
-    Movie mMovie;
+    private FragmentDetailBinding mBinding;
+    private FavouriteMoviesDatabase mDb;
+    private Movie mMovie;
 
     public DetailFragment() {
         // Required empty public constructor
@@ -28,35 +29,31 @@ public class DetailFragment extends Fragment {
 
     public static DetailFragment newInstance(Context context, Movie movie) {
         DetailFragment fragment = new DetailFragment();
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(context.getString(R.string.movie_key), movie);
-        fragment.setArguments(bundle);
+        if (movie != null) {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(context.getString(R.string.movie_key), movie);
+            fragment.setArguments(bundle);
+        }
         return fragment;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        mBinding = FragmentDetailBinding.inflate(inflater, container, false);
         mDb = FavouriteMoviesDatabase.getInstance(getContext());
-        return mBinding.getRoot();
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
         Bundle bundle = getArguments();
         if (bundle != null) {
             mMovie = bundle.getParcelable(getString(R.string.movie_key));
-            mBinding.setMovie(mMovie);
-            checkFavouriteDb();
         }
+    }
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        mBinding = FragmentDetailBinding.inflate(inflater, container, false);
+        mBinding.setMovie(mMovie);
+        checkFavouriteDb();
+        return mBinding.getRoot();
     }
 
     private void setFavouriteListener() {
