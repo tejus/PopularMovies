@@ -26,7 +26,6 @@ public class Movie implements Parcelable {
     @SerializedName("vote_average")
     @ColumnInfo(name = "vote_average")
     private double rating;
-    //private int[] genreIds;
     private boolean adult;
     @SerializedName("release_date")
     private String releaseDate;
@@ -41,7 +40,6 @@ public class Movie implements Parcelable {
         this.popularity = popularity;
         this.rating = rating;
         this.adult = adult;
-        //this.genreIds = genreIds;
         this.releaseDate = releaseDate;
     }
 
@@ -52,7 +50,6 @@ public class Movie implements Parcelable {
         overview = in.readString();
         popularity = in.readDouble();
         rating = in.readDouble();
-        //genreIds = in.createIntArray();
         adult = in.readByte() != 0;
         releaseDate = in.readString();
     }
@@ -102,10 +99,6 @@ public class Movie implements Parcelable {
         return adult;
     }
 
-    /*public int[] getGenreIds() {
-        return genreIds;
-    }*/
-
     public String getReleaseDate() {
         return releaseDate;
     }
@@ -139,10 +132,6 @@ public class Movie implements Parcelable {
         this.rating = rating;
     }
 
-    /*public void setGenreIds(int[] genreIds) {
-        this.genreIds = genreIds;
-    }*/
-
     public void setAdult(boolean adult) {
         this.adult = adult;
     }
@@ -164,7 +153,6 @@ public class Movie implements Parcelable {
         dest.writeString(overview);
         dest.writeDouble(popularity);
         dest.writeDouble(rating);
-        //dest.writeIntArray(genreIds);
         dest.writeByte((byte) (adult ? 1 : 0));
         dest.writeString(releaseDate);
     }
