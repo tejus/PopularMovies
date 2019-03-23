@@ -133,6 +133,8 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
         checkApiKey();
         hideRefreshPrompt();
         mBinding.swipeRefreshMain.setRefreshing(true);
+        MovieDatabase.setMovies(mContext, mSortMode, null);
+        mMainAdapter.notifyDataSetChanged();
         AppExecutors.getInstance().networkIO().execute(() -> {
             MovieResult<Movie> movieResult = RetrofitUtils.fetchMovies(
                     mSortMode,
