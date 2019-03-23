@@ -25,7 +25,4 @@ public interface FavouriteMoviesDao {
 
     @Query("DELETE FROM movies WHERE id = :id")
     void deleteMovieById(int id);
-
-    @Query("DELETE FROM movies")
-    void deleteAllMovies();
 }
