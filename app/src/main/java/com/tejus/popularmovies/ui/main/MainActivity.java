@@ -1,9 +1,7 @@
 package com.tejus.popularmovies.ui.main;
 
-import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
@@ -30,35 +28,11 @@ public class MainActivity extends AppCompatActivity
         MainPagerAdapter pagerAdapter = new MainPagerAdapter(this, getSupportFragmentManager());
         mBinding.viewPager.setAdapter(pagerAdapter);
         mBinding.bottomNav.setOnNavigationItemSelectedListener(this);
-        setupPreferences();
-        mBinding.viewPager
-                .setCurrentItem(mSortMode.equals(getString(R.string.sort_popular)) ? 0 : 1);
-    }
-
-    private void setupPreferences() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        mSortMode = sharedPreferences
-                .getString(getString(R.string.pref_sort_mode_key), getString(R.string.sort_popular));
-        mBinding.bottomNav.setSelectedItemId(mSortMode.equals(getString(R.string.sort_popular))
-                ? R.id.nav_sort_popular : R.id.nav_sort_rating);
-    }
-
-    private void savePreferences() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(getString(R.string.pref_sort_mode_key), mSortMode);
-        editor.apply();
     }
 
     private void changeSortMode(String mode) {
         if (mode.equals(mSortMode)) return;
         mSortMode = mode;
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        savePreferences();
     }
 
     @Override
