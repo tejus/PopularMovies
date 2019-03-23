@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.tejus.popularmovies.R;
@@ -29,8 +30,15 @@ public class DetailActivity extends AppCompatActivity
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+        Movie movie = null;
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null && bundle.containsKey(getString(R.string.movie_key)))
+            movie = getIntent().getExtras().getParcelable(getString(R.string.movie_key));
+        else {
+            Log.e(LOG_TAG, "No movie found in bundle!");
+            finish();
+        }
 
-        Movie movie = getIntent().getExtras().getParcelable(getString(R.string.movie_key));
         DetailsPagerAdapter pagerAdapter = new DetailsPagerAdapter(this, getSupportFragmentManager(), movie);
         mBinding.detailViewPager.setAdapter(pagerAdapter);
         mBinding.detailViewPager.setOffscreenPageLimit(2);
