@@ -43,7 +43,7 @@ public class DetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mDb = FavouriteMoviesDatabase.getInstance(getContext());
         Bundle bundle = getArguments();
-        if (bundle != null) {
+        if (bundle != null && bundle.containsKey(getString(R.string.movie_key))) {
             mMovie = bundle.getParcelable(getString(R.string.movie_key));
         }
     }
@@ -58,15 +58,17 @@ public class DetailFragment extends Fragment {
             );
         }
         mBinding.setMovie(mMovie);
-        setupFavourite();
+        setupFavouriteButton();
         return mBinding.getRoot();
     }
 
     private void setFavouriteListener() {
-        mBinding.toggleFavourite.setOnCheckedChangeListener((buttonView, isChecked) -> toggleFavourite(isChecked));
+        mBinding.toggleFavourite.setOnCheckedChangeListener((buttonView, isChecked) ->
+                toggleFavourite(isChecked)
+        );
     }
 
-    private void checkFavourite(int count) {
+    private void checkIfFavourite(int count) {
         if (count > 0) {
             mBinding.toggleFavourite.setChecked(true);
         }
@@ -74,10 +76,10 @@ public class DetailFragment extends Fragment {
         setFavouriteListener();
     }
 
-    private void setupFavourite() {
+    private void setupFavouriteButton() {
         AppExecutors.getInstance().diskIO().execute(() -> {
             final int count = mDb.favouriteMoviesDao().searchMovieById(mMovie.getId());
-            AppExecutors.getInstance().mainThread().execute(() -> checkFavourite(count));
+            AppExecutors.getInstance().mainThread().execute(() -> checkIfFavourite(count));
         });
     }
 
