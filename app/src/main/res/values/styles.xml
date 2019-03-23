@@ -18,15 +18,4 @@
     <style name="custom_overflow_menu_button" parent="Widget.AppCompat.ActionButton.Overflow">
         <item name="android:tint">@android:color/white</item>
     </style>
-
-    <style name="details_header_text">
-        <item name="android:fontFamily">@font/opensansregular</item>
-        <item name="android:textSize">20sp</item>
-    </style>
-
-    <style name="details_content_text">
-        <item name="android:fontFamily">@font/opensansregular</item>
-        <item name="android:textSize">16sp</item>
-    </style>
-
 </resources>

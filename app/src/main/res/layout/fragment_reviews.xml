@@ -19,8 +19,8 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="16dp"
             android:text="@string/reviews_no_data"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
             android:textColor="@android:color/darker_gray"
-            android:textSize="15sp"
             android:textStyle="italic"
             android:visibility="gone" />
     </FrameLayout>
