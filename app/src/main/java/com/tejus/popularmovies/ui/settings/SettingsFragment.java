@@ -1,4 +1,4 @@
-package com.tejus.popularmovies.ui;
+package com.tejus.popularmovies.ui.settings;
 
 
 import android.os.Bundle;

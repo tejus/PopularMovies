@@ -1,4 +1,4 @@
-package com.tejus.popularmovies.ui;
+package com.tejus.popularmovies.ui.main;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;

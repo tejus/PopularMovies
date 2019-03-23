@@ -1,4 +1,4 @@
-package com.tejus.popularmovies.ui;
+package com.tejus.popularmovies.ui.main;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 
 import com.tejus.popularmovies.R;
 import com.tejus.popularmovies.databinding.FragmentMainBinding;
+import com.tejus.popularmovies.ui.details.DetailActivity;
+import com.tejus.popularmovies.ui.settings.SettingsActivity;
 
 public class FavouriteFragment extends Fragment implements FavouriteAdapter.OnFavouriteClickListener {
 

@@ -1,4 +1,4 @@
-package com.tejus.popularmovies.ui;
+package com.tejus.popularmovies.ui.main;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +20,8 @@ import com.tejus.popularmovies.data.MoviePreferences;
 import com.tejus.popularmovies.databinding.FragmentMainBinding;
 import com.tejus.popularmovies.db.MovieDatabase;
 import com.tejus.popularmovies.model.MovieResult;
+import com.tejus.popularmovies.ui.details.DetailActivity;
+import com.tejus.popularmovies.ui.settings.SettingsActivity;
 import com.tejus.popularmovies.utilities.AppExecutors;
 import com.tejus.popularmovies.utilities.RetrofitUtils;
 
