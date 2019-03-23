@@ -85,6 +85,11 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
         mBinding.rvMain.setHasFixedSize(true);
         mBinding.rvMain.setAdapter(mMainAdapter);
 
+        mBinding.swipeRefreshMain.setColorSchemeResources(R.color.colorAccent);
+        mBinding.swipeRefreshMain.setProgressBackgroundColorSchemeColor(getResources()
+                .getColor(R.color.colorPrimary));
+        mBinding.swipeRefreshMain.setOnRefreshListener(this::fetchMovies);
+
         Log.d(LOG_TAG, "onCreateView in MainFragment");
         return mBinding.getRoot();
     }
@@ -112,14 +117,6 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
         startActivity(intent);
     }
 
-    private void hideProgressBar() {
-        mBinding.progressLoading.setVisibility(View.INVISIBLE);
-    }
-
-    private void showProgressBar() {
-        mBinding.progressLoading.setVisibility(View.VISIBLE);
-    }
-
     private void hideRefreshPrompt() {
         mBinding.tvRefreshPrompt.setVisibility(View.GONE);
     }
@@ -133,8 +130,9 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
      * themoviedb.org and populate the list in MovieDatabase class
      */
     private void fetchMovies() {
-        showProgressBar();
+        checkApiKey();
         hideRefreshPrompt();
+        mBinding.swipeRefreshMain.setRefreshing(true);
         AppExecutors.getInstance().networkIO().execute(() -> {
             MovieResult<Movie> movieResult = RetrofitUtils.fetchMovies(
                     mSortMode,
@@ -142,13 +140,14 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
             );
             MovieDatabase.setMovies(mContext, mSortMode, movieResult.getResults());
             AppExecutors.getInstance().mainThread().execute(() -> {
-                hideProgressBar();
-                if (MovieDatabase.getMovies(mContext, mSortMode) == null) {
+                if (MovieDatabase.getMovies(mContext, mSortMode) == null ||
+                        MovieDatabase.getMovies(mContext, mSortMode).size() == 0) {
                     showRefreshPrompt();
                 } else {
                     mMainAdapter.notifyDataSetChanged();
                 }
                 mBinding.rvMain.smoothScrollToPosition(0);
+                mBinding.swipeRefreshMain.setRefreshing(false);
             });
         });
     }
@@ -177,7 +176,6 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
                 return true;
             //Manually reload the movies
             case R.id.action_refresh:
-                checkApiKey();
                 fetchMovies();
                 return true;
         }

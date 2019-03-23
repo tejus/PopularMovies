@@ -52,6 +52,7 @@ public class FavouriteFragment extends Fragment implements FavouriteAdapter.OnFa
         binding.rvMain.setHasFixedSize(true);
         mAdapter = new FavouriteAdapter(this);
         binding.rvMain.setAdapter(mAdapter);
+        binding.swipeRefreshMain.setEnabled(false);
 
         setupViewModel();
 
