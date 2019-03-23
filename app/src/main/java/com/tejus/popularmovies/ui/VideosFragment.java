@@ -3,7 +3,9 @@ package com.tejus.popularmovies.ui;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,11 +21,13 @@ import com.tejus.popularmovies.utilities.RetrofitUtils;
 
 import java.util.List;
 
-public class VideosFragment extends Fragment {
+public class VideosFragment extends Fragment implements VideoAdapter.OnVideoClickListener {
 
     private static final String LOG_TAG = VideosFragment.class.getSimpleName();
 
+    private Context mContext;
     FragmentVideosBinding mBinding;
+    private VideoAdapter mVideoAdapter;
 
     public VideosFragment() {
         // Required empty public constructor
@@ -38,9 +42,19 @@ public class VideosFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mBinding = FragmentVideosBinding.inflate(inflater, container, false);
+        mVideoAdapter = new VideoAdapter(this);
+        mBinding.rvVideos.setLayoutManager(new LinearLayoutManager(mContext));
+        mBinding.rvVideos.setAdapter(mVideoAdapter);
+
         Bundle bundle = getArguments();
         if (bundle != null) {
             int id = bundle.getInt(getString(R.string.movie_key));
@@ -59,8 +73,15 @@ public class VideosFragment extends Fragment {
                 List<Videos> videos = movieResult.getResults();
                 if (videos.size() > 0) {
                     Log.d(LOG_TAG, "Video 1 key: " + videos.get(0).getKey());
-                }
+                    mVideoAdapter.setVideos(videos);
+                } else
+                    mBinding.tvNoVideos.setVisibility(View.VISIBLE);
             });
         });
+    }
+
+    @Override
+    public void onVideoClick(int position) {
+
     }
 }

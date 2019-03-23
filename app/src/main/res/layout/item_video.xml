@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="video"
+            type="com.tejus.popularmovies.model.Videos" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="88dp">
+
+        <ImageView
+            android:id="@+id/iv_play"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/mid_margin"
+            android:layout_marginLeft="@dimen/mid_margin"
+            android:contentDescription="@string/videos_play_button"
+            android:scaleType="fitCenter"
+            android:src="@drawable/outline_play_circle_filled_white_white_48" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/mid_margin"
+            android:layout_marginLeft="@dimen/mid_margin"
+            android:layout_marginTop="@dimen/mid_margin"
+            android:layout_marginEnd="@dimen/mid_margin"
+            android:layout_marginRight="@dimen/mid_margin"
+            android:layout_toEndOf="@id/iv_play"
+            android:layout_toRightOf="@id/iv_play"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="2"
+                android:text="@{video.name}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                android:textColor="@android:color/white"
+                tools:text="Name of the video" />
+
+            <TextView
+                android:id="@+id/tv_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text='@{video.type + " - " + video.site}'
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:textColor="@android:color/white"
+                tools:text="Type of the video" />
+        </LinearLayout>
+    </RelativeLayout>
+</layout>
