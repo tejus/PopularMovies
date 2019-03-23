@@ -33,6 +33,7 @@ public class DetailActivity extends AppCompatActivity
         Movie movie = getIntent().getExtras().getParcelable(getString(R.string.movie_key));
         DetailsPagerAdapter pagerAdapter = new DetailsPagerAdapter(this, getSupportFragmentManager(), movie);
         mBinding.detailViewPager.setAdapter(pagerAdapter);
+        mBinding.detailViewPager.setOffscreenPageLimit(2);
         mBinding.detailBottomNav.setOnNavigationItemSelectedListener(this);
     }
 

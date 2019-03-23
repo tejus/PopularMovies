@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity
 
         MainPagerAdapter pagerAdapter = new MainPagerAdapter(this, getSupportFragmentManager());
         mBinding.mainViewPager.setAdapter(pagerAdapter);
+        mBinding.mainViewPager.setOffscreenPageLimit(2);
         mBinding.mainBottomNav.setOnNavigationItemSelectedListener(this);
     }
 
