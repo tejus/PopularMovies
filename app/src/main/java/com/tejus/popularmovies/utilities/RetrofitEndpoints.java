@@ -12,9 +12,9 @@ import retrofit2.http.Query;
 
 public interface RetrofitEndpoints {
 
-    static final String API_PARAM = "api_key";
-    static final String LANGUAGE_PARAM = "language";
-    static final String PAGE_PARAM = "page";
+    String API_PARAM = "api_key";
+    String LANGUAGE_PARAM = "language";
+    String PAGE_PARAM = "page";
 
     @GET("3/movie/{sort}")
     Call<MovieResult<Movie>> getMovies(@Path("sort") String sortMode,
