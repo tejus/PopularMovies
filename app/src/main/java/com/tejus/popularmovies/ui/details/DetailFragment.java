@@ -1,6 +1,7 @@
 package com.tejus.popularmovies.ui.details;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -51,6 +52,11 @@ public class DetailFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mBinding = FragmentDetailBinding.inflate(inflater, container, false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mBinding.toggleFavourite.setBackgroundTintList(
+                    getResources().getColorStateList(R.color.colorAccent)
+            );
+        }
         mBinding.setMovie(mMovie);
         setupFavourite();
         return mBinding.getRoot();

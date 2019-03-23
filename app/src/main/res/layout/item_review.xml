@@ -33,7 +33,7 @@
                 android:fontFamily="@font/opensansregular"
                 android:text="@{review.author}"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-                android:textColor="@android:color/white" />
+                android:textColor="@color/colorAccent" />
 
             <TextView
                 android:id="@+id/tv_content"

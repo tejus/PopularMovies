@@ -58,7 +58,7 @@
                     android:layout_height="wrap_content"
                     android:text='@{video.type + " - " + video.site}'
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"
-                    android:textColor="#66FFFFFF"
+                    android:textColor="@color/colorAccent"
                     tools:text="Type of the video" />
 
                 <TextView
