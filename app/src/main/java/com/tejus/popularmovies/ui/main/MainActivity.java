@@ -23,11 +23,11 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        setSupportActionBar(mBinding.toolbar);
+        setSupportActionBar(mBinding.mainToolbar);
 
         MainPagerAdapter pagerAdapter = new MainPagerAdapter(this, getSupportFragmentManager());
-        mBinding.viewPager.setAdapter(pagerAdapter);
-        mBinding.bottomNav.setOnNavigationItemSelectedListener(this);
+        mBinding.mainViewPager.setAdapter(pagerAdapter);
+        mBinding.mainBottomNav.setOnNavigationItemSelectedListener(this);
     }
 
     private void changeSortMode(String mode) {
@@ -41,19 +41,19 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_sort_popular:
                 Log.d(LOG_TAG, "switch case nav_sort_popular matched");
                 changeSortMode(getString(R.string.sort_popular));
-                mBinding.toolbar.setTitle(R.string.fragment_popular);
-                mBinding.viewPager.setCurrentItem(0);
+                mBinding.mainToolbar.setTitle(R.string.fragment_popular);
+                mBinding.mainViewPager.setCurrentItem(0);
                 return true;
             case R.id.nav_sort_rating:
                 Log.d(LOG_TAG, "switch case nav_sort_rating matched");
                 changeSortMode(getString(R.string.sort_rating));
-                mBinding.toolbar.setTitle(R.string.fragment_top_rated);
-                mBinding.viewPager.setCurrentItem(1);
+                mBinding.mainToolbar.setTitle(R.string.fragment_top_rated);
+                mBinding.mainViewPager.setCurrentItem(1);
                 return true;
             case R.id.nav_favourites:
                 Log.d(LOG_TAG, "switch case nav_favourites matched");
-                mBinding.toolbar.setTitle(R.string.fragment_favourites);
-                mBinding.viewPager.setCurrentItem(2);
+                mBinding.mainToolbar.setTitle(R.string.fragment_favourites);
+                mBinding.mainViewPager.setCurrentItem(2);
                 return true;
         }
         return false;
