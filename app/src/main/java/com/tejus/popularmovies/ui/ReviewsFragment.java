@@ -64,12 +64,6 @@ public class ReviewsFragment extends Fragment implements ReviewAdapter.OnReviewC
         return mBinding.getRoot();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.d(LOG_TAG, "onResume called");
-    }
-
     private void fetchReviews(int id) {
         AppExecutors.getInstance().networkIO().execute(() -> {
             MovieResult<Reviews> movieResult = RetrofitUtils.fetchReviews(
