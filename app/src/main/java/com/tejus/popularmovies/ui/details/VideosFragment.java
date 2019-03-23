@@ -28,7 +28,6 @@ public class VideosFragment extends Fragment implements VideoAdapter.OnVideoClic
 
     private static final String LOG_TAG = VideosFragment.class.getSimpleName();
 
-    private Context mContext;
     FragmentVideosBinding mBinding;
     private VideoAdapter mVideoAdapter;
 
@@ -45,21 +44,15 @@ public class VideosFragment extends Fragment implements VideoAdapter.OnVideoClic
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mContext = context;
-    }
-
-    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mBinding = FragmentVideosBinding.inflate(inflater, container, false);
         mVideoAdapter = new VideoAdapter(this);
-        mBinding.rvVideos.setLayoutManager(new LinearLayoutManager(mContext));
+        mBinding.rvVideos.setLayoutManager(new LinearLayoutManager(getContext()));
         mBinding.rvVideos.setAdapter(mVideoAdapter);
 
         Bundle bundle = getArguments();
-        if (bundle != null) {
+        if (bundle != null && bundle.containsKey(getString(R.string.movie_key))) {
             int id = bundle.getInt(getString(R.string.movie_key));
             fetchVideos(id);
         }

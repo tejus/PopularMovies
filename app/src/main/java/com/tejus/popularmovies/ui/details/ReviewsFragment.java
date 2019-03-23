@@ -25,7 +25,6 @@ public class ReviewsFragment extends Fragment {
 
     private static final String LOG_TAG = ReviewsFragment.class.getSimpleName();
 
-    private Context mContext;
     private FragmentReviewsBinding mBinding;
     private ReviewAdapter mReviewAdapter;
 
@@ -42,22 +41,16 @@ public class ReviewsFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mContext = context;
-    }
-
-    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.d(LOG_TAG, "onCreateView called");
         mBinding = FragmentReviewsBinding.inflate(inflater, container, false);
         mReviewAdapter = new ReviewAdapter();
-        mBinding.rvReviews.setLayoutManager(new LinearLayoutManager(mContext));
+        mBinding.rvReviews.setLayoutManager(new LinearLayoutManager(getContext()));
         mBinding.rvReviews.setAdapter(mReviewAdapter);
 
         Bundle bundle = getArguments();
-        if (bundle != null) {
+        if (bundle != null && bundle.containsKey(getString(R.string.movie_key))) {
             int id = bundle.getInt(getString(R.string.movie_key));
             fetchReviews(id);
         }
