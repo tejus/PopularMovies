@@ -60,5 +60,4 @@ public class NoSwipeViewPager extends ViewPager {
             super.startScroll(startX, startY, dx, dy, 150);
         }
     }
-
 }
