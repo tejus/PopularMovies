@@ -3,9 +3,11 @@ package com.tejus.popularmovies.ui.main;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,6 +21,7 @@ import com.tejus.popularmovies.R;
 import com.tejus.popularmovies.data.MoviePreferences;
 import com.tejus.popularmovies.databinding.FragmentMainBinding;
 import com.tejus.popularmovies.db.MovieDatabase;
+import com.tejus.popularmovies.model.Movie;
 import com.tejus.popularmovies.model.MovieResult;
 import com.tejus.popularmovies.ui.details.DetailActivity;
 import com.tejus.popularmovies.ui.settings.SettingsActivity;
@@ -31,9 +34,10 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
 
     private static final int NUM_COLUMNS = 2;
 
+    private Context mContext;
     private FragmentMainBinding mBinding;
     private String mSortMode;
-    private GridLayoutManager layoutManager;
+    private GridLayoutManager mLayoutManager;
     private MainAdapter mMainAdapter;
 
     public MainFragment() {
@@ -42,32 +46,42 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
 
     public static MainFragment newInstance(Context context, String sortMode) {
         MainFragment fragment = new MainFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString(context.getString(R.string.pref_sort_mode_key), sortMode);
-        fragment.setArguments(bundle);
+        if (!TextUtils.isEmpty(sortMode)) {
+            Bundle bundle = new Bundle();
+            bundle.putString(context.getString(R.string.pref_sort_mode_key), sortMode);
+            fragment.setArguments(bundle);
+        }
         return fragment;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+        if (bundle != null && bundle.containsKey(getString(R.string.pref_sort_mode_key))) {
+            mSortMode = bundle.getString(getString(R.string.pref_sort_mode_key));
+        } else
+            mSortMode = getString(R.string.sort_popular);
+        checkApiKey();
         setHasOptionsMenu(true);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        checkApiKey();
-
         mBinding = FragmentMainBinding.inflate(inflater, container, false);
-        mSortMode = getArguments().getString(getString(R.string.pref_sort_mode_key));
 
-        layoutManager = new GridLayoutManager(getActivity(), NUM_COLUMNS);
-        mMainAdapter = new MainAdapter(getActivity(), mSortMode, this);
-        GridLayoutItemDecoration itemDecoration = new GridLayoutItemDecoration(24, NUM_COLUMNS);
+        mLayoutManager = new GridLayoutManager(getActivity(), NUM_COLUMNS);
+        mMainAdapter = new MainAdapter(mContext, mSortMode, this);
 
-        mBinding.rvMain.setLayoutManager(layoutManager);
-        mBinding.rvMain.addItemDecoration(itemDecoration);
+        mBinding.rvMain.setLayoutManager(mLayoutManager);
+        mBinding.rvMain.addItemDecoration(new GridLayoutItemDecoration(24, NUM_COLUMNS));
         mBinding.rvMain.setHasFixedSize(true);
         mBinding.rvMain.setAdapter(mMainAdapter);
 
@@ -78,7 +92,7 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
     @Override
     public void onResume() {
         super.onResume();
-        if (layoutManager.getItemCount() == 0) {
+        if (mLayoutManager.getItemCount() == 0) {
             Log.d(LOG_TAG, "Calling fetchMovies from onResume()");
             fetchMovies();
         }
@@ -121,27 +135,21 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
     private void fetchMovies() {
         showProgressBar();
         hideRefreshPrompt();
-        AppExecutors.getInstance().networkIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                MovieResult movieResult = RetrofitUtils.fetchMovies(
-                        mSortMode,
-                        MoviePreferences.getApiKey(getActivity())
-                );
-                MovieDatabase.setMovies(getActivity(), mSortMode, movieResult.getResults());
-                AppExecutors.getInstance().mainThread().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        hideProgressBar();
-                        if (MovieDatabase.getMovies(getActivity(), mSortMode) == null) {
-                            showRefreshPrompt();
-                        } else {
-                            mMainAdapter.notifyDataSetChanged();
-                        }
-                        mBinding.rvMain.smoothScrollToPosition(0);
-                    }
-                });
-            }
+        AppExecutors.getInstance().networkIO().execute(() -> {
+            MovieResult<Movie> movieResult = RetrofitUtils.fetchMovies(
+                    mSortMode,
+                    MoviePreferences.getApiKey(getActivity())
+            );
+            MovieDatabase.setMovies(mContext, mSortMode, movieResult.getResults());
+            AppExecutors.getInstance().mainThread().execute(() -> {
+                hideProgressBar();
+                if (MovieDatabase.getMovies(mContext, mSortMode) == null) {
+                    showRefreshPrompt();
+                } else {
+                    mMainAdapter.notifyDataSetChanged();
+                }
+                mBinding.rvMain.smoothScrollToPosition(0);
+            });
         });
     }
 
@@ -150,7 +158,7 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
         Intent intent = new Intent(getActivity(), DetailActivity.class);
         intent.putExtra(
                 getString(R.string.movie_key),
-                MovieDatabase.getMovie(getActivity(), mSortMode, position)
+                MovieDatabase.getMovie(mContext, mSortMode, position)
         );
         startActivity(intent);
     }
