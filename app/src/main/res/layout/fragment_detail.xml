@@ -69,6 +69,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
+                android:layout_marginTop="@dimen/large_margin"
                 android:text="@string/details_rating_heading"
                 android:textColor="@android:color/white"
                 android:textSize="18sp"
