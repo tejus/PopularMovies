@@ -31,9 +31,9 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.Favo
     @Override
     public void onBindViewHolder(@NonNull FavouriteViewHolder favouriteViewHolder, int i) {
         favouriteViewHolder.mBinding.setMovie(mMovies.get(i));
-        favouriteViewHolder.mBinding.getRoot().setOnClickListener((View v) -> {
-            mClickListener.onFavouriteClick(favouriteViewHolder.getAdapterPosition());
-        });
+        favouriteViewHolder.mBinding.getRoot().setOnClickListener((View v) ->
+                mClickListener.onFavouriteClick(favouriteViewHolder.getAdapterPosition())
+        );
     }
 
     @Override

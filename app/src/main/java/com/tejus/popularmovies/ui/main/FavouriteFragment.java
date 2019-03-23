@@ -58,9 +58,9 @@ public class FavouriteFragment extends Fragment implements FavouriteAdapter.OnFa
 
     private void setupViewModel() {
         FavouriteViewModel viewModel = ViewModelProviders.of(this).get(FavouriteViewModel.class);
-        viewModel.getMovies().observe(this, (movies -> {
-            mAdapter.setMovies(movies);
-        }));
+        viewModel.getMovies().observe(this, (movies ->
+                mAdapter.setMovies(movies)
+        ));
     }
 
     private void launchSettingsActivity() {

@@ -35,9 +35,9 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MovieViewHolde
     public void onBindViewHolder(@NonNull MovieViewHolder movieViewHolder, int i) {
         Movie movie = MovieDatabase.getMovie(mContext, mSortMode, i);
         movieViewHolder.mBinding.setMovie(movie);
-        movieViewHolder.mBinding.getRoot().setOnClickListener((View v) -> {
-            mClickHandler.onMovieClick(movieViewHolder.getAdapterPosition());
-        });
+        movieViewHolder.mBinding.getRoot().setOnClickListener((View v) ->
+                mClickHandler.onMovieClick(movieViewHolder.getAdapterPosition())
+        );
     }
 
     @Override
