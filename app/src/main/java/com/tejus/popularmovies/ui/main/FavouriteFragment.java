@@ -3,6 +3,7 @@ package com.tejus.popularmovies.ui.main;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -25,10 +26,7 @@ public class FavouriteFragment extends Fragment implements FavouriteAdapter.OnFa
 
     private static final int NUM_COLUMNS = 2;
 
-    private FragmentMainBinding mBinding;
-
     private FavouriteAdapter mAdapter;
-    private GridLayoutManager layoutManager;
 
     public FavouriteFragment() {
         // Required empty public constructor
@@ -45,23 +43,20 @@ public class FavouriteFragment extends Fragment implements FavouriteAdapter.OnFa
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mBinding = FragmentMainBinding.inflate(inflater, container, false);
+        FragmentMainBinding binding = FragmentMainBinding.inflate(inflater, container, false);
 
-        layoutManager = new GridLayoutManager(getActivity(), NUM_COLUMNS);
-        GridLayoutItemDecoration itemDecoration = new GridLayoutItemDecoration(24, NUM_COLUMNS);
-
-        mBinding.rvMain.setLayoutManager(layoutManager);
-        mBinding.rvMain.addItemDecoration(itemDecoration);
-        mBinding.rvMain.setHasFixedSize(true);
+        binding.rvMain.setLayoutManager(new GridLayoutManager(getActivity(), NUM_COLUMNS));
+        binding.rvMain.addItemDecoration(new GridLayoutItemDecoration(24, NUM_COLUMNS));
+        binding.rvMain.setHasFixedSize(true);
         mAdapter = new FavouriteAdapter(this);
-        mBinding.rvMain.setAdapter(mAdapter);
+        binding.rvMain.setAdapter(mAdapter);
 
         setupViewModel();
 
         Log.d(LOG_TAG, "onCreateView in FavouriteFragment");
-        return mBinding.getRoot();
+        return binding.getRoot();
     }
 
     private void setupViewModel() {
