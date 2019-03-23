@@ -20,7 +20,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_scrollFlags="scroll|enterAlways"
             app:titleTextAppearance="@style/TextAppearance.AppCompat.Title"
-            app:titleTextColor="@android:color/white" />
+            app:titleTextColor="@color/colorAccent" />
 
         <com.tejus.popularmovies.ui.NoSwipeViewPager
             android:id="@+id/detail_view_pager"

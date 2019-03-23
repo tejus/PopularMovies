@@ -23,7 +23,7 @@
         </activity>
         <activity
             android:name=".ui.details.DetailActivity"
-            android:label="@string/activity_details"
+            android:label="@string/fragment_details"
             android:parentActivityName=".ui.main.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data

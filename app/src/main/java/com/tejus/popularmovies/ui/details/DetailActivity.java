@@ -41,12 +41,15 @@ public class DetailActivity extends AppCompatActivity
         switch (menuItem.getItemId()) {
             case R.id.nav_details:
                 mBinding.detailViewPager.setCurrentItem(0);
+                mBinding.detailToolbar.setTitle(R.string.fragment_details);
                 return true;
             case R.id.nav_reviews:
                 mBinding.detailViewPager.setCurrentItem(1);
+                mBinding.detailToolbar.setTitle(R.string.fragment_reviews);
                 return true;
             case R.id.nav_videos:
                 mBinding.detailViewPager.setCurrentItem(2);
+                mBinding.detailToolbar.setTitle(R.string.fragment_videos);
                 return true;
         }
         return false;
