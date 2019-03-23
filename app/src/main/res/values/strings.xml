@@ -7,9 +7,7 @@
     <string name="fragment_reviews">Reviews</string>
     <string name="fragment_videos">Videos</string>
     <string name="activity_settings">Settings</string>
-    <string name="action_api">API Key</string>
     <string name="action_refresh">Refresh</string>
-    <string name="action_sort">Sort Mode</string>
     <string name="action_sort_popular">Popular</string>
     <string name="action_sort_rating">Rating</string>
     <string name="action_settings">Settings</string>
@@ -19,9 +17,7 @@
     <string name="action_videos">Videos</string>
     <string name="api_not_provided">Please provide an API Key!</string>
     <string name="details_poster_description">Movie poster</string>
-    <string name="details_rating_heading">User Rating</string>
     <string name="details_rating_max">/ 10</string>
-    <string name="details_release_date_heading">Release Date</string>
     <string name="details_overview_heading">Overview</string>
     <string name="main_refresh_prompt">Refresh to see Movies!</string>
     <string name="reviews_no_data">No reviews!</string>
@@ -30,7 +26,6 @@
     <string name="pref_apikey_key">api_key</string>
     <string name="pref_apikey_title">API Key</string>
     <string name="pref_apikey_summary">Required to access TheMovieDB.org database</string>
-    <string name="title_activity_scrolling">ScrollingActivity</string>
     <string name="pref_sort_mode_key">sort_mode</string>
     <string name="movie_key">movie</string>
     <string name="sort_popular">popular</string>

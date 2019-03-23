@@ -14,8 +14,4 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
-
-    <style name="custom_overflow_menu_button" parent="Widget.AppCompat.ActionButton.Overflow">
-        <item name="android:tint">@android:color/white</item>
-    </style>
 </resources>
