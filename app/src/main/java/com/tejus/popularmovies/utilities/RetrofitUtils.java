@@ -33,7 +33,6 @@ public class RetrofitUtils {
                 Integer.toString(1));
         MovieResult<Movie> movieResult = new MovieResult<>();
 
-        Log.d(LOG_TAG, "Executing network call");
         try {
             Response<MovieResult<Movie>> response = call.execute();
             movieResult = response.body();
@@ -42,7 +41,6 @@ public class RetrofitUtils {
             e.printStackTrace();
         }
 
-        Log.d(LOG_TAG, "Returning movieResult from network call");
         return movieResult;
     }
 
@@ -53,7 +51,6 @@ public class RetrofitUtils {
                 apiKey);
         MovieResult<Review> movieResult = new MovieResult<>();
 
-        Log.d(LOG_TAG, "Executing network call");
         try {
             Response<MovieResult<Review>> response = call.execute();
             movieResult = response.body();
@@ -62,7 +59,6 @@ public class RetrofitUtils {
             e.printStackTrace();
         }
 
-        Log.d(LOG_TAG, "Returning reviews from network call");
         return movieResult;
     }
 
@@ -73,7 +69,6 @@ public class RetrofitUtils {
                 apiKey);
         MovieResult<Video> movieResult = new MovieResult<>();
 
-        Log.d(LOG_TAG, "Executing network call");
         try {
             Response<MovieResult<Video>> response = call.execute();
             movieResult = response.body();
@@ -82,7 +77,6 @@ public class RetrofitUtils {
             e.printStackTrace();
         }
 
-        Log.d(LOG_TAG, "Returning videos from network call");
         return movieResult;
     }
 }

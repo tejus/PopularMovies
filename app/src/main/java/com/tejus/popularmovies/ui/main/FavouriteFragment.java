@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,8 +20,6 @@ import com.tejus.popularmovies.ui.details.DetailActivity;
 import com.tejus.popularmovies.ui.settings.SettingsActivity;
 
 public class FavouriteFragment extends Fragment implements FavouriteAdapter.OnFavouriteClickListener {
-
-    private static final String LOG_TAG = FavouriteFragment.class.getSimpleName();
 
     private static final int NUM_COLUMNS = 2;
 
@@ -56,14 +53,12 @@ public class FavouriteFragment extends Fragment implements FavouriteAdapter.OnFa
 
         setupViewModel();
 
-        Log.d(LOG_TAG, "onCreateView in FavouriteFragment");
         return binding.getRoot();
     }
 
     private void setupViewModel() {
         FavouriteViewModel viewModel = ViewModelProviders.of(this).get(FavouriteViewModel.class);
         viewModel.getMovies().observe(this, (movies -> {
-            Log.d(LOG_TAG, "Received list of movies from ViewModel");
             mAdapter.setMovies(movies);
         }));
     }

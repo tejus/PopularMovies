@@ -18,8 +18,6 @@ import com.tejus.popularmovies.utilities.AppExecutors;
 
 public class DetailFragment extends Fragment {
 
-    private static final String LOG_TAG = DetailFragment.class.getSimpleName();
-
     private FragmentDetailBinding mBinding;
     private FavouriteMoviesDatabase mDb;
     private Movie mMovie;

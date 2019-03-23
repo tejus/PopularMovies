@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,8 +24,6 @@ import com.tejus.popularmovies.utilities.RetrofitUtils;
 import java.util.List;
 
 public class VideosFragment extends Fragment implements VideoAdapter.OnVideoClickListener {
-
-    private static final String LOG_TAG = VideosFragment.class.getSimpleName();
 
     FragmentVideosBinding mBinding;
     private VideoAdapter mVideoAdapter;
@@ -67,10 +64,9 @@ public class VideosFragment extends Fragment implements VideoAdapter.OnVideoClic
             );
             AppExecutors.getInstance().mainThread().execute(() -> {
                 List<Video> videos = movieResult.getResults();
-                if (videos.size() > 0) {
-                    Log.d(LOG_TAG, "Video 1 key: " + videos.get(0).getKey());
+                if (videos.size() > 0)
                     mVideoAdapter.setVideos(videos);
-                } else
+                else
                     mBinding.tvNoVideos.setVisibility(View.VISIBLE);
             });
         });

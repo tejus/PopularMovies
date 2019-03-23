@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +21,6 @@ import com.tejus.popularmovies.utilities.RetrofitUtils;
 import java.util.List;
 
 public class ReviewsFragment extends Fragment {
-
-    private static final String LOG_TAG = ReviewsFragment.class.getSimpleName();
 
     private FragmentReviewsBinding mBinding;
     private ReviewAdapter mReviewAdapter;
@@ -43,7 +40,6 @@ public class ReviewsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.d(LOG_TAG, "onCreateView called");
         mBinding = FragmentReviewsBinding.inflate(inflater, container, false);
         mReviewAdapter = new ReviewAdapter();
         mBinding.rvReviews.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -65,10 +61,9 @@ public class ReviewsFragment extends Fragment {
             );
             AppExecutors.getInstance().mainThread().execute(() -> {
                 List<Review> reviews = movieResult.getResults();
-                if (reviews.size() > 0) {
-                    Log.d(LOG_TAG, "Review 1 username: " + reviews.get(0).getAuthor());
+                if (reviews.size() > 0)
                     mReviewAdapter.setReviews(reviews);
-                } else
+                else
                     mBinding.tvNoReviews.setVisibility(View.VISIBLE);
             });
         });

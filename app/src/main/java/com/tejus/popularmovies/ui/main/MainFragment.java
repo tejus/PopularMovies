@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,8 +28,6 @@ import com.tejus.popularmovies.utilities.AppExecutors;
 import com.tejus.popularmovies.utilities.RetrofitUtils;
 
 public class MainFragment extends Fragment implements MainAdapter.OnMovieClickListener {
-
-    private static final String LOG_TAG = MainFragment.class.getSimpleName();
 
     private static final int NUM_COLUMNS = 2;
 
@@ -90,7 +87,6 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
                 .getColor(R.color.colorPrimary));
         mBinding.swipeRefreshMain.setOnRefreshListener(this::fetchMovies);
 
-        Log.d(LOG_TAG, "onCreateView in MainFragment");
         return mBinding.getRoot();
     }
 
@@ -98,7 +94,6 @@ public class MainFragment extends Fragment implements MainAdapter.OnMovieClickLi
     public void onResume() {
         super.onResume();
         if (mLayoutManager.getItemCount() == 0) {
-            Log.d(LOG_TAG, "Calling fetchMovies from onResume()");
             fetchMovies();
         }
     }

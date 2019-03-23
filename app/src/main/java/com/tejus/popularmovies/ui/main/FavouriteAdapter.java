@@ -13,8 +13,6 @@ import java.util.List;
 
 public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.FavouriteViewHolder> {
 
-    private static final String LOG_TAG = FavouriteAdapter.class.getSimpleName();
-
     private List<Movie> mMovies;
     private final OnFavouriteClickListener mClickListener;
 

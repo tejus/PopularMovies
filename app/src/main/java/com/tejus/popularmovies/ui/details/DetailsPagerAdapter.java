@@ -9,8 +9,6 @@ import com.tejus.popularmovies.model.Movie;
 
 public class DetailsPagerAdapter extends FragmentPagerAdapter {
 
-    private static final String LOG_TAG = DetailsPagerAdapter.class.getSimpleName();
-
     private Fragment fragmentDetails;
     private Fragment fragmentReviews;
     private Fragment fragmentVideos;
