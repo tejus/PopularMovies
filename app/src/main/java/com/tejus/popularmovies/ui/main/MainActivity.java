@@ -1,6 +1,7 @@
 package com.tejus.popularmovies.ui.main;
 
 import android.databinding.DataBindingUtil;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -25,10 +26,12 @@ public class MainActivity extends AppCompatActivity
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         setSupportActionBar(mBinding.mainToolbar);
 
-        MainPagerAdapter pagerAdapter = new MainPagerAdapter(this, getSupportFragmentManager());
-        mBinding.mainViewPager.setAdapter(pagerAdapter);
+        mBinding.mainViewPager.setAdapter(new MainPagerAdapter(this, getSupportFragmentManager()));
         mBinding.mainViewPager.setOffscreenPageLimit(2);
         mBinding.mainBottomNav.setOnNavigationItemSelectedListener(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mBinding.mainBottomNav.setElevation(8 / getResources().getDisplayMetrics().density);
+        }
     }
 
     private void changeSortMode(String mode) {
