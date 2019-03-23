@@ -2,6 +2,8 @@ package com.tejus.popularmovies.ui;
 
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -17,6 +19,7 @@ import com.tejus.popularmovies.databinding.FragmentVideosBinding;
 import com.tejus.popularmovies.model.MovieResult;
 import com.tejus.popularmovies.model.Videos;
 import com.tejus.popularmovies.utilities.AppExecutors;
+import com.tejus.popularmovies.utilities.NetworkUtils;
 import com.tejus.popularmovies.utilities.RetrofitUtils;
 
 import java.util.List;
@@ -81,7 +84,9 @@ public class VideosFragment extends Fragment implements VideoAdapter.OnVideoClic
     }
 
     @Override
-    public void onVideoClick(int position) {
-
+    public void onVideoClick(String key) {
+        Uri videoPath = NetworkUtils.fetchYoutubeUrl(key);
+        Intent launchVideo = new Intent(Intent.ACTION_VIEW, videoPath);
+        startActivity(launchVideo);
     }
 }

@@ -11,6 +11,7 @@ public class NetworkUtils {
 
     //URL parameters for themoviedb.org API
     private static final String BASE_POSTER_URL = "https://image.tmdb.org/t/p/w500";
+    private static final String BASE_YOUTUBE_URL = "https://www.youtube.com/watch?v=";
 
     /**
      * Fetch the poster URL for a movie
@@ -29,5 +30,9 @@ public class NetworkUtils {
                 .placeholder(R.color.colorPrimaryLight)
                 .error(R.color.colorPrimaryLight)
                 .into(imageView);
+    }
+
+    public static Uri fetchYoutubeUrl(String key) {
+        return Uri.parse(BASE_YOUTUBE_URL + key);
     }
 }

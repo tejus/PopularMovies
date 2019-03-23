@@ -32,7 +32,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
     public void onBindViewHolder(@NonNull VideoViewHolder videoViewHolder, int i) {
         videoViewHolder.mBinding.setVideo(mVideos.get(i));
         videoViewHolder.mBinding.getRoot().setOnClickListener((View v) ->
-                mClickListener.onVideoClick(videoViewHolder.getAdapterPosition())
+                mClickListener.onVideoClick(mVideos.get(i).getKey())
         );
     }
 
@@ -50,7 +50,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
     }
 
     public interface OnVideoClickListener {
-        void onVideoClick(int position);
+        void onVideoClick(String key);
     }
 
     public class VideoViewHolder extends RecyclerView.ViewHolder {
