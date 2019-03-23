@@ -38,7 +38,7 @@ public class RetrofitUtils {
             Response<MovieResult<Movie>> response = call.execute();
             movieResult = response.body();
         } catch (IOException e) {
-            Log.d(LOG_TAG, "Network call failed!");
+            Log.e(LOG_TAG, "Network call failed!");
             e.printStackTrace();
         }
 
@@ -58,7 +58,7 @@ public class RetrofitUtils {
             Response<MovieResult<Review>> response = call.execute();
             movieResult = response.body();
         } catch (IOException e) {
-            Log.d(LOG_TAG, "Network call failed!");
+            Log.e(LOG_TAG, "Network call failed!");
             e.printStackTrace();
         }
 
@@ -78,7 +78,7 @@ public class RetrofitUtils {
             Response<MovieResult<Video>> response = call.execute();
             movieResult = response.body();
         } catch (IOException e) {
-            Log.d(LOG_TAG, "Network call failed!");
+            Log.e(LOG_TAG, "Network call failed!");
             e.printStackTrace();
         }
 
