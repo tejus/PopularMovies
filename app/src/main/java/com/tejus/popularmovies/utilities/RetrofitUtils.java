@@ -4,8 +4,8 @@ import android.util.Log;
 
 import com.tejus.popularmovies.model.Movie;
 import com.tejus.popularmovies.model.MovieResult;
-import com.tejus.popularmovies.model.Reviews;
-import com.tejus.popularmovies.model.Videos;
+import com.tejus.popularmovies.model.Review;
+import com.tejus.popularmovies.model.Video;
 
 import java.io.IOException;
 
@@ -47,15 +47,15 @@ public class RetrofitUtils {
     }
 
 
-    public static MovieResult<Reviews> fetchReviews(int id, String apiKey) {
-        Call<MovieResult<Reviews>> call = endpoints.getReviews(id,
+    public static MovieResult<Review> fetchReviews(int id, String apiKey) {
+        Call<MovieResult<Review>> call = endpoints.getReviews(id,
                 LANGUAGE_KEY,
                 apiKey);
-        MovieResult<Reviews> movieResult = new MovieResult<>();
+        MovieResult<Review> movieResult = new MovieResult<>();
 
         Log.d(LOG_TAG, "Executing network call");
         try {
-            Response<MovieResult<Reviews>> response = call.execute();
+            Response<MovieResult<Review>> response = call.execute();
             movieResult = response.body();
         } catch (IOException e) {
             Log.d(LOG_TAG, "Network call failed!");
@@ -67,15 +67,15 @@ public class RetrofitUtils {
     }
 
 
-    public static MovieResult<Videos> fetchVideos(int id, String apiKey) {
-        Call<MovieResult<Videos>> call = endpoints.getVideos(id,
+    public static MovieResult<Video> fetchVideos(int id, String apiKey) {
+        Call<MovieResult<Video>> call = endpoints.getVideos(id,
                 LANGUAGE_KEY,
                 apiKey);
-        MovieResult<Videos> movieResult = new MovieResult<>();
+        MovieResult<Video> movieResult = new MovieResult<>();
 
         Log.d(LOG_TAG, "Executing network call");
         try {
-            Response<MovieResult<Videos>> response = call.execute();
+            Response<MovieResult<Video>> response = call.execute();
             movieResult = response.body();
         } catch (IOException e) {
             Log.d(LOG_TAG, "Network call failed!");

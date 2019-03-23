@@ -7,14 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.tejus.popularmovies.databinding.ItemVideoBinding;
-import com.tejus.popularmovies.model.Videos;
+import com.tejus.popularmovies.model.Video;
 
 import java.util.List;
 
 public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHolder> {
 
     private final OnVideoClickListener mClickListener;
-    private List<Videos> mVideos;
+    private List<Video> mVideos;
 
     public VideoAdapter(OnVideoClickListener clickListener) {
         mClickListener = clickListener;
@@ -44,7 +44,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
             return mVideos.size();
     }
 
-    public void setVideos(List<Videos> videos) {
+    public void setVideos(List<Video> videos) {
         mVideos = videos;
         notifyDataSetChanged();
     }

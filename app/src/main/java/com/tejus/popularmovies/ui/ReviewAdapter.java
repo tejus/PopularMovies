@@ -7,14 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.tejus.popularmovies.databinding.ItemReviewBinding;
-import com.tejus.popularmovies.model.Reviews;
+import com.tejus.popularmovies.model.Review;
 
 import java.util.List;
 
 public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewViewHolder> {
 
     private final OnReviewClickListener mClickListener;
-    private List<Reviews> mReviews;
+    private List<Review> mReviews;
 
     public ReviewAdapter(OnReviewClickListener clickListener) {
         mClickListener = clickListener;
@@ -44,7 +44,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
             return mReviews.size();
     }
 
-    public void setReviews(List<Reviews> reviews) {
+    public void setReviews(List<Review> reviews) {
         mReviews = reviews;
         notifyDataSetChanged();
     }

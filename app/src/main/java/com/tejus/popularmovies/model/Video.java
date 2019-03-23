@@ -1,6 +1,6 @@
 package com.tejus.popularmovies.model;
 
-public class Videos {
+public class Video {
 
     private String id;
     private String key;

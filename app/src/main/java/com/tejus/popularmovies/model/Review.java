@@ -1,6 +1,6 @@
 package com.tejus.popularmovies.model;
 
-public class Reviews {
+public class Review {
 
     private String author;
     private String content;

@@ -15,7 +15,7 @@ import com.tejus.popularmovies.R;
 import com.tejus.popularmovies.data.MoviePreferences;
 import com.tejus.popularmovies.databinding.FragmentReviewsBinding;
 import com.tejus.popularmovies.model.MovieResult;
-import com.tejus.popularmovies.model.Reviews;
+import com.tejus.popularmovies.model.Review;
 import com.tejus.popularmovies.utilities.AppExecutors;
 import com.tejus.popularmovies.utilities.RetrofitUtils;
 
@@ -66,12 +66,12 @@ public class ReviewsFragment extends Fragment implements ReviewAdapter.OnReviewC
 
     private void fetchReviews(int id) {
         AppExecutors.getInstance().networkIO().execute(() -> {
-            MovieResult<Reviews> movieResult = RetrofitUtils.fetchReviews(
+            MovieResult<Review> movieResult = RetrofitUtils.fetchReviews(
                     id,
                     MoviePreferences.getApiKey(getActivity())
             );
             AppExecutors.getInstance().mainThread().execute(() -> {
-                List<Reviews> reviews = movieResult.getResults();
+                List<Review> reviews = movieResult.getResults();
                 if (reviews.size() > 0) {
                     Log.d(LOG_TAG, "Review 1 username: " + reviews.get(0).getAuthor());
                     mReviewAdapter.setReviews(reviews);

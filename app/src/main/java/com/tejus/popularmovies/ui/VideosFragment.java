@@ -17,7 +17,7 @@ import com.tejus.popularmovies.R;
 import com.tejus.popularmovies.data.MoviePreferences;
 import com.tejus.popularmovies.databinding.FragmentVideosBinding;
 import com.tejus.popularmovies.model.MovieResult;
-import com.tejus.popularmovies.model.Videos;
+import com.tejus.popularmovies.model.Video;
 import com.tejus.popularmovies.utilities.AppExecutors;
 import com.tejus.popularmovies.utilities.NetworkUtils;
 import com.tejus.popularmovies.utilities.RetrofitUtils;
@@ -68,12 +68,12 @@ public class VideosFragment extends Fragment implements VideoAdapter.OnVideoClic
 
     private void fetchVideos(int id) {
         AppExecutors.getInstance().networkIO().execute(() -> {
-            MovieResult<Videos> movieResult = RetrofitUtils.fetchVideos(
+            MovieResult<Video> movieResult = RetrofitUtils.fetchVideos(
                     id,
                     MoviePreferences.getApiKey(getActivity())
             );
             AppExecutors.getInstance().mainThread().execute(() -> {
-                List<Videos> videos = movieResult.getResults();
+                List<Video> videos = movieResult.getResults();
                 if (videos.size() > 0) {
                     Log.d(LOG_TAG, "Video 1 key: " + videos.get(0).getKey());
                     mVideoAdapter.setVideos(videos);
