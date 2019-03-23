@@ -3,7 +3,6 @@ package com.tejus.popularmovies.ui.details;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.tejus.popularmovies.databinding.ItemReviewBinding;
@@ -12,13 +11,7 @@ import com.tejus.popularmovies.model.Review;
 import java.util.List;
 
 public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewViewHolder> {
-
-    private final OnReviewClickListener mClickListener;
     private List<Review> mReviews;
-
-    public ReviewAdapter(OnReviewClickListener clickListener) {
-        mClickListener = clickListener;
-    }
 
     @NonNull
     @Override
@@ -31,9 +24,6 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
     @Override
     public void onBindViewHolder(@NonNull ReviewViewHolder reviewViewHolder, int i) {
         reviewViewHolder.mBinding.setReview(mReviews.get(i));
-        reviewViewHolder.mBinding.getRoot().setOnClickListener((View v) -> {
-            mClickListener.onReviewClick(reviewViewHolder.getAdapterPosition());
-        });
     }
 
     @Override
@@ -47,10 +37,6 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
     public void setReviews(List<Review> reviews) {
         mReviews = reviews;
         notifyDataSetChanged();
-    }
-
-    public interface OnReviewClickListener {
-        void onReviewClick(int position);
     }
 
     public class ReviewViewHolder extends RecyclerView.ViewHolder {

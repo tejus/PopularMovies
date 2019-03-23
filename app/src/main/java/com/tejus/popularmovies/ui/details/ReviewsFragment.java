@@ -21,7 +21,7 @@ import com.tejus.popularmovies.utilities.RetrofitUtils;
 
 import java.util.List;
 
-public class ReviewsFragment extends Fragment implements ReviewAdapter.OnReviewClickListener {
+public class ReviewsFragment extends Fragment {
 
     private static final String LOG_TAG = ReviewsFragment.class.getSimpleName();
 
@@ -52,7 +52,7 @@ public class ReviewsFragment extends Fragment implements ReviewAdapter.OnReviewC
                              Bundle savedInstanceState) {
         Log.d(LOG_TAG, "onCreateView called");
         mBinding = FragmentReviewsBinding.inflate(inflater, container, false);
-        mReviewAdapter = new ReviewAdapter(this);
+        mReviewAdapter = new ReviewAdapter();
         mBinding.rvReviews.setLayoutManager(new LinearLayoutManager(mContext));
         mBinding.rvReviews.setAdapter(mReviewAdapter);
 
@@ -79,10 +79,5 @@ public class ReviewsFragment extends Fragment implements ReviewAdapter.OnReviewC
                     mBinding.tvNoReviews.setVisibility(View.VISIBLE);
             });
         });
-    }
-
-    @Override
-    public void onReviewClick(int position) {
-
     }
 }
