@@ -97,8 +97,8 @@
                 android:background="@drawable/ripple_custom"
                 android:clickable="true"
                 android:focusable="true"
-                android:paddingTop="@dimen/small_margin"
-                android:paddingBottom="@dimen/small_margin">
+                android:paddingTop="@dimen/mid_margin"
+                android:paddingBottom="@dimen/mid_margin">
 
                 <ImageView
                     android:id="@+id/iv_share"
@@ -121,7 +121,6 @@
                     android:layout_marginLeft="@dimen/small_margin"
                     android:layout_marginEnd="@dimen/mid_margin"
                     android:layout_marginRight="@dimen/mid_margin"
-                    android:layout_marginBottom="@dimen/mid_margin"
                     android:text="@string/videos_share"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
                     android:textColor="@android:color/white" />
