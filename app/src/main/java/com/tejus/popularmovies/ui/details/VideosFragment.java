@@ -23,7 +23,7 @@ import com.tejus.popularmovies.utilities.RetrofitUtils;
 
 import java.util.List;
 
-public class VideosFragment extends Fragment implements VideoAdapter.OnVideoClickListener {
+public class VideosFragment extends Fragment implements VideoAdapter.OnVideoClickListener, VideoAdapter.OnShareClickListener {
 
     FragmentVideosBinding mBinding;
     private VideoAdapter mVideoAdapter;
@@ -44,7 +44,7 @@ public class VideosFragment extends Fragment implements VideoAdapter.OnVideoClic
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mBinding = FragmentVideosBinding.inflate(inflater, container, false);
-        mVideoAdapter = new VideoAdapter(this);
+        mVideoAdapter = new VideoAdapter(this, this);
         mBinding.rvVideos.setLayoutManager(new LinearLayoutManager(getContext()));
         mBinding.rvVideos.setAdapter(mVideoAdapter);
 
@@ -75,7 +75,17 @@ public class VideosFragment extends Fragment implements VideoAdapter.OnVideoClic
     @Override
     public void onVideoClick(String key) {
         Uri videoPath = NetworkUtils.fetchYoutubeUrl(key);
-        Intent launchVideo = new Intent(Intent.ACTION_VIEW, videoPath);
-        startActivity(launchVideo);
+        Intent watchIntent = new Intent(Intent.ACTION_VIEW, videoPath);
+        startActivity(watchIntent);
+    }
+
+    @Override
+    public void onShareClick(String key, String name) {
+        Uri videoPath = NetworkUtils.fetchYoutubeUrl(key);
+        String shareText = name + "\n" + videoPath;
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, shareText);
+        startActivity(Intent.createChooser(shareIntent, getString(R.string.videos_share_with)));
     }
 }

@@ -13,11 +13,13 @@ import java.util.List;
 
 public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHolder> {
 
-    private final OnVideoClickListener mClickListener;
+    private final OnVideoClickListener mVideoClickListener;
+    private final OnShareClickListener mShareClickListener;
     private List<Video> mVideos;
 
-    public VideoAdapter(OnVideoClickListener clickListener) {
-        mClickListener = clickListener;
+    public VideoAdapter(OnVideoClickListener videoClickListener, OnShareClickListener shareClickListener) {
+        mVideoClickListener = videoClickListener;
+        mShareClickListener = shareClickListener;
     }
 
     @NonNull
@@ -31,9 +33,11 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
     @Override
     public void onBindViewHolder(@NonNull VideoViewHolder videoViewHolder, int i) {
         videoViewHolder.mBinding.setVideo(mVideos.get(i));
-        videoViewHolder.mBinding.getRoot().setOnClickListener((View v) ->
-                mClickListener.onVideoClick(mVideos.get(i).getKey())
+        videoViewHolder.mBinding.relVideo.setOnClickListener((View v) ->
+                mVideoClickListener.onVideoClick(mVideos.get(i).getKey())
         );
+        videoViewHolder.mBinding.relShare.setOnClickListener((View v) ->
+                mShareClickListener.onShareClick(mVideos.get(i).getKey(), mVideos.get(i).getName()));
     }
 
     @Override
@@ -51,6 +55,10 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
 
     public interface OnVideoClickListener {
         void onVideoClick(String key);
+    }
+
+    public interface OnShareClickListener {
+        void onShareClick(String key, String name);
     }
 
     public class VideoViewHolder extends RecyclerView.ViewHolder {

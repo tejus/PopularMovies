@@ -23,6 +23,8 @@
     <string name="reviews_no_data">No reviews!</string>
     <string name="videos_no_data">No videos!</string>
     <string name="videos_play_button">Video play button</string>
+    <string name="videos_share">Share</string>
+    <string name="videos_share_with">Share with</string>
     <string name="pref_apikey_key">api_key</string>
     <string name="pref_apikey_title">API Key</string>
     <string name="pref_apikey_summary">Required to access TheMovieDB.org database</string>
