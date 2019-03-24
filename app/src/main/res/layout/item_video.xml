@@ -14,9 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/mid_margin"
-        android:layout_marginLeft="@dimen/mid_margin"
         android:layout_marginEnd="@dimen/mid_margin"
-        android:layout_marginRight="@dimen/mid_margin"
         android:layout_marginBottom="@dimen/mid_margin"
         app:cardBackgroundColor="@color/colorPrimary"
         app:cardCornerRadius="8dp">
@@ -42,7 +40,6 @@
                     android:layout_height="48dp"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/mid_margin"
-                    android:layout_marginLeft="@dimen/mid_margin"
                     android:contentDescription="@string/videos_play_button"
                     android:scaleType="fitCenter"
                     android:src="@drawable/outline_play_circle_filled_white_white_48" />
@@ -56,7 +53,6 @@
                     android:layout_marginEnd="@dimen/mid_margin"
                     android:layout_marginRight="@dimen/mid_margin"
                     android:layout_toEndOf="@id/iv_play"
-                    android:layout_toRightOf="@id/iv_play"
                     android:orientation="vertical">
 
                     <TextView
@@ -106,7 +102,6 @@
                     android:layout_height="18dp"
                     android:layout_centerVertical="true"
                     android:layout_toStartOf="@+id/tv_share"
-                    android:layout_toLeftOf="@+id/tv_share"
                     android:contentDescription="@string/videos_share"
                     android:src="@drawable/baseline_share_white_18" />
 
@@ -115,12 +110,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/small_margin"
-                    android:layout_marginLeft="@dimen/small_margin"
                     android:layout_marginEnd="@dimen/mid_margin"
-                    android:layout_marginRight="@dimen/mid_margin"
                     android:text="@string/videos_share"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
                     android:textColor="@android:color/white" />
