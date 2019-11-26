@@ -2,7 +2,7 @@ package com.tejus.popularmovies.ui.settings;
 
 
 import android.os.Bundle;
-import android.support.v7.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceFragmentCompat;
 
 import com.tejus.popularmovies.R;
 

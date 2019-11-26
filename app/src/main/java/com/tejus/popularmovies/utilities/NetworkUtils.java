@@ -1,6 +1,6 @@
 package com.tejus.popularmovies.utilities;
 
-import android.databinding.BindingAdapter;
+import androidx.databinding.BindingAdapter;
 import android.net.Uri;
 import android.widget.ImageView;
 
